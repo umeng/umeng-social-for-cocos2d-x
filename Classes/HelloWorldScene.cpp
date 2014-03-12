@@ -4,6 +4,8 @@
 #include <string.h>
 #include <stdio.h>
 #include "UMLog.h"
+#include "UmengSocial/CCUMSocialSDK.h"
+#include "UmengSocial/Android/CCUMSocialController.h"
  
 // 环境变量PATH在windows下和linux下的分割符定义
 #ifdef _WIN32
@@ -121,7 +123,12 @@ void HelloWorld::openUmengShare()
 void HelloWorld::menuShareCallback(CCObject* pSender)
 {
     // saveScreenshot();
-    openUmengShare();
+    // openUmengShare();
+    // CCLog("HelloWorld Scene   menuShareCallback"); 
+    // CCUMSocialSDK::setShareContent("HelloWorld");
+       // openUmengShare();
+    openShare(false);
+    // CCUMSocialSDK::openShare(false);
 }
 
 

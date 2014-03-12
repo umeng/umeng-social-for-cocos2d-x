@@ -24,8 +24,6 @@ THE SOFTWARE.
 package com.umeng.game;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
@@ -46,14 +44,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.umeng.scrshot.adapter.UMBaseAdapter;
+import com.umeng.social.CCUMSocialController;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.controller.RequestType;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.controller.listener.SocializeListeners.SnsPostListener;
-import com.umeng.socialize.sensor.controller.UMShakeService;
-import com.umeng.socialize.sensor.controller.impl.UMShakeServiceFactory;
 import com.umeng.socom.util.BitmapUtils;
 
 public class UmengGame extends Cocos2dxActivity {
@@ -61,7 +58,7 @@ public class UmengGame extends Cocos2dxActivity {
 	/**
 	 * Handler, 用于包装友盟的openShare方法，保证openShare方法在UI线程执行
 	 */
-	private static Handler mHandler = null;
+	public static Handler mHandler = null;
 	/**
 	 * 保存当前Activity实例， 静态变量
 	 */
@@ -71,9 +68,9 @@ public class UmengGame extends Cocos2dxActivity {
 	 */
 	private static UMSocialService mController = UMServiceFactory
 			.getUMSocialService("com.umeng.cocos2dx", RequestType.SOCIAL);
-
-	private static UMShakeService mShakeService = UMShakeServiceFactory
-			.getShakeService("com.umeng.cocos2dx");
+	//
+	// private static UMShakeService mShakeService = UMShakeServiceFactory
+	// .getShakeService("com.umeng.cocos2dx");
 	/**
 	 * 
 	 */
@@ -91,7 +88,7 @@ public class UmengGame extends Cocos2dxActivity {
 
 		mActivity = this;
 		mHandler = new Handler(Looper.getMainLooper());
-
+		//
 		mController.setShareContent("COCOS2D-X HACKATHON.");
 
 	}
@@ -100,18 +97,20 @@ public class UmengGame extends Cocos2dxActivity {
 	protected void onResume() {
 		super.onResume();
 
-		List<SHARE_MEDIA> platforms = new ArrayList<SHARE_MEDIA>();
-		platforms.add(SHARE_MEDIA.SINA);
-		platforms.add(SHARE_MEDIA.QZONE);
-		mShakeService.registerShakeListender(mActivity, Cocos2dxAdapter,
-				platforms, null);
+		CCUMSocialController.initSocialSDK(mActivity, "com.umeng.social");
+
+		// List<SHARE_MEDIA> platforms = new ArrayList<SHARE_MEDIA>();
+		// platforms.add(SHARE_MEDIA.SINA);
+		// platforms.add(SHARE_MEDIA.QZONE);
+		// mShakeService.registerShakeListender(mActivity, Cocos2dxAdapter,
+		// platforms, null);
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
 
-		mShakeService.unregisterShakeListener(mActivity);
+		// mShakeService.unregisterShakeListener(mActivity);
 	}
 
 	/**
@@ -123,11 +122,12 @@ public class UmengGame extends Cocos2dxActivity {
 		public Bitmap getBitmap() {
 			mImagePath = getCocos2dxScrShot();
 			System.gc();
-			Log.d(TAG, "### 图片路径为  : " + mImagePath) ;
+			Log.d(TAG, "### 图片路径为  : " + mImagePath);
 			if (!TextUtils.isEmpty(mImagePath)
 					&& (mImagePath.endsWith(".png") || mImagePath
 							.endsWith(".jpg"))) {
-				Bitmap scrShot = BitmapUtils.getBitmapFromFile(mImagePath, 200, 300) ;
+				Bitmap scrShot = BitmapUtils.getBitmapFromFile(mImagePath, 200,
+						300);
 				mImagePath = "";
 				showDialog(scrShot);
 				return compressBitmap(scrShot);
@@ -155,26 +155,26 @@ public class UmengGame extends Cocos2dxActivity {
 			if (data != null && data.length > 0) {
 				Log.d(TAG, "### 图片大小 : " + data.length / 1024 + " KB");
 			}
-			
+
 			bmp.compress(CompressFormat.JPEG, 80, outStream);
-//			if (bmp != null && !bmp.isRecycled()) {
-//				bmp.recycle();
-//				bmp = null;
-//			}
-			
+			// if (bmp != null && !bmp.isRecycled()) {
+			// bmp.recycle();
+			// bmp = null;
+			// }
+
 			// 再从outStream解析一张图片
 			Bitmap scrshot = BitmapFactory
 					.decodeByteArray(data, 0, data.length);
-			
-			
+
 			return scrshot;
 		}
 	};
-	
+
 	private static void showDialog(Bitmap bmp) {
-		ImageView imageView = new ImageView(mActivity) ;
+		ImageView imageView = new ImageView(mActivity);
 		imageView.setImageBitmap(bmp);
-		AlertDialog dialog = new AlertDialog.Builder(mActivity).setTitle("Title").setView(imageView).create();
+		AlertDialog dialog = new AlertDialog.Builder(mActivity)
+				.setTitle("Title").setView(imageView).create();
 		dialog.show();
 	}
 
