@@ -1,11 +1,13 @@
 #include "HelloWorldScene.h"
 #include "platform/android/jni/JniHelper.h"
 #include <jni.h>
-#include <string.h>
+#include <string>
 #include <stdio.h>
 #include "UMLog.h"
+#include "UmengSocial/CCUMTypeDef.h"
 #include "UmengSocial/CCUMSocialSDK.h"
 #include "UmengSocial/Android/CCUMSocialController.h"
+#include <iostream>
  
 // 环境变量PATH在windows下和linux下的分割符定义
 #ifdef _WIN32
@@ -15,6 +17,7 @@
 #endif
 
 USING_NS_CC;
+using namespace std;
 
 CCScene* HelloWorld::scene()
 {
@@ -120,15 +123,28 @@ void HelloWorld::openUmengShare()
     } 
 }
 
+/*
+ *授权回调, 还需要传递一个State
+ */
+void authCallback(const char* platform, int stCode)
+{
+    UMLog::D("#shareCallback", "#### authCallback");
+}
+
+/*
+ * 分享回调
+ */
+void shareCallback(const char* platform, int stCode)
+{
+      UMLog::D("#shareCallback", "#### shareCallback");
+}
+
+
 void HelloWorld::menuShareCallback(CCObject* pSender)
 {
-    // saveScreenshot();
-    // openUmengShare();
-    // CCLog("HelloWorld Scene   menuShareCallback"); 
-    // CCUMSocialSDK::setShareContent("HelloWorld");
-       // openUmengShare();
-    openShare(false);
-    // CCUMSocialSDK::openShare(false);
+    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+    sdk->setShareContent("This is COCOS2D-X test.");
+    sdk->directShare("qzone", share_selector(shareCallback));
 }
 
 
@@ -152,6 +168,8 @@ void HelloWorld::saveScreenshot()
     }
 
 }
+
+
 
 
 

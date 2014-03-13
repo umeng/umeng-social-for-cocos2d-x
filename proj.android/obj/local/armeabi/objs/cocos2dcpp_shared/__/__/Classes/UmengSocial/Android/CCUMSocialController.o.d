@@ -205,6 +205,7 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/UmengSocial/Android/CCUMS
  /Users/mrsimple/dev/cocos2d-x-2.2.1/projects/UmengGame/proj.android/../../../cocos2dx/support/data_support/uthash.h \
  /Users/mrsimple/dev/cocos2d-x-2.2.1/projects/UmengGame/proj.android/../../../cocos2dx/support/component/CCComponent.h \
  /Users/mrsimple/dev/cocos2d-x-2.2.1/projects/UmengGame/proj.android/../../../cocos2dx/support/component/CCComponentContainer.h \
+ jni/../../Classes/UmengSocial/CCUMTypeDef.h \
  jni/../../Classes/UmengSocial/Android/CCUMSocialController.h
 
 /Users/mrsimple/dev/android-ndk-r8e/platforms/android-8/arch-arm/usr/include/jni.h:
@@ -616,5 +617,7 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/UmengSocial/Android/CCUMS
 /Users/mrsimple/dev/cocos2d-x-2.2.1/projects/UmengGame/proj.android/../../../cocos2dx/support/component/CCComponent.h:
 
 /Users/mrsimple/dev/cocos2d-x-2.2.1/projects/UmengGame/proj.android/../../../cocos2dx/support/component/CCComponentContainer.h:
+
+jni/../../Classes/UmengSocial/CCUMTypeDef.h:
 
 jni/../../Classes/UmengSocial/Android/CCUMSocialController.h:

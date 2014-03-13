@@ -3,6 +3,7 @@
 #include "platform/android/jni/JniHelper.h"
 #include <android/log.h>
 #include "cocos2d.h"
+#include "UmengSocial/CCUMTypeDef.h"
 #include <string>
 
 /* Header for class com_umeng_social_CCUMSocialController */
@@ -94,53 +95,53 @@ void releaseMethod(JniMethodInfo &mi);
 * 设置要分享的文字内容
 *
 */
-void setShareContent(const char* text);
+void setShareTextContent(const char* text);
 /*
 *设置要分享的图片的本地路径
 *
 */
-void setShareImagePath(const char* path);
+void setShareImageFilePath(const char* path);
 /*
 * 设置要分享的图片的url
 *
 */
-void setShareImageUrl(const char* url);
+void setShareImagesUrl(const char* url);
     
 /*
 * 对某平台进行授权
 *
 */
-void doAuthorize(const char* platform);
+void doAuthorize(const char* platform, AuthEventHandler callback);
 /*
 * 删除某平台的授权信息
 *
 */
-void deleteAuthorization(const char* platform);
+void deletePlatformAuthorization(const char* platform, AuthEventHandler callback);
     
 /*
 * 判断某平台是否已经授权
 *
 */
-bool isAuthorized(const char* platform);
+bool isPlatformAuthorized(const char* platform);
     
 /*
 * 打开分享面板
 *
 */
-void openShare(bool registerListener);
+void doOpenShare(bool registerListener, ShareEventHandler callback);
     
 /*
 * 底层分享
 *
 */
-void directShare(const char* platform);
+void doDirectShare(const char* platform, ShareEventHandler callback);
     
     
 /*
 * 添加平台支持
 *
 */
-void supportPlatform(const char* platform, const char* appkey, const char* targetUrl);
+void doSupportPlatform(const char* platform, const char* appkey, const char* targetUrl);
     
 /*
 * 设置平台顺序呢
@@ -155,7 +156,7 @@ void removePlatforms(string platforms[]);
 /*
 * 清空sdk
 */
-void cleanup();
+void cleanupSDK();
     
 
     

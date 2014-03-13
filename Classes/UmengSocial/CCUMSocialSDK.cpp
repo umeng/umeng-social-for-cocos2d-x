@@ -20,30 +20,37 @@
 
 USING_NS_CC;
 
-// CCUMScoialSDK* CCUMScoialSDK::_instance = NULL;
-// /*
-//  *
-//  */
-// CCUMScoialSDK* CCUMScoialSDK::create()
-// {
-//     // if ( CCUMScoialSDK::_instance == NULL ) {
-//     //     _instance = new CCUMScoialSDK();
-//     // }
- 
-//     CCUMScoialSDK* _instance = new CCUMScoialSDK();
-    
-//     return _instance;
-// }
+CCUMSocialSDK* CCUMSocialSDK::_instance = NULL;
+
+
+CCUMSocialSDK::CCUMSocialSDK()
+{
+
+}
+
+
+/*
+ *
+ */
+CCUMSocialSDK* CCUMSocialSDK::create()
+{
+
+    if ( _instance == NULL ) 
+    {
+        _instance = new CCUMSocialSDK();
+    }
+    return _instance;
+}
 
 /**
  * 对某平台进行授权
  * *@param 	platform 目标平台
  */
-void CCUMSocialSDK::doAuthorize(const char* platform)
+void CCUMSocialSDK::authorize(const char* platform, AuthEventHandler callback)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     // 授权某平台
-    doAuthorize( platform );
+    doAuthorize( platform, callback);
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
@@ -57,11 +64,11 @@ void CCUMSocialSDK::doAuthorize(const char* platform)
  * *@param 	platform 目标平台
  *
  */
-void CCUMSocialSDK::deleteAuthorization(const char* platform)
+void CCUMSocialSDK::deleteAuthorization(const char* platform, AuthEventHandler callback)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     
-    deleteAuthorization(platform);
+    deletePlatformAuthorization(platform, callback);
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
@@ -78,7 +85,7 @@ bool CCUMSocialSDK::isAuthorized(const char* platform)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     
-    return isAuthorized(platform);
+    return isPlatformAuthorized(platform);
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
@@ -97,7 +104,7 @@ void CCUMSocialSDK::setShareContent(const char* text)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-    setShareContent(text);
+    setShareTextContent(text);
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
@@ -115,7 +122,7 @@ void CCUMSocialSDK::setShareImagePath(const char* path)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     
-    setShareImagePath(path);
+    setShareImageFilePath(path);
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
@@ -132,7 +139,7 @@ void CCUMSocialSDK::setShareImageUrl(const char* url)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     
-    setShareImageUrl(url);
+    setShareImagesUrl(url);
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
@@ -147,15 +154,12 @@ void CCUMSocialSDK::setShareImageUrl(const char* url)
  * 打开分享面板
  *@param 	registerListener 是否注册分享监听器     (考虑使用函数指针)
  */
-void CCUMSocialSDK::openShare(bool registerListener)
+void CCUMSocialSDK::openShare(bool registerListener, ShareEventHandler callback)
 {
 
-     CCLog("      ------FUCK------- CCUMSocialSDK::openShare");
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-
-      CCLog("      ------android------- CCUMSocialSDK::openShare");
     // 打开分享面板
-    openShare(registerListener);
+    doOpenShare(registerListener, callback);
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
     //TODO: iOS
@@ -167,11 +171,11 @@ void CCUMSocialSDK::openShare(bool registerListener)
  * 直接分享, 底层分享
  *@param 	platform 要分享到的目标平台
  */
-void CCUMSocialSDK::directShare(const char* platform)
+void CCUMSocialSDK::directShare(const char* platform, ShareEventHandler callback)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-    directShare(platform);
+    doDirectShare(platform, callback);
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
@@ -190,7 +194,7 @@ void CCUMSocialSDK::supportPlatform(const char* platform, const char* appkey, co
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     
-    supportPlatform(platform, appkey, targetUrl);
+    doSupportPlatform(platform, appkey, targetUrl);
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
@@ -242,7 +246,7 @@ void CCUMSocialSDK::cleanup()
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     
-    cleanup();
+    cleanupSDK();
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     

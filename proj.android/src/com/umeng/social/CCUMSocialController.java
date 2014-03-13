@@ -144,7 +144,7 @@ public class CCUMSocialController {
 
 			@Override
 			public void run() {
-				Log.d(TAG, "#### open share in thread.") ;
+				Log.d(TAG, "#### open share in thread.");
 				// 打开分享面板
 				mController.openShare(mActivity, false);
 			}
@@ -202,6 +202,7 @@ public class CCUMSocialController {
 	 * @param text
 	 */
 	public static void setShareContent(String text) {
+		Log.d(TAG, "#### 设置分享文字内容 :" + text);
 		mController.setShareContent(text);
 	}
 
@@ -210,6 +211,7 @@ public class CCUMSocialController {
 	 * @param text
 	 */
 	public static void setShareImagePath(String path) {
+		Log.d(TAG, "#### 设置图片路径 :" + path);
 		if (!TextUtils.isEmpty(path)) {
 			mController.setShareMedia(new UMImage(mActivity, new File(path)));
 		}
@@ -220,6 +222,7 @@ public class CCUMSocialController {
 	 * @param url
 	 */
 	public static void setShareImageUrl(String url) {
+		Log.d(TAG, "#### 设置图片url :" + url);
 		if (!TextUtils.isEmpty(url)) {
 			mController.setShareMedia(new UMImage(mActivity, url));
 		}

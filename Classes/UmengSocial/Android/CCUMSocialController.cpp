@@ -5,9 +5,15 @@
 #include "cocos2d.h"
 #include <string>
 #include <stdio.h>
+#include "UmengSocial/CCUMTypeDef.h"
 #include "CCUMSocialController.h"
 
 using namespace std;
+
+// 授权回调
+AuthEventHandler authCallback = NULL;
+// 分享回调
+ShareEventHandler shareCallback = NULL;
 /*
  * 授权开始的回调函数
  * Class:     com_umeng_social_CCUMSocialController
@@ -17,7 +23,13 @@ using namespace std;
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeStart
 (JNIEnv *env, jclass clz, jstring platform)
 {
-    
+    if ( NULL != authCallback ) 
+    {
+        const char *str = env->GetStringUTFChars(platform, 0);
+        authCallback(str, START, 200);
+        env->ReleaseStringUTFChars(platform, str);
+    }
+
 }
 
 /*
@@ -54,7 +66,12 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeCan
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeComplete
 (JNIEnv *env, jclass clz, jobjectArray data, jstring platform)
 {
-    
+    if ( authCallback != NULL ) {
+        const char *str = env->GetStringUTFChars(platform, 0);
+        authCallback(str, COMPLETE, 200);
+        env->ReleaseStringUTFChars(platform, str);
+    }
+
 }
 
 /*
@@ -66,7 +83,12 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeCom
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareStart
 (JNIEnv *env, jclass clz)
 {
-    
+    if ( shareCallback != NULL ) {
+        // const char *str = env->GetStringUTFChars(platform, 0);
+        // 参数1代表平台, 参数2代表状态, 比如start, cancel, complete, 参数3代表状态码, 200为成功.
+        shareCallback("", START, 200);
+        // env->ReleaseStringUTFChars(platform, str);
+    }
 }
 
 /*
@@ -78,7 +100,11 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareStart
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareComplete
 (JNIEnv *env, jclass clz, jstring platform, jint stCode, jstring descriptor)
 {
-    
+        if ( shareCallback != NULL ) {
+        const char *str = env->GetStringUTFChars(platform, 0);
+        shareCallback(str, COMPLETE, 200);
+        env->ReleaseStringUTFChars(platform, str);
+    }
 }
 
 /*
@@ -109,7 +135,7 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_onShakeComplet
  * 设置要分享的文字内容
  *
  */
-void setShareContent(const char* text)
+void setShareTextContent(const char* text)
 {
     JniMethodInfo mi;
 	bool isHave = getMethod(mi, "setShareContent", "(Ljava/lang/String;)V");
@@ -127,7 +153,7 @@ void setShareContent(const char* text)
  *设置要分享的图片的本地路径
  *
  */
-void setShareImagePath(const char* path)
+void setShareImageFilePath(const char* path)
 {
     JniMethodInfo mi;
 	bool isHave = getMethod(mi, "setShareImagePath", "(Ljava/lang/String;)V");
@@ -144,7 +170,7 @@ void setShareImagePath(const char* path)
  * 设置要分享的图片的url
  *
  */
-void setShareImageUrl(const char* url)
+void setShareImagesUrl(const char* url)
 {
     JniMethodInfo mi;
 	bool isHave = getMethod(mi, "setShareImageUrl", "(Ljava/lang/String;)V");
@@ -161,8 +187,14 @@ void setShareImageUrl(const char* url)
  * 对某平台进行授权
  *
  */
-void doAuthorize(const char* platform)
+void doAuthorize(const char* platform, AuthEventHandler callback)
 {
+    authCallback = callback;
+    if ( authCallback != NULL ) 
+    {
+        CCLog("#### 授权回调不为NULL");
+
+    }
     JniMethodInfo mi;
 	bool isHave = getMethod(mi, "directShare", "(Ljava/lang/String;)V");
     if ( isHave )
@@ -178,8 +210,9 @@ void doAuthorize(const char* platform)
  * 删除某平台的授权信息
  *
  */
-void deleteAuthorization(const char* platform)
+void deletePlatformAuthorization(const char* platform, AuthEventHandler callback)
 {
+    authCallback = callback;
     JniMethodInfo mi;
 	bool isHave = getMethod(mi, "deleteAuthorization", "(Ljava/lang/String;)V");
     if ( isHave )
@@ -195,7 +228,7 @@ void deleteAuthorization(const char* platform)
  * 判断某平台是否已经授权
  *
  */
-bool isAuthorized(const char* platform)
+bool isPlatformAuthorized(const char* platform)
 {
     JniMethodInfo mi;
 	bool isHave = getMethod(mi, "isAuthorized", "(Ljava/lang/String;)V");
@@ -212,14 +245,18 @@ bool isAuthorized(const char* platform)
  * 打开分享面板
  *
  */
-void openShare(bool registerListener)
+void doOpenShare(bool registerListener, ShareEventHandler callback)
 {
+    shareCallback = callback;
+    if ( shareCallback != NULL ) 
+    {
+        CCLog("#### 授权回调不为NULL");
+
+    }
     JniMethodInfo mi;
-    CCLog("#### 调用openShare   1111");
 	bool isHave = getMethod(mi, "openShare", "(Z)V");
     if ( isHave )
     {
-        CCLog("#### 调用openShare    2222");
         mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, registerListener);
         releaseMethod(mi);
     }
@@ -229,8 +266,14 @@ void openShare(bool registerListener)
  * 底层分享
  *
  */
-void directShare(const char* platform)
+void doDirectShare(const char* platform, ShareEventHandler callback)
 {
+    shareCallback = callback;
+    if ( shareCallback != NULL ) 
+    {
+        CCLog("#### 授权回调不为NULL");
+
+    }
     JniMethodInfo mi;
 	bool isHave = getMethod(mi, "directShare", "(Ljava/lang/String;)V");
     if ( isHave )
@@ -248,7 +291,7 @@ void directShare(const char* platform)
  * 添加平台支持
  *
  */
-void supportPlatform(const char* platform, const char* appkey, const char* targetUrl)
+void doSupportPlatform(const char* platform, const char* appkey, const char* targetUrl)
 {
     JniMethodInfo mi;
 	bool isHave = getMethod(mi, "supportPlatform", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
@@ -306,7 +349,7 @@ void removePlatforms(string platforms[])
 /*
  * 清空sdk
  */
-void cleanup()
+void cleanupSDK()
 {
     JniMethodInfo mi;
 	bool isHave = getMethod(mi, "cleanup", "()V");

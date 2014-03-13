@@ -41,6 +41,10 @@
 									<listOptionValue builtIn="false" value="${NDK_ROOT}/sources/cxx-stl/system/include"/>
 									<listOptionValue builtIn="false" value="${NDK_ROOT}/sources/cxx-stl/gnu-libstdc++/4.6/libs/armeabi-v7a/include"/>
 									<listOptionValue builtIn="false" value="${NDK_ROOT}/platforms/android-8/arch-arm/usr/include"/>
+									<listOptionValue builtIn="false" value="/Users/mrsimple/dev/cocos2d-x-2.2.1"/>
+									<listOptionValue builtIn="false" value="/Users/mrsimple/dev/cocos2d-x-2.2.1/CocosDenshion/include"/>
+									<listOptionValue builtIn="false" value="/Users/mrsimple/dev/cocos2d-x-2.2.1/cocos2dx/include"/>
+									<listOptionValue builtIn="false" value="/Users/mrsimple/dev/cocos2d-x-2.2.1/cocos2dx/platform/android"/>
 								</option>
 								<option id="org.eclipse.cdt.build.core.settings.holder.symbols.1267721019" name="Symbols" superClass="org.eclipse.cdt.build.core.settings.holder.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="COCOS2DX_ROOT=${ProjDirPath}/../../../"/>

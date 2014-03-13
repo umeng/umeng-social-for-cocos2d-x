@@ -9,6 +9,7 @@
 #define __CCUMSOCIALSDK__
  
 #include "cocos2d.h"
+#include "CCUMTypeDef.h"
 
 USING_NS_CC;
 using namespace std;
@@ -19,14 +20,14 @@ using namespace std;
 class CCUMSocialSDK
 {
     
-// private:
-//     static CCUMSocialSDK* _instance ;
+private:
+    static CCUMSocialSDK *_instance ;
     
-// private:
-//     CCUMSocialSDK(){}
+private:
+    CCUMSocialSDK();
 public:
     
-    // static CCUMSocialSDK* create() ;
+    static CCUMSocialSDK* create() ;
     /*
      * 设置要分享的文字内容
      *	@param 	text 要设置的分享内容
@@ -50,12 +51,12 @@ public:
      * @param 	platform 要授权的平台
      *
      */
-    void doAuthorize(const char* platform);
+    void authorize(const char* platform, AuthEventHandler callback);
     /*
      * 删除某平台的授权信息
      *@param 	platform 要删除授权的平台
      */
-    void deleteAuthorization(const char* platform);
+    void deleteAuthorization(const char* platform, AuthEventHandler callback);
     
     /*
      * 判断某平台是否已经授权
@@ -67,13 +68,13 @@ public:
      * 打开分享面板
      *@param 	registerListener 是否注册分享监听器     (考虑使用模板类, 函数指针)
      */
-    void openShare(bool registerListener);
+    void openShare(bool registerListener, ShareEventHandler callback);
     
     /*
      * 直接分享, 底层分享
      *@param 	platform 要分享到的目标平台
      */
-    void directShare(const char* platform);
+    void directShare(const char* platform, ShareEventHandler callback);
     
     
     /*
