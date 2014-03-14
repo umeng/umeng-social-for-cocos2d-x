@@ -46,7 +46,7 @@ CCUMSocialSDK* CCUMSocialSDK::create()
  * 对某平台进行授权
  * *@param 	platform 目标平台
  */
-void CCUMSocialSDK::authorize(const char* platform, AuthEventHandler callback)
+void CCUMSocialSDK::authorize(int platform, AuthEventHandler callback)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     // 授权某平台
@@ -64,7 +64,7 @@ void CCUMSocialSDK::authorize(const char* platform, AuthEventHandler callback)
  * *@param 	platform 目标平台
  *
  */
-void CCUMSocialSDK::deleteAuthorization(const char* platform, AuthEventHandler callback)
+void CCUMSocialSDK::deleteAuthorization(int platform, AuthEventHandler callback)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     
@@ -81,7 +81,7 @@ void CCUMSocialSDK::deleteAuthorization(const char* platform, AuthEventHandler c
  * 判断某平台是否授权
  * *@param 	platform 目标平台
  */
-bool CCUMSocialSDK::isAuthorized(const char* platform)
+bool CCUMSocialSDK::isAuthorized(int platform)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     
@@ -171,7 +171,7 @@ void CCUMSocialSDK::openShare(bool registerListener, ShareEventHandler callback)
  * 直接分享, 底层分享
  *@param 	platform 要分享到的目标平台
  */
-void CCUMSocialSDK::directShare(const char* platform, ShareEventHandler callback)
+void CCUMSocialSDK::directShare(int platform, ShareEventHandler callback)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
@@ -190,7 +190,7 @@ void CCUMSocialSDK::directShare(const char* platform, ShareEventHandler callback
  *@param 	appkey   相关平台的app key
  *@param 	targetUrl 用户点击某个分享时跳转到的目标页面
  */
-void CCUMSocialSDK::supportPlatform(const char* platform, const char* appkey, const char* targetUrl)
+void CCUMSocialSDK::supportPlatform(int platform, const char* appkey, const char* targetUrl)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     

@@ -16,6 +16,7 @@ public:
     void menuCloseCallback(CCObject* pSender);
     // a selector callback to share button
     void menuShareCallback(CCObject* pSender);
+        void doAuthorize(CCObject* pSender);
     
     // implement the "static node()" method manually
     CREATE_FUNC(HelloWorld);
@@ -23,6 +24,7 @@ public:
 private:
 	void openUmengShare();
     void saveScreenshot();
+
 };
 
 #endif // __HELLOWORLD_SCENE_H__

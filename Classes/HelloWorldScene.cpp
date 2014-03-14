@@ -52,7 +52,7 @@ bool HelloWorld::init()
     //    you may modify it.
     
     
-    // add a "share" icon to exit the progress. it's an autorelease object
+    // 分享按钮
     CCMenuItemImage *pShareItem = CCMenuItemImage::create(
                                                           "share.png",
                                                           "share.png",
@@ -62,7 +62,15 @@ bool HelloWorld::init()
     CCAction* action = CCMoveTo::create(3.0f, ccp(300, 50));
     pShareItem->runAction(action);
 
-    // add a "close" icon to exit the progress. it's an autorelease object
+        // 授权按钮
+    CCMenuItemImage *pAuthItem = CCMenuItemImage::create(
+                                                          "share.png",
+                                                          "share.png",
+                                                          this,
+                                                          menu_selector(HelloWorld::doAuthorize));
+    pAuthItem->setPosition(ccp(100,100));
+
+    // 关闭按钮
     CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
                                         "CloseNormal.png",
                                         "CloseSelected.png",
@@ -75,7 +83,8 @@ bool HelloWorld::init()
     // create menu, it's an autorelease object
     CCMenu* pMenu = CCMenu::create();
     pMenu->addChild(pShareItem , 1);
-    pMenu->addChild(pCloseItem , 2);
+    pMenu->addChild(pCloseItem , 1);
+    pMenu->addChild(pAuthItem, 1);
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu, 1);
 
@@ -126,7 +135,7 @@ void HelloWorld::openUmengShare()
 /*
  *授权回调, 还需要传递一个State
  */
-void authCallback(const char* platform, int stCode)
+void authCallback(int platform, int stCode)
 {
     UMLog::D("#shareCallback", "#### authCallback");
 }
@@ -134,19 +143,49 @@ void authCallback(const char* platform, int stCode)
 /*
  * 分享回调
  */
-void shareCallback(const char* platform, int stCode)
+void shareCallback(int platform, int stCode)
 {
       UMLog::D("#shareCallback", "#### shareCallback");
+      CCLog("platform num is : %d.", platform);
 }
 
 
+// 直接分享
 void HelloWorld::menuShareCallback(CCObject* pSender)
 {
     CCUMSocialSDK *sdk = CCUMSocialSDK::create();
     sdk->setShareContent("This is COCOS2D-X test.");
-    sdk->directShare("qzone", share_selector(shareCallback));
+    static int shareCount = 0 ;
+    int num = shareCount % 3 ;
+    if (  num == 0 ) {
+        sdk->openShare(false, share_selector(shareCallback));
+    }
+    else if ( num == 1 ) {
+        sdk->directShare(SINA, share_selector(shareCallback));
+    } else {
+        sdk->openShare(true, share_selector(shareCallback));
+    }
+
+    ++shareCount;
 }
 
+// 授权
+void HelloWorld::doAuthorize(CCObject* pSender)
+{
+
+    static int count = 0 ;
+    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+    int num = count % 3 ;
+    if (  num == 0 ) {
+        sdk->authorize(RENREN, auth_selector(authCallback));
+    }
+    else if ( num == 1 ) {
+        sdk->isAuthorized(RENREN);
+    } else {
+        sdk->deleteAuthorization(RENREN, auth_selector(authCallback));
+    }
+    ++count;
+}
 
 //截图功能
 void HelloWorld::saveScreenshot()

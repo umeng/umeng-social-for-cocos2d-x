@@ -14,6 +14,8 @@ using namespace std;
 AuthEventHandler authCallback = NULL;
 // 分享回调
 ShareEventHandler shareCallback = NULL;
+// 错误处理
+ErrorEventHandler errorCallback = NULL;
 /*
  * 授权开始的回调函数
  * Class:     com_umeng_social_CCUMSocialController
@@ -21,13 +23,11 @@ ShareEventHandler shareCallback = NULL;
  * Signature: (Ljava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeStart
-(JNIEnv *env, jclass clz, jstring platform)
+(JNIEnv *env, jclass clz, jint platform)
 {
     if ( NULL != authCallback ) 
     {
-        const char *str = env->GetStringUTFChars(platform, 0);
-        authCallback(str, START, 200);
-        env->ReleaseStringUTFChars(platform, str);
+        authCallback(platform, START, 200);
     }
 
 }
@@ -39,22 +39,15 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeSta
  * Signature: (Ljava/lang/String;Ljava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeError
-(JNIEnv *env, jclass clz, jstring errorMsg, jstring platform)
+(JNIEnv *env, jclass clz, jstring errorMsg, jint platform)
 {
+    if ( NULL != errorCallback ) 
+    {
+        const char *msg = env->GetStringUTFChars(errorMsg, 0);
+        errorCallback(platform, msg);
+        env->ReleaseStringUTFChars(errorMsg, msg);
     
-    
-}
-
-/*
- * 授权取消的回调函数
- * Class:     com_umeng_social_CCUMSocialController
- * Method:    OnAuthorizeCancel
- * Signature: (Ljava/lang/String;)V
- */
-JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeCancel
-(JNIEnv *env, jclass clz, jstring platform)
-{
-    
+    }
 }
 
 /*
@@ -64,12 +57,12 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeCan
  * Signature: ([Ljava/lang/String;Ljava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeComplete
-(JNIEnv *env, jclass clz, jobjectArray data, jstring platform)
+(JNIEnv *env, jclass clz, jobjectArray data, jint platform)
 {
     if ( authCallback != NULL ) {
-        const char *str = env->GetStringUTFChars(platform, 0);
-        authCallback(str, COMPLETE, 200);
-        env->ReleaseStringUTFChars(platform, str);
+        // const char *str = env->GetStringUTFChars(platform, 0);
+        authCallback(platform, COMPLETE, 200);
+        // env->ReleaseStringUTFChars(platform, str);
     }
 
 }
@@ -86,7 +79,7 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareStart
     if ( shareCallback != NULL ) {
         // const char *str = env->GetStringUTFChars(platform, 0);
         // 参数1代表平台, 参数2代表状态, 比如start, cancel, complete, 参数3代表状态码, 200为成功.
-        shareCallback("", START, 200);
+        shareCallback(-1, START, 200);
         // env->ReleaseStringUTFChars(platform, str);
     }
 }
@@ -98,13 +91,11 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareStart
  * Signature: (Ljava/lang/String;ILjava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareComplete
-(JNIEnv *env, jclass clz, jstring platform, jint stCode, jstring descriptor)
+(JNIEnv *env, jclass clz, jint platform, jint stCode, jstring descriptor)
 {
         if ( shareCallback != NULL ) {
-        const char *str = env->GetStringUTFChars(platform, 0);
-        shareCallback(str, COMPLETE, 200);
-        env->ReleaseStringUTFChars(platform, str);
-    }
+            shareCallback(platform, COMPLETE, 200);
+        }
 }
 
 /*
@@ -130,6 +121,133 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_onShakeComplet
 {
     
 }
+
+
+/*
+ * 对某平台进行授权
+ *
+ */
+void doAuthorize(int platform, AuthEventHandler callback)
+{
+    authCallback = callback;
+    if ( authCallback != NULL ) 
+    {
+        CCLog("#### 授权回调不为NULL");
+
+    }
+    JniMethodInfo mi;
+    bool isHave = getMethod(mi, "directShare", "(I)V");
+    if ( isHave )
+    {
+        // jstring target = mi.env->NewStringUTF(platform);
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platform);
+        // mi.env->DeleteLocalRef(target);
+        releaseMethod(mi);
+    }
+}
+
+/*
+ * 删除某平台的授权信息
+ *
+ */
+void deletePlatformAuthorization(int platform, AuthEventHandler callback)
+{
+    authCallback = callback;
+    JniMethodInfo mi;
+    bool isHave = getMethod(mi, "deleteAuthorization", "(I)V");
+    if ( isHave )
+    {
+        // jstring target = mi.env->NewStringUTF(platform);
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platform);
+        // mi.env->DeleteLocalRef(target);
+        releaseMethod(mi);
+    }
+}
+
+/*
+ * 判断某平台是否已经授权
+ *
+ */
+bool isPlatformAuthorized(int platform)
+{
+    JniMethodInfo mi;
+    bool isHave = getMethod(mi, "isAuthorized", "(I)Z");
+    if ( isHave )
+    {
+        // jstring target = mi.env->NewStringUTF(platform);
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platform);
+        // mi.env->DeleteLocalRef(target);
+        releaseMethod(mi);
+    }
+}
+
+/*
+ * 打开分享面板
+ *
+ */
+void doOpenShare(bool registerListener, ShareEventHandler callback)
+{
+    shareCallback = callback;
+    if ( shareCallback != NULL ) 
+    {
+        CCLog("#### 授权回调不为NULL");
+
+    }
+    JniMethodInfo mi;
+    bool isHave = getMethod(mi, "openShare", "(Z)V");
+    if ( isHave )
+    {
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, registerListener);
+        releaseMethod(mi);
+    }
+}
+
+/*
+ * 底层分享
+ *
+ */
+void doDirectShare(int platform, ShareEventHandler callback)
+{
+    shareCallback = callback;
+    if ( shareCallback != NULL ) 
+    {
+        CCLog("#### 授权回调不为NULL");
+
+    }
+    JniMethodInfo mi;
+    bool isHave = getMethod(mi, "directShare", "(I)V");
+    if ( isHave )
+    {
+        // jstring target = mi.env->NewStringUTF(platform);
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platform);
+        // mi.env->DeleteLocalRef(target);
+        releaseMethod(mi);
+    }
+    
+}
+
+
+/*
+ * 添加平台支持
+ *
+ */
+void doSupportPlatform(int platform, const char* appkey, const char* targetUrl)
+{
+    JniMethodInfo mi;
+    bool isHave = getMethod(mi, "supportPlatform", "(ILjava/lang/String;Ljava/lang/String;)V");
+    if ( isHave )
+    {
+        // jstring target = mi.env->NewStringUTF(platform);
+        jstring appid = mi.env->NewStringUTF(appkey);
+        jstring url = mi.env->NewStringUTF(targetUrl);
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platform, appid, url);
+        // mi.env->DeleteLocalRef(target);
+        mi.env->DeleteLocalRef(appid);
+        mi.env->DeleteLocalRef(url);
+        releaseMethod(mi);
+    }
+}
+
 
 /*
  * 设置要分享的文字内容
@@ -183,140 +301,16 @@ void setShareImagesUrl(const char* url)
     }
 }
 
-/*
- * 对某平台进行授权
- *
- */
-void doAuthorize(const char* platform, AuthEventHandler callback)
-{
-    authCallback = callback;
-    if ( authCallback != NULL ) 
-    {
-        CCLog("#### 授权回调不为NULL");
-
-    }
-    JniMethodInfo mi;
-	bool isHave = getMethod(mi, "directShare", "(Ljava/lang/String;)V");
-    if ( isHave )
-    {
-        jstring target = mi.env->NewStringUTF(platform);
-        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, target);
-        mi.env->DeleteLocalRef(target);
-        releaseMethod(mi);
-    }
-}
-
-/*
- * 删除某平台的授权信息
- *
- */
-void deletePlatformAuthorization(const char* platform, AuthEventHandler callback)
-{
-    authCallback = callback;
-    JniMethodInfo mi;
-	bool isHave = getMethod(mi, "deleteAuthorization", "(Ljava/lang/String;)V");
-    if ( isHave )
-    {
-        jstring target = mi.env->NewStringUTF(platform);
-        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, target);
-        mi.env->DeleteLocalRef(target);
-        releaseMethod(mi);
-    }
-}
-
-/*
- * 判断某平台是否已经授权
- *
- */
-bool isPlatformAuthorized(const char* platform)
-{
-    JniMethodInfo mi;
-	bool isHave = getMethod(mi, "isAuthorized", "(Ljava/lang/String;)V");
-    if ( isHave )
-    {
-        jstring target = mi.env->NewStringUTF(platform);
-        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, target);
-        mi.env->DeleteLocalRef(target);
-        releaseMethod(mi);
-    }
-}
-
-/*
- * 打开分享面板
- *
- */
-void doOpenShare(bool registerListener, ShareEventHandler callback)
-{
-    shareCallback = callback;
-    if ( shareCallback != NULL ) 
-    {
-        CCLog("#### 授权回调不为NULL");
-
-    }
-    JniMethodInfo mi;
-	bool isHave = getMethod(mi, "openShare", "(Z)V");
-    if ( isHave )
-    {
-        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, registerListener);
-        releaseMethod(mi);
-    }
-}
-
-/*
- * 底层分享
- *
- */
-void doDirectShare(const char* platform, ShareEventHandler callback)
-{
-    shareCallback = callback;
-    if ( shareCallback != NULL ) 
-    {
-        CCLog("#### 授权回调不为NULL");
-
-    }
-    JniMethodInfo mi;
-	bool isHave = getMethod(mi, "directShare", "(Ljava/lang/String;)V");
-    if ( isHave )
-    {
-        jstring target = mi.env->NewStringUTF(platform);
-        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, target);
-        mi.env->DeleteLocalRef(target);
-        releaseMethod(mi);
-    }
-    
-}
-
-
-/*
- * 添加平台支持
- *
- */
-void doSupportPlatform(const char* platform, const char* appkey, const char* targetUrl)
-{
-    JniMethodInfo mi;
-	bool isHave = getMethod(mi, "supportPlatform", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
-    if ( isHave )
-    {
-        jstring target = mi.env->NewStringUTF(platform);
-        jstring appid = mi.env->NewStringUTF(appkey);
-        jstring url = mi.env->NewStringUTF(targetUrl);
-        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, target, appid, url);
-        mi.env->DeleteLocalRef(target);
-        mi.env->DeleteLocalRef(appid);
-        mi.env->DeleteLocalRef(url);
-        releaseMethod(mi);
-    }
-}
 
 /*
  * 设置平台顺序呢
  *
  */
-void setPlatformsOrder(string platformOrders[])
+void setPlatformsOrder(int platformOrders[])
 {
     
 //    JniMethodInfo mi;
-//	bool isHave = getMethod(mi, "setPlatformsOrder", "([Ljava/lang/String;)V");
+//	bool isHave = getMethod(mi, "setPlatformsOrder", "([I)V");
 //    if ( platformOrders != NULL )
 //    {
 //        int size = platformOrders.length();
@@ -335,10 +329,10 @@ void setPlatformsOrder(string platformOrders[])
  * 移除某些平台
  *
  */
-void removePlatforms(string platforms[])
+void removePlatforms(int platforms[])
 {
 //    JniMethodInfo mi;
-//	bool isHave = getMethod(mi, "removePlatfroms", "([Ljava/lang/String;)V");
+//	bool isHave = getMethod(mi, "removePlatfroms", "([I)V");
 //    if ( isHave )
 //    {
 //        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID);

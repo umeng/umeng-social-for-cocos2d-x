@@ -31,7 +31,7 @@ enum Platform{
     GOOGLEPLUS = 13,        // google+
     INSTAGRAM = 14,         // instagram
     SMS = 15,               // 短信
-    GMAIL = 16              // 邮件
+    EMAIL = 16              // 邮件
     
 } ;
 
@@ -44,11 +44,14 @@ enum State {
 
  };
 
-typedef void (*ShareEventHandler) (const char* platform,State state ,int stCode);
-typedef void (*AuthEventHandler) (const char* platform, State state ,int stCode);
+typedef void (*AuthEventHandler) (int platform, State state ,int stCode);
+typedef void (*ShareEventHandler) (int platform,State state ,int stCode);
+typedef void (*ErrorEventHandler) (int platform,const char* error_msg);
+
 // 
 #define auth_selector(_SELECTOR) (AuthEventHandler)(&_SELECTOR)
 #define share_selector(_SELECTOR) (ShareEventHandler)(&_SELECTOR)
+#define error_selector(_SELECTOR) (ErrorEventHandler)(&_SELECTOR)
 
 
 #endif

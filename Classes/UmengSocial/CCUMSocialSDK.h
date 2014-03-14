@@ -51,18 +51,18 @@ public:
      * @param 	platform 要授权的平台
      *
      */
-    void authorize(const char* platform, AuthEventHandler callback);
+    void authorize(int platform, AuthEventHandler callback);
     /*
      * 删除某平台的授权信息
      *@param 	platform 要删除授权的平台
      */
-    void deleteAuthorization(const char* platform, AuthEventHandler callback);
+    void deleteAuthorization(int platform, AuthEventHandler callback);
     
     /*
      * 判断某平台是否已经授权
      *@param 	platform 判断某平台是否已经授权
      */
-    bool isAuthorized(const char* platform);
+    bool isAuthorized(int platform);
     
     /*
      * 打开分享面板
@@ -74,7 +74,7 @@ public:
      * 直接分享, 底层分享
      *@param 	platform 要分享到的目标平台
      */
-    void directShare(const char* platform, ShareEventHandler callback);
+    void directShare(int platform, ShareEventHandler callback);
     
     
     /*
@@ -83,7 +83,7 @@ public:
      *@param 	appkey   相关平台的app key
      *@param 	targetUrl 用户点击某个分享时跳转到的目标页面
      */
-    void supportPlatform(const char* platform, const char* appkey, const char* targetUrl);
+    void supportPlatform(int platform, const char* appkey, const char* targetUrl);
     
     /*
      * 设置平台顺序呢
