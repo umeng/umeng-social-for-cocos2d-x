@@ -26,7 +26,7 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeSta
 {
     if ( NULL != authCallback ) 
     {
-        authCallback(platform, START, 200);
+        authCallback(platform, ST_START, 200);
     }
 
 }
@@ -48,7 +48,7 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeCom
 {
     if ( authCallback != NULL ) {
         // const char *str = env->GetStringUTFChars(platform, 0);
-        authCallback(platform, COMPLETE, stCode);
+        authCallback(platform, ST_COMPLETE, stCode);
         // env->ReleaseStringUTFChars(platform, str);
     }
 
@@ -66,7 +66,7 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareStart
     if ( shareCallback != NULL ) {
         // const char *str = env->GetStringUTFChars(platform, 0);
         // 参数1代表平台, 参数2代表状态, 比如start, cancel, complete, 参数3代表状态码, 200为成功.
-        shareCallback(-1, START, 200);
+        shareCallback(-1, ST_START, 200);
         // env->ReleaseStringUTFChars(platform, str);
     }
 }
@@ -81,7 +81,7 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareComplet
 (JNIEnv *env, jclass clz, jint platform, jint stCode, jstring descriptor)
 {
         if ( shareCallback != NULL ) {
-            shareCallback(platform, COMPLETE, stCode);
+            shareCallback(platform, ST_COMPLETE, stCode);
         }
 }
 

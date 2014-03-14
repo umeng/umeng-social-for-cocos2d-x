@@ -1,20 +1,22 @@
 #include "HelloWorldScene.h"
-#include "platform/android/jni/JniHelper.h"
-#include <jni.h>
 #include <string>
-#include <stdio.h>
-#include "UMLog.h"
 #include "UmengSocial/CCUMTypeDef.h"
 #include "UmengSocial/CCUMSocialSDK.h"
-#include "UmengSocial/Android/CCUMSocialController.h"
+
 #include <iostream>
  
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#include "UmengSocial/Android/CCUMSocialController.h"
+#endif
+
 // 环境变量PATH在windows下和linux下的分割符定义
 #ifdef _WIN32
 #define PATH_SEPARATOR ';'
 #else
 #define PATH_SEPARATOR ':'
 #endif
+
+
 
 USING_NS_CC;
 using namespace std;
@@ -135,19 +137,18 @@ void HelloWorld::openUmengShare()
 /*
  *授权回调, 还需要传递一个State
  */
-void authCallback(int platform,int state, int stCode)
+void authCallback(int platform, int stCode)
 {
-    UMLog::D("#shareCallback", "#### authCallback");
-    CCLog("platform num is : %d  --->   state : %d  ------> result : %d.", platform, state, stCode);
+    CCLog("#### authCallback");
 }
 
 /*
  * 分享回调
  */
-void shareCallback(int platform, int state, int stCode)
+void shareCallback(int platform, int stCode)
 {
-      UMLog::D("#shareCallback", "#### shareCallback");
-      CCLog("platform num is : %d  --->   state : %d  ------> result : %d.", platform, state, stCode);
+      CCLog("#### shareCallback");
+      CCLog("platform num is : %d.", platform);
 }
 
 
@@ -179,23 +180,13 @@ void HelloWorld::doAuthorize(CCObject* pSender)
     static int count = 0 ;
     CCUMSocialSDK *sdk = CCUMSocialSDK::create();
     int num = count % 3 ;
-    if (  num == 0 ) 
-    {
+    if (  num == 0 ) {
         CCLog("授权");
         sdk->authorize(RENREN, auth_selector(authCallback));
     }
-    else if ( num == 1 ) 
-    {
+    else if ( num == 1 ) {
                CCLog("判断人人网是否授权");
-        bool auth = sdk->isAuthorized(RENREN);
-        if ( auth ) 
-        {
-            CCLog("RENREN网已经授权,");
-        }
-        else 
-        {
-            CCLog("RENREN网还没有授权,");
-        }
+        sdk->isAuthorized(RENREN);
     } else {
            CCLog("删除人人网授权");
         sdk->deleteAuthorization(RENREN, auth_selector(authCallback));
@@ -213,13 +204,13 @@ void HelloWorld::saveScreenshot()
     CCDirector::sharedDirector()->getRunningScene()->visit();
     texture->end();
     string imagePath = CCFileUtils::sharedFileUtils()->getWritablePath().c_str() ;
-    UMLog::D("### path", imagePath.c_str());
+    CCLog(imagePath.c_str());
      //保存为png  
     bool result = texture->saveToFile("screenshot.png", kCCImageFormatPNG); 
     if ( result ) 
     {
         imagePath += "screenshot.png";
-        UMLog::D("#save scrshot", imagePath.c_str());
+       CCLog(imagePath.c_str());
     }
 
 }
