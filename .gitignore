@@ -1,1 +1,7 @@
 .DS_Store
+proj.blackberry/
+proj.wp8/
+proj.winrt/
+proj.linux/
+proj.marmalade/
+
