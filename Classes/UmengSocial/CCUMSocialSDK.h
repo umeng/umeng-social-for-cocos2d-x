@@ -66,9 +66,13 @@ public:
     
     /*
      * 打开分享面板
-     *@param 	registerListener 是否注册分享监听器     (考虑使用模板类, 函数指针)
      */
-    void openShare(bool registerListener, ShareEventHandler callback);
+    void openShare();
+    /*
+     * 打开分享面板
+     *@param 	callback 注册回调
+     */
+    void openShare(ShareEventHandler callback);
     
     /*
      * 直接分享, 底层分享

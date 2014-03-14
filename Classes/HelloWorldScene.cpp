@@ -135,18 +135,19 @@ void HelloWorld::openUmengShare()
 /*
  *授权回调, 还需要传递一个State
  */
-void authCallback(int platform, int stCode)
+void authCallback(int platform,int state, int stCode)
 {
     UMLog::D("#shareCallback", "#### authCallback");
+    CCLog("platform num is : %d  --->   state : %d  ------> result : %d.", platform, state, stCode);
 }
 
 /*
  * 分享回调
  */
-void shareCallback(int platform, int stCode)
+void shareCallback(int platform, int state, int stCode)
 {
       UMLog::D("#shareCallback", "#### shareCallback");
-      CCLog("platform num is : %d.", platform);
+      CCLog("platform num is : %d  --->   state : %d  ------> result : %d.", platform, state, stCode);
 }
 
 
@@ -158,12 +159,14 @@ void HelloWorld::menuShareCallback(CCObject* pSender)
     static int shareCount = 0 ;
     int num = shareCount % 3 ;
     if (  num == 0 ) {
-        sdk->openShare(false, share_selector(shareCallback));
+        // 打开分享面板, 不注册分享回调
+        sdk->openShare();
     }
     else if ( num == 1 ) {
         sdk->directShare(SINA, share_selector(shareCallback));
     } else {
-        sdk->openShare(true, share_selector(shareCallback));
+           // 打开分享面板, 注册分享回调
+        sdk->openShare(share_selector(shareCallback));
     }
 
     ++shareCount;
@@ -176,12 +179,25 @@ void HelloWorld::doAuthorize(CCObject* pSender)
     static int count = 0 ;
     CCUMSocialSDK *sdk = CCUMSocialSDK::create();
     int num = count % 3 ;
-    if (  num == 0 ) {
+    if (  num == 0 ) 
+    {
+        CCLog("授权");
         sdk->authorize(RENREN, auth_selector(authCallback));
     }
-    else if ( num == 1 ) {
-        sdk->isAuthorized(RENREN);
+    else if ( num == 1 ) 
+    {
+               CCLog("判断人人网是否授权");
+        bool auth = sdk->isAuthorized(RENREN);
+        if ( auth ) 
+        {
+            CCLog("RENREN网已经授权,");
+        }
+        else 
+        {
+            CCLog("RENREN网还没有授权,");
+        }
     } else {
+           CCLog("删除人人网授权");
         sdk->deleteAuthorization(RENREN, auth_selector(authCallback));
     }
     ++count;

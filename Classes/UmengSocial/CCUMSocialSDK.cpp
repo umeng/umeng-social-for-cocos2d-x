@@ -50,7 +50,7 @@ void CCUMSocialSDK::authorize(int platform, AuthEventHandler callback)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     // 授权某平台
-    doAuthorize( platform, callback);
+    doAuthorize(platform, callback);
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
@@ -151,15 +151,30 @@ void CCUMSocialSDK::setShareImageUrl(const char* url)
 
 
 /**
- * 打开分享面板
- *@param 	registerListener 是否注册分享监听器     (考虑使用函数指针)
+ * 打开分享面板, 不注册分享回调
  */
-void CCUMSocialSDK::openShare(bool registerListener, ShareEventHandler callback)
+void CCUMSocialSDK::openShare()
+{
+    #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    // 打开分享面板
+    doOpenShare(false, NULL);
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    
+    //TODO: iOS
+    
+#endif
+}
+
+/**
+ * 打开分享面板, 并且注册分享回调
+ *@param 	callback 分享回调
+ */
+void CCUMSocialSDK::openShare(ShareEventHandler callback)
 {
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
     // 打开分享面板
-    doOpenShare(registerListener, callback);
+    doOpenShare(true, callback);
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
     //TODO: iOS

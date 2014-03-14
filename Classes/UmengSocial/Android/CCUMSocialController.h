@@ -23,13 +23,6 @@ extern "C" {
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeStart
   (JNIEnv *, jclass, jint);
 
-/*
- * Class:     com_umeng_social_CCUMSocialController
- * Method:    OnAuthorizeError
- * Signature: (Ljava/lang/String;I)V
- */
-JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeError
-  (JNIEnv *, jclass, jstring, jint);
 
 /*
  * Class:     com_umeng_social_CCUMSocialController
@@ -37,7 +30,7 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeErr
  * Signature: ([Ljava/lang/String;I)V
  */
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeComplete
-  (JNIEnv *, jclass, jobjectArray, jint);
+  (JNIEnv *, jclass, jint, jint, jobjectArray);
 
 /*
  * Class:     com_umeng_social_CCUMSocialController

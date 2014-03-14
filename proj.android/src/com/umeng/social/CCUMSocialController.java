@@ -18,10 +18,12 @@ import com.umeng.scrshot.adapter.UMBaseAdapter;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeConfig;
 import com.umeng.socialize.bean.SocializeEntity;
+import com.umeng.socialize.bean.StatusCode;
 import com.umeng.socialize.controller.RequestType;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.controller.listener.SocializeListeners.SnsPostListener;
+import com.umeng.socialize.controller.listener.SocializeListeners.SocializeClientListener;
 import com.umeng.socialize.controller.listener.SocializeListeners.UMAuthListener;
 import com.umeng.socialize.db.OauthHelper;
 import com.umeng.socialize.exception.SocializeException;
@@ -79,19 +81,37 @@ public class CCUMSocialController {
 	 * @param platform
 	 *            授权平台的字符串表示
 	 */
-	public static void deleteAuthorization(int platform) {
+	public static void deleteAuthorization(final int platform) {
 		final SHARE_MEDIA target = getPlatform(platform);
 		if (target == null || target == SHARE_MEDIA.GENERIC) {
 			Log.e(TAG, "deleteOauth failed, platform is invalid.");
 			return;
 		}
+
+		Log.d(TAG, "@@@@ deleteAuthorization,  " + getPlatform(platform));
 		checkActivity();
 		// 在UI线程执行授权操作
 		mSDKHandler.postDelayed(new Runnable() {
 
 			@Override
 			public void run() {
-				mController.deleteOauth(mActivity, target, null);
+				// 删除授权
+				mController.deleteOauth(mActivity, target,
+						new SocializeClientListener() {
+
+							@Override
+							public void onStart() {
+
+							}
+
+							@Override
+							public void onComplete(int status,
+									SocializeEntity entity) {
+								// 删除授权的回调, 开发者可以通过字符串来判断
+								OnAuthorizeComplete(platform, status,
+										new String[] { "deleteOauth" });
+							}
+						});
 			}
 		}, DELAY_MS);
 
@@ -111,6 +131,7 @@ public class CCUMSocialController {
 			Log.e(TAG, "doAuthorize failed, platform is invalid.");
 			return;
 		}
+		Log.d(TAG, "@@@@ doAuthorize,  " + getPlatform(platform));
 		checkActivity();
 		// 在UI线程执行授权操作
 		mSDKHandler.postDelayed(new Runnable() {
@@ -121,7 +142,6 @@ public class CCUMSocialController {
 			}
 		}, DELAY_MS);
 
-		Log.d(TAG, "@@@@ doAuthorize");
 	}
 
 	/**
@@ -341,17 +361,19 @@ public class CCUMSocialController {
 
 		@Override
 		public void onError(SocializeException e, SHARE_MEDIA platform) {
-			OnAuthorizeError(e.getMessage(), getPlatformInt(platform));
+			OnAuthorizeComplete(getPlatformInt(platform), 0,
+					new String[] { e.getLocalizedMessage() });
 		}
 
 		@Override
 		public void onComplete(Bundle value, SHARE_MEDIA platform) {
-			OnAuthorizeComplete(getAuthData(value), getPlatformInt(platform));
+			OnAuthorizeComplete(getPlatformInt(platform),
+					StatusCode.ST_CODE_SUCCESSED, getAuthData(value));
 		}
 
 		@Override
 		public void onCancel(SHARE_MEDIA platform) {
-			OnAuthorizeError("cancel", getPlatformInt(platform));
+			OnAuthorizeComplete(getPlatformInt(platform), -1, null);
 		}
 
 		/**
@@ -378,16 +400,6 @@ public class CCUMSocialController {
 	private native static void OnAuthorizeStart(int platform);
 
 	/**
-	 * 回调授权的的onError方法到native层
-	 * 
-	 * @param e
-	 *            异常信息
-	 * @param platform
-	 *            出现异常的平台
-	 */
-	private native static void OnAuthorizeError(String errorMsg, int platform);
-
-	/**
 	 * 回调授权的onComplete方法到native层
 	 * 
 	 * @param value
@@ -395,7 +407,8 @@ public class CCUMSocialController {
 	 * @param platform
 	 *            平台
 	 */
-	private native static void OnAuthorizeComplete(String[] value, int platform);
+	private native static void OnAuthorizeComplete(int platform, int stCode,
+			String[] value);
 
 	/******************************************************************************
 	 * 分享回调接口,会调用native层对应的回调方法, 开发者可以在Java或者native层进行相应的处理

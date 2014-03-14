@@ -14,8 +14,7 @@ using namespace std;
 AuthEventHandler authCallback = NULL;
 // 分享回调
 ShareEventHandler shareCallback = NULL;
-// 错误处理
-ErrorEventHandler errorCallback = NULL;
+
 /*
  * 授权开始的回调函数
  * Class:     com_umeng_social_CCUMSocialController
@@ -32,36 +31,24 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeSta
 
 }
 
-/*
- * 授权错误的回调函数
- * Class:     com_umeng_social_CCUMSocialController
- * Method:    OnAuthorizeError
- * Signature: (Ljava/lang/String;Ljava/lang/String;)V
- */
-JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeError
-(JNIEnv *env, jclass clz, jstring errorMsg, jint platform)
-{
-    if ( NULL != errorCallback ) 
-    {
-        const char *msg = env->GetStringUTFChars(errorMsg, 0);
-        errorCallback(platform, msg);
-        env->ReleaseStringUTFChars(errorMsg, msg);
-    
-    }
-}
 
 /*
  * 授权完成的回调函数
+ * platform代表平台
+ * stCode代表结果, 200为成功, 0代表发生错误, -1代表取消.
+ * data为授权返回的数据, 返回的是字符串数据, 如果授权成功则是返回长度为2的字符串数组, 第一个为access_token, 第二个为过期时间.
+ * 如果发生错误则, 返回的数据长度为一, 里面存的是错误消息.
+ * 而删除授权也是使用这个回调, 返回的字符串会为"deleteOauth", 开发者可以判断字符串来确定回调的结果.
  * Class:     com_umeng_social_CCUMSocialController
  * Method:    OnAuthorizeComplete
  * Signature: ([Ljava/lang/String;Ljava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeComplete
-(JNIEnv *env, jclass clz, jobjectArray data, jint platform)
+(JNIEnv *env, jclass clz, jint platform, jint stCode, jobjectArray data)
 {
     if ( authCallback != NULL ) {
         // const char *str = env->GetStringUTFChars(platform, 0);
-        authCallback(platform, COMPLETE, 200);
+        authCallback(platform, COMPLETE, stCode);
         // env->ReleaseStringUTFChars(platform, str);
     }
 
@@ -94,7 +81,7 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareComplet
 (JNIEnv *env, jclass clz, jint platform, jint stCode, jstring descriptor)
 {
         if ( shareCallback != NULL ) {
-            shareCallback(platform, COMPLETE, 200);
+            shareCallback(platform, COMPLETE, stCode);
         }
 }
 
@@ -136,7 +123,7 @@ void doAuthorize(int platform, AuthEventHandler callback)
 
     }
     JniMethodInfo mi;
-    bool isHave = getMethod(mi, "directShare", "(I)V");
+    bool isHave = getMethod(mi, "doAuthorize", "(I)V");
     if ( isHave )
     {
         // jstring target = mi.env->NewStringUTF(platform);
@@ -190,7 +177,7 @@ void doOpenShare(bool registerListener, ShareEventHandler callback)
     shareCallback = callback;
     if ( shareCallback != NULL ) 
     {
-        CCLog("#### 授权回调不为NULL");
+        CCLog("#### 分享回调不为NULL");
 
     }
     JniMethodInfo mi;
