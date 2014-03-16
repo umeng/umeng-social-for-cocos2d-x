@@ -4,7 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
+import org.cocos2dx.lib.Cocos2dxActivity;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.SensorEvent;
@@ -45,7 +46,7 @@ public class CCUMSocialController {
 	 */
 	private static UMSocialService mController;
 	private static UMShakeService mShakeController;
-	private static Activity mActivity;
+	private static Cocos2dxActivity mActivity;
 	private static final String TAG = CCUMSocialController.class
 			.getSimpleName();
 
@@ -59,7 +60,8 @@ public class CCUMSocialController {
 	 * @param descriptor
 	 *            SDK的字符串描述符
 	 */
-	public static void initSocialSDK(Activity activity, String descriptor) {
+	public static void initSocialSDK(Cocos2dxActivity activity,
+			String descriptor) {
 
 		if (mController == null) {
 			synchronized (CCUMSocialController.class) {
@@ -105,11 +107,19 @@ public class CCUMSocialController {
 							}
 
 							@Override
-							public void onComplete(int status,
+							public void onComplete(final int status,
 									SocializeEntity entity) {
-								// 删除授权的回调, 开发者可以通过字符串来判断
-								OnAuthorizeComplete(platform, status,
-										new String[] { "deleteOauth" });
+								// 运行在gl线程
+								runOnGLThread(new Runnable() {
+
+									@Override
+									public void run() {
+										// 删除授权的回调, 开发者可以通过字符串来判断
+										OnAuthorizeComplete(platform, status,
+												new String[] { "deleteOauth" });
+									}
+								});
+
 							}
 						});
 			}
@@ -117,6 +127,14 @@ public class CCUMSocialController {
 
 		Log.d(TAG, "@@@@ deleteAuthorization");
 
+	}
+
+	/**
+	 * 
+	 * @param runnable
+	 */
+	public static void runOnGLThread(Runnable runnable) {
+		mActivity.runOnGLThread(runnable);
 	}
 
 	/**
@@ -355,25 +373,58 @@ public class CCUMSocialController {
 	private static UMAuthListener mAuthListener = new UMAuthListener() {
 
 		@Override
-		public void onStart(SHARE_MEDIA platform) {
-			OnAuthorizeStart(getPlatformInt(platform));
+		public void onStart(final SHARE_MEDIA platform) {
+			// 运行在gl线程
+			runOnGLThread(new Runnable() {
+
+				@Override
+				public void run() {
+					OnAuthorizeStart(getPlatformInt(platform));
+				}
+			});
+
 		}
 
 		@Override
-		public void onError(SocializeException e, SHARE_MEDIA platform) {
-			OnAuthorizeComplete(getPlatformInt(platform), 0,
-					new String[] { e.getLocalizedMessage() });
+		public void onError(final SocializeException e,
+				final SHARE_MEDIA platform) {
+
+			// 运行在gl线程
+			runOnGLThread(new Runnable() {
+
+				@Override
+				public void run() {
+					OnAuthorizeComplete(getPlatformInt(platform), 0,
+							new String[] { e.getLocalizedMessage() });
+				}
+			});
 		}
 
 		@Override
-		public void onComplete(Bundle value, SHARE_MEDIA platform) {
-			OnAuthorizeComplete(getPlatformInt(platform),
-					StatusCode.ST_CODE_SUCCESSED, getAuthData(value));
+		public void onComplete(final Bundle value, final SHARE_MEDIA platform) {
+
+			// 运行在gl线程
+			runOnGLThread(new Runnable() {
+
+				@Override
+				public void run() {
+					OnAuthorizeComplete(getPlatformInt(platform),
+							StatusCode.ST_CODE_SUCCESSED, getAuthData(value));
+				}
+			});
 		}
 
 		@Override
-		public void onCancel(SHARE_MEDIA platform) {
-			OnAuthorizeComplete(getPlatformInt(platform), -1, null);
+		public void onCancel(final SHARE_MEDIA platform) {
+			// 运行在gl线程
+			runOnGLThread(new Runnable() {
+
+				@Override
+				public void run() {
+					OnAuthorizeComplete(getPlatformInt(platform), -1, null);
+				}
+			});
+
 		}
 
 		/**
@@ -423,7 +474,14 @@ public class CCUMSocialController {
 		 */
 		@Override
 		public void onStart() {
-			OnShareStart();
+			runOnGLThread(new Runnable() {
+
+				@Override
+				public void run() {
+					OnShareStart();
+				}
+			});
+
 		}
 
 		/*
@@ -434,9 +492,17 @@ public class CCUMSocialController {
 		 * com.umeng.socialize.bean.SocializeEntity)
 		 */
 		@Override
-		public void onComplete(SHARE_MEDIA platform, int eCode,
-				SocializeEntity entity) {
-			OnShareComplete(getPlatformInt(platform), eCode, entity.mDescriptor);
+		public void onComplete(final SHARE_MEDIA platform, final int eCode,
+				final SocializeEntity entity) {
+			runOnGLThread(new Runnable() {
+
+				@Override
+				public void run() {
+					OnShareComplete(getPlatformInt(platform), eCode,
+							entity.mDescriptor);
+				}
+			});
+
 		}
 	};
 

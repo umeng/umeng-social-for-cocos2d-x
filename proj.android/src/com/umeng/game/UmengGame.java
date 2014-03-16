@@ -23,35 +23,12 @@ THE SOFTWARE.
  ****************************************************************************/
 package com.umeng.game;
 
-import java.io.ByteArrayOutputStream;
-import java.util.Random;
-
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.text.TextUtils;
-import android.util.Log;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.umeng.scrshot.adapter.UMBaseAdapter;
 import com.umeng.social.CCUMSocialController;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.bean.SocializeEntity;
-import com.umeng.socialize.controller.RequestType;
-import com.umeng.socialize.controller.UMServiceFactory;
-import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.controller.listener.SocializeListeners.SnsPostListener;
-import com.umeng.socom.util.BitmapUtils;
 
 public class UmengGame extends Cocos2dxActivity {
 
@@ -62,7 +39,8 @@ public class UmengGame extends Cocos2dxActivity {
 	/**
 	 * 保存当前Activity实例， 静态变量
 	 */
-	private static Activity mActivity = null;
+	private Cocos2dxActivity mActivity = null;
+	
 //	/**
 //	 * 友盟Social SDK实例，整个SDK的Controller
 //	 */
@@ -87,9 +65,6 @@ public class UmengGame extends Cocos2dxActivity {
 		super.onCreate(savedInstanceState);
 
 		mActivity = this;
-//		mHandler = new Handler(Looper.getMainLooper());
-		//
-//		mController.setShareContent("COCOS2D-X HACKATHON.");
 
 	}
 
@@ -105,6 +80,8 @@ public class UmengGame extends Cocos2dxActivity {
 		// mShakeService.registerShakeListender(mActivity, Cocos2dxAdapter,
 		// platforms, null);
 	}
+	
+	
 
 	@Override
 	protected void onStop() {
