@@ -48,21 +48,21 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareStart
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareComplete
   (JNIEnv *, jclass, jint, jint, jstring);
 
-/*
- * Class:     com_umeng_social_CCUMSocialController
- * Method:    getCocos2dxScrShot
- * Signature: ()Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_com_umeng_social_CCUMSocialController_getCocos2dxScrShot
-  (JNIEnv *, jclass);
+// /*
+//  * Class:     com_umeng_social_CCUMSocialController
+//  * Method:    getCocos2dxScrShot
+//  * Signature: ()Ljava/lang/String;
+//  */
+// JNIEXPORT jstring JNICALL Java_com_umeng_social_CCUMSocialController_getCocos2dxScrShot
+//   (JNIEnv *, jclass);
 
-/*
- * Class:     com_umeng_social_CCUMSocialController
- * Method:    onShakeComplete
- * Signature: ()V
- */
-JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_onShakeComplete
-  (JNIEnv *, jclass);
+// /*
+//  * Class:     com_umeng_social_CCUMSocialController
+//  * Method:    onShakeComplete
+//  * Signature: ()V
+//  */
+// JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_onShakeComplete
+//   (JNIEnv *, jclass);
     
 
 
@@ -122,26 +122,26 @@ void doOpenShare(bool registerListener, ShareEventHandler callback);
 void doDirectShare(int platform, ShareEventHandler callback);
     
     
-/*
-* 添加平台支持
-*
-*/
-void doSupportPlatform(int platform, const char* appkey, const char* targetUrl);
+// /*
+// * 添加平台支持
+// *
+// */
+// void doSupportPlatform(int platform, const char* appkey, const char* targetUrl);
     
-/*
-* 设置平台顺序呢
-*
-*/
-void setPlatformsOrder(int platformOrders[]);
-/*
-* 移除某些平台
-*
-*/
-void removePlatforms(int platforms[]);
-/*
-* 清空sdk
-*/
-void cleanupSDK();
+// /*
+// * 设置平台顺序呢
+// *
+// */
+// void setPlatformsOrder(int platformOrders[]);
+// /*
+// * 移除某些平台
+// *
+// */
+// void removePlatforms(int platforms[]);
+// /*
+// * 清空sdk
+// */
+// void cleanupSDK();
     
 
     

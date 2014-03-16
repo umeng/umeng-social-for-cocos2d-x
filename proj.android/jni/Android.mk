@@ -9,8 +9,6 @@ LOCAL_MODULE_FILENAME := libcocos2dcpp
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/HelloWorldScene.cpp \
-                   ../../Classes/com_umeng_game_UmengGame.cpp \
-                   ../../Classes/UMLog.cpp \
                    ../../Classes/UmengSocial/Android/CCUMSocialController.cpp  \
                    ../../Classes/UmengSocial/CCUMSocialSDK.cpp 
                    

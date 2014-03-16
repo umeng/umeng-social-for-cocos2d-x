@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.SensorEvent;
@@ -20,6 +21,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeConfig;
 import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.bean.StatusCode;
+import com.umeng.socialize.common.SocializeConstants;
 import com.umeng.socialize.controller.RequestType;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -60,8 +62,7 @@ public class CCUMSocialController {
 	 * @param descriptor
 	 *            SDK的字符串描述符
 	 */
-	public static void initSocialSDK(Cocos2dxActivity activity,
-			String descriptor) {
+	public static void initSocialSDK(Activity activity, String descriptor) {
 
 		if (mController == null) {
 			synchronized (CCUMSocialController.class) {
@@ -70,7 +71,13 @@ public class CCUMSocialController {
 						RequestType.SOCIAL);
 			}
 		}
-		mActivity = activity;
+		if (activity instanceof Cocos2dxActivity) {
+			mActivity = (Cocos2dxActivity) activity;
+		} else {
+			throw new IllegalArgumentException(
+					"initSocialSDK的activity参数请设置为Cocos2dxActivity类型");
+		}
+
 		if (mActivity == null || mActivity.isFinishing()) {
 			Log.d(TAG, "#### mActivity == null || mActivity.isFinishing() ");
 		}
@@ -127,14 +134,6 @@ public class CCUMSocialController {
 
 		Log.d(TAG, "@@@@ deleteAuthorization");
 
-	}
-
-	/**
-	 * 
-	 * @param runnable
-	 */
-	public static void runOnGLThread(Runnable runnable) {
-		mActivity.runOnGLThread(runnable);
 	}
 
 	/**
@@ -238,6 +237,23 @@ public class CCUMSocialController {
 
 	/**
 	 * 
+	 * @param runnable
+	 */
+	public static void runOnGLThread(Runnable runnable) {
+		mActivity.runOnGLThread(runnable);
+	}
+
+	/**
+	 * 
+	 * @param text
+	 */
+	public static void setUmengAppkey(String appkey) {
+		Log.d(TAG, "#### 设置umeng appkey :" + appkey);
+		SocializeConstants.APPKEY = appkey;
+	}
+
+	/**
+	 * 
 	 * @param text
 	 */
 	public static void setShareContent(String text) {
@@ -251,7 +267,8 @@ public class CCUMSocialController {
 	 */
 	public static void setShareImagePath(String path) {
 		Log.d(TAG, "#### 设置图片路径 :" + path);
-		if (!TextUtils.isEmpty(path)) {
+		File imgFile = new File(path) ;
+		if (!TextUtils.isEmpty(path) && imgFile.exists() ) {
 			mController.setShareMedia(new UMImage(mActivity, new File(path)));
 		}
 	}

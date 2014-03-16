@@ -28,23 +28,6 @@ private:
 public:
     
     static CCUMSocialSDK* create() ;
-    /*
-     * 设置要分享的文字内容
-     *	@param 	text 要设置的分享内容
-     *
-     */
-    void setShareContent(const char* text);
-    /*
-     *设置要分享的图片的本地路径
-     *	@param 	path 要设置的图片的本地路径
-     *
-     */
-    void setShareImagePath(const char* path);
-    /*
-     * 设置要分享的图片的url
-     *  @param 	url 要设置的图片的url
-     */
-    void setShareImageUrl(const char* url);
     
     /*
      * 对某平台进行授权
@@ -67,42 +50,42 @@ public:
     /*
      * 打开分享面板
      */
-    void openShare();
+    // void openShare();
     /*
      * 打开分享面板
      *@param 	callback 注册回调
      */
-    void openShare(ShareEventHandler callback);
+    void openShare(const char* text, const char* imgName, ShareEventHandler callback);
     
     /*
      * 直接分享, 底层分享
      *@param 	platform 要分享到的目标平台
      */
-    void directShare(int platform, ShareEventHandler callback);
+    void directShare(int platform, const char* text, const char* imgName, ShareEventHandler callback);
     
     
-    /*
-     * 添加平台支持
-     *@param 	platform 要添加的平台
-     *@param 	appkey   相关平台的app key
-     *@param 	targetUrl 用户点击某个分享时跳转到的目标页面
-     */
-    void supportPlatform(int platform, const char* appkey, const char* targetUrl);
+    // /*
+    //  * 添加平台支持
+    //  *@param 	platform 要添加的平台
+    //  *@param 	appkey   相关平台的app key
+    //  *@param 	targetUrl 用户点击某个分享时跳转到的目标页面
+    //  */
+    // void supportPlatform(int platform, const char* appkey, const char* targetUrl);
     
-    /*
-     * 设置平台顺序呢
-     * @param 	platformOrders 平台显示在分享面板上的顺序
-     */
-    void setPlatformsOrder(int platformOrders[]);
-    /*
-     * 移除某些平台
-     *@param 	platforms 要移除的平台
-     */
-    void removePlatforms(int platforms[]);
-    /*
-     * 清空sdk
-     */
-    void cleanup();
+    
+    //  * 设置平台顺序呢
+    //  * @param 	platformOrders 平台显示在分享面板上的顺序
+     
+    // void setPlatformsOrder(int platformOrders[]);
+    // /*
+    //  * 移除某些平台
+    //  *@param 	platforms 要移除的平台
+    //  */
+    // void removePlatforms(int platforms[]);
+    // /*
+    //  * 清空sdk
+    //  */
+    // void cleanup();
     
 };
 

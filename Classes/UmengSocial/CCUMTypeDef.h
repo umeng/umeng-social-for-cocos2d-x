@@ -28,24 +28,24 @@ enum Platform{
     YIXIN_CIRCLE = 10,      // 易信朋友圈
     FACEBOOK = 11,          // facebook
     TWITTER = 12,           // twitter
-    GOOGLEPLUS = 13,        // google+
+    // GOOGLEPLUS = 13,        // google+
     INSTAGRAM = 14,         // instagram
     SMS = 15,               // 短信
     EMAIL = 16              // 邮件    
 };
 
-// 网络请求回调状态
-enum State { 
-    ST_START = 0,                  // 分享启动
-    ST_ERROR = 1,                  // 错误
-    ST_CANCEL = 2,                 // 取消
-    ST_COMPLETE = 3                // 分享完成
+// // 网络请求回调状态
+// enum State { 
+//     ST_START = 0,                  // 分享启动
+//     ST_ERROR = 1,                  // 错误
+//     ST_CANCEL = 2,                 // 取消
+//     ST_COMPLETE = 3                // 分享完成
 
- };
+//  };
 
 // 最好还是添加一个字符串数组参数用来传递字符串信息, char* args[];
-typedef void (*AuthEventHandler) (int platform, State state ,int stCode);
-typedef void (*ShareEventHandler) (int platform,State state ,int stCode);
+typedef void (*AuthEventHandler) (int platform, int stCode);
+typedef void (*ShareEventHandler) (int platform,int stCode);
 
 // 
 #define auth_selector(_SELECTOR) (AuthEventHandler)(&_SELECTOR)

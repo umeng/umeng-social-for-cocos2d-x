@@ -26,7 +26,7 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeSta
 {
     if ( NULL != authCallback ) 
     {
-        authCallback(platform, ST_START, 200);
+        authCallback(platform, 200);
     }
 
 }
@@ -48,7 +48,7 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeCom
 {
     if ( authCallback != NULL ) {
         // const char *str = env->GetStringUTFChars(platform, 0);
-        authCallback(platform, ST_COMPLETE, stCode);
+        authCallback(platform, stCode);
         // env->ReleaseStringUTFChars(platform, str);
     }
 
@@ -66,7 +66,7 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareStart
     if ( shareCallback != NULL ) {
         // const char *str = env->GetStringUTFChars(platform, 0);
         // 参数1代表平台, 参数2代表状态, 比如start, cancel, complete, 参数3代表状态码, 200为成功.
-        shareCallback(-1, ST_START, 200);
+        shareCallback(-1, 200);
         // env->ReleaseStringUTFChars(platform, str);
     }
 }
@@ -81,33 +81,33 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareComplet
 (JNIEnv *env, jclass clz, jint platform, jint stCode, jstring descriptor)
 {
         if ( shareCallback != NULL ) {
-            shareCallback(platform, ST_COMPLETE, stCode);
+            shareCallback(platform, stCode);
         }
 }
 
-/*
- * 获取cocos2d-x游戏截屏, 并且返回图片的保存路径
- * Class:     com_umeng_social_CCUMSocialController
- * Method:    getCocos2dxScrShot
- * Signature: ()Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_com_umeng_social_CCUMSocialController_getCocos2dxScrShot
-(JNIEnv *env, jclass clz)
-{
+// /*
+//  * 获取cocos2d-x游戏截屏, 并且返回图片的保存路径
+//  * Class:     com_umeng_social_CCUMSocialController
+//  * Method:    getCocos2dxScrShot
+//  * Signature: ()Ljava/lang/String;
+//  */
+// JNIEXPORT jstring JNICALL Java_com_umeng_social_CCUMSocialController_getCocos2dxScrShot
+// (JNIEnv *env, jclass clz)
+// {
     
-}
+// }
 
-/*
- * 用户摇一摇结束,开发者可以在此函数中执行暂停游戏等操作
- * Class:     com_umeng_social_CCUMSocialController
- * Method:    onShakeComplete
- * Signature: ()V
- */
-JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_onShakeComplete
-(JNIEnv *env, jclass clz)
-{
+// /*
+//  * 用户摇一摇结束,开发者可以在此函数中执行暂停游戏等操作
+//  * Class:     com_umeng_social_CCUMSocialController
+//  * Method:    onShakeComplete
+//  * Signature: ()V
+//  */
+// JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_onShakeComplete
+// (JNIEnv *env, jclass clz)
+// {
     
-}
+// }
 
 
 /*

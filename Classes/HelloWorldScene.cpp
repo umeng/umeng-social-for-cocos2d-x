@@ -60,17 +60,17 @@ bool HelloWorld::init()
                                                           "share.png",
                                                           this,
                                                           menu_selector(HelloWorld::menuShareCallback));
-    pShareItem->setPosition(ccp(50,50));
-    CCAction* action = CCMoveTo::create(3.0f, ccp(300, 50));
-    pShareItem->runAction(action);
+    pShareItem->setPosition(ccp(100,80));
+    // CCAction* action = CCMoveTo::create(3.0f, ccp(300, 50));
+    // pShareItem->runAction(action);
 
         // 授权按钮
     CCMenuItemImage *pAuthItem = CCMenuItemImage::create(
-                                                          "share.png",
-                                                          "share.png",
+                                                          "login.png",
+                                                          "login.png",
                                                           this,
                                                           menu_selector(HelloWorld::doAuthorize));
-    pAuthItem->setPosition(ccp(100,100));
+    pAuthItem->setPosition(ccp(100,200));
 
     // 关闭按钮
     CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
@@ -156,18 +156,13 @@ void shareCallback(int platform, int stCode)
 void HelloWorld::menuShareCallback(CCObject* pSender)
 {
     CCUMSocialSDK *sdk = CCUMSocialSDK::create();
-    sdk->setShareContent("This is COCOS2D-X test.");
-    static int shareCount = 0 ;
+    static int shareCount = 1 ;
     int num = shareCount % 3 ;
-    if (  num == 0 ) {
-        // 打开分享面板, 不注册分享回调
-        sdk->openShare();
-    }
-    else if ( num == 1 ) {
-        sdk->directShare(SINA, share_selector(shareCallback));
+    if ( num == 1 ) {
+        sdk->directShare(SINA, "COCOS2D-X HACKATHON  -->  directShare","/sdcard/image.png",share_selector(shareCallback));
     } else {
            // 打开分享面板, 注册分享回调
-        sdk->openShare(share_selector(shareCallback));
+        sdk->openShare("COCOS2D-X HACKATHON -->  openShare","/sdcard/image.png", share_selector(shareCallback));
     }
 
     ++shareCount;
