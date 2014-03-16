@@ -159,10 +159,10 @@ void HelloWorld::menuShareCallback(CCObject* pSender)
     static int shareCount = 1 ;
     int num = shareCount % 3 ;
     if ( num == 1 ) {
-        sdk->directShare(SINA, "COCOS2D-X HACKATHON  -->  directShare","/sdcard/image.png",share_selector(shareCallback));
-    } else {
-           // 打开分享面板, 注册分享回调
+        // 打开分享面板, 注册分享回调
         sdk->openShare("COCOS2D-X HACKATHON -->  openShare","/sdcard/image.png", share_selector(shareCallback));
+    } else {
+        sdk->directShare(SINA, "COCOS2D-X HACKATHON  -->  directShare","/sdcard/image.png",share_selector(shareCallback));
     }
 
     ++shareCount;

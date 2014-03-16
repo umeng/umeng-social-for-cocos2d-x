@@ -59,6 +59,8 @@ public class CCUMSocialController {
 	/**
 	 * 初始化SDK
 	 * 
+	 * @param activity
+	 *            游戏的Cocos2dxActivity类型
 	 * @param descriptor
 	 *            SDK的字符串描述符
 	 */
@@ -75,11 +77,12 @@ public class CCUMSocialController {
 			mActivity = (Cocos2dxActivity) activity;
 		} else {
 			throw new IllegalArgumentException(
-					"initSocialSDK的activity参数请设置为Cocos2dxActivity类型");
+					"initSocialSDK的activity参数必须设置为Cocos2dxActivity类型");
 		}
 
 		if (mActivity == null || mActivity.isFinishing()) {
 			Log.d(TAG, "#### mActivity == null || mActivity.isFinishing() ");
+			throw new NullPointerException("initSocialSDK的activity不能为空");
 		}
 		checkActivity();
 	}
@@ -267,8 +270,8 @@ public class CCUMSocialController {
 	 */
 	public static void setShareImagePath(String path) {
 		Log.d(TAG, "#### 设置图片路径 :" + path);
-		File imgFile = new File(path) ;
-		if (!TextUtils.isEmpty(path) && imgFile.exists() ) {
+		File imgFile = new File(path);
+		if (!TextUtils.isEmpty(path) && imgFile.exists()) {
 			mController.setShareMedia(new UMImage(mActivity, new File(path)));
 		}
 	}
@@ -689,10 +692,9 @@ public class CCUMSocialController {
 		mPlatformsList.add(10, SHARE_MEDIA.YIXIN_CIRCLE);
 		mPlatformsList.add(11, SHARE_MEDIA.FACEBOOK);
 		mPlatformsList.add(12, SHARE_MEDIA.TWITTER);
-		mPlatformsList.add(13, SHARE_MEDIA.GOOGLEPLUS);
-		mPlatformsList.add(14, SHARE_MEDIA.INSTAGRAM);
-		mPlatformsList.add(15, SHARE_MEDIA.SMS);
-		mPlatformsList.add(16, SHARE_MEDIA.EMAIL);
+		mPlatformsList.add(13, SHARE_MEDIA.INSTAGRAM);
+		mPlatformsList.add(14, SHARE_MEDIA.SMS);
+		mPlatformsList.add(15, SHARE_MEDIA.EMAIL);
 	}
 
 }

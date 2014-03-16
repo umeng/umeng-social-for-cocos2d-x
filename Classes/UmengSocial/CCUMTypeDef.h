@@ -29,9 +29,9 @@ enum Platform{
     FACEBOOK = 11,          // facebook
     TWITTER = 12,           // twitter
     // GOOGLEPLUS = 13,        // google+
-    INSTAGRAM = 14,         // instagram
-    SMS = 15,               // 短信
-    EMAIL = 16              // 邮件    
+    INSTAGRAM = 13,         // instagram
+    SMS = 14,               // 短信
+    EMAIL = 15              // 邮件    
 };
 
 // // 网络请求回调状态
