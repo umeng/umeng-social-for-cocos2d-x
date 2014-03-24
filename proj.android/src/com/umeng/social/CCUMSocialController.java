@@ -2,6 +2,7 @@ package com.umeng.social;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
@@ -16,6 +17,7 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.umeng.game.R;
 import com.umeng.scrshot.adapter.UMBaseAdapter;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeConfig;
@@ -23,6 +25,7 @@ import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.bean.StatusCode;
 import com.umeng.socialize.common.SocializeConstants;
 import com.umeng.socialize.controller.RequestType;
+import com.umeng.socialize.controller.UMFacebookHandler;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.controller.listener.SocializeListeners.SnsPostListener;
@@ -30,6 +33,7 @@ import com.umeng.socialize.controller.listener.SocializeListeners.SocializeClien
 import com.umeng.socialize.controller.listener.SocializeListeners.UMAuthListener;
 import com.umeng.socialize.db.OauthHelper;
 import com.umeng.socialize.exception.SocializeException;
+import com.umeng.socialize.media.FaceBookShareContent;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.sensor.UMSensor.OnSensorListener;
 import com.umeng.socialize.sensor.UMSensor.WhitchButton;
@@ -44,8 +48,8 @@ public class CCUMSocialController {
 	/**
 	 * 
 	 */
-	private static UMSocialService mController;
-//	private static UMShakeService mShakeController;
+	public static UMSocialService mController;
+	// private static UMShakeService mShakeController;
 	private static Cocos2dxActivity mActivity;
 	private static final String TAG = CCUMSocialController.class
 			.getSimpleName();
@@ -184,7 +188,16 @@ public class CCUMSocialController {
 			public void run() {
 				Log.d(TAG, "#### open share in thread.");
 				// 打开分享面板
-				mController.openShare(mActivity, false);
+				// mController.openShare(mActivity, false);
+				FaceBookShareContent faContent = new FaceBookShareContent(
+						"facebook hello" + new Date().toLocaleString());
+				faContent.setShareImage(new UMImage(mActivity,
+						R.drawable.shake_umeng_socialize_close));
+				mController.setShareMedia(faContent);
+				UMFacebookHandler fbHandler = new UMFacebookHandler(mActivity);
+				fbHandler.addToSocialSDK();
+				mController.directShare(mActivity, SHARE_MEDIA.FACEBOOK,
+						mSocialShareListener);
 			}
 		}, DELAY_MS);
 		Log.d(TAG, "@@@@ openShare");
@@ -544,40 +557,40 @@ public class CCUMSocialController {
 	private native static void OnShareComplete(int platform, int eCode,
 			String descriptor);
 
-//	/*******************************************************************************************
-//	 * 摇一摇截屏分享功能
-//	 ******************************************************************************************/
-//	/**
-//	 * 注册摇一摇截屏分享功能
-//	 * 
-//	 * @param speed
-//	 * @param sound
-//	 * @param platfroms
-//	 */
-//	public static void registerShakeSensor(int speed, boolean sound,
-//			String[] platfroms) {
-//
-//		if (mShakeController == null) {
-//			mShakeController = UMShakeServiceFactory
-//					.getShakeService(DESCRIPTOR);
-//		}
-//		List<SHARE_MEDIA> platformsList = new ArrayList<SHARE_MEDIA>();
-//
-//		if (platfroms != null && platfroms.length > 0) {
-//			for (String share_MEDIA : platfroms) {
-//				SHARE_MEDIA target = SHARE_MEDIA.convertToEmun(share_MEDIA);
-//				if (target != null && target != SHARE_MEDIA.GENERIC) {
-//					platformsList.add(target);
-//				}
-//			}
-//		} else {
-//			// 默认添加两个平台
-//			platformsList.add(SHARE_MEDIA.SINA);
-//			platformsList.add(SHARE_MEDIA.QZONE);
-//		}
-//		mShakeController.registerShakeListender(mActivity, mCocos2dxAdapter,
-//				2000, true, platformsList, mShakeListener);
-//	}
+	// /*******************************************************************************************
+	// * 摇一摇截屏分享功能
+	// ******************************************************************************************/
+	// /**
+	// * 注册摇一摇截屏分享功能
+	// *
+	// * @param speed
+	// * @param sound
+	// * @param platfroms
+	// */
+	// public static void registerShakeSensor(int speed, boolean sound,
+	// String[] platfroms) {
+	//
+	// if (mShakeController == null) {
+	// mShakeController = UMShakeServiceFactory
+	// .getShakeService(DESCRIPTOR);
+	// }
+	// List<SHARE_MEDIA> platformsList = new ArrayList<SHARE_MEDIA>();
+	//
+	// if (platfroms != null && platfroms.length > 0) {
+	// for (String share_MEDIA : platfroms) {
+	// SHARE_MEDIA target = SHARE_MEDIA.convertToEmun(share_MEDIA);
+	// if (target != null && target != SHARE_MEDIA.GENERIC) {
+	// platformsList.add(target);
+	// }
+	// }
+	// } else {
+	// // 默认添加两个平台
+	// platformsList.add(SHARE_MEDIA.SINA);
+	// platformsList.add(SHARE_MEDIA.QZONE);
+	// }
+	// mShakeController.registerShakeListender(mActivity, mCocos2dxAdapter,
+	// 2000, true, platformsList, mShakeListener);
+	// }
 
 	/**
 	 * COCOS2D-X自定义的截屏适配器
@@ -625,13 +638,13 @@ public class CCUMSocialController {
 		}
 	};
 
-//	/**
-//	 * 注册摇一摇截屏分享功能
-//	 */
-//	public static void unregisterShakeSensor() {
-//		checkActivity();
-//		mShakeController.unregisterShakeListener(mActivity);
-//	}
+	// /**
+	// * 注册摇一摇截屏分享功能
+	// */
+	// public static void unregisterShakeSensor() {
+	// checkActivity();
+	// mShakeController.unregisterShakeListener(mActivity);
+	// }
 
 	/**
 	 * 获取cocos2d-x游戏截屏的图片保存路径

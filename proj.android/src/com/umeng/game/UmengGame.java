@@ -27,16 +27,18 @@ import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.umeng.social.CCUMSocialController;
+import com.umeng.socialize.sso.UMSsoHandler;
 
 public class UmengGame extends Cocos2dxActivity {
 
 	/**
 	 * Handler, 用于包装友盟的openShare方法，保证openShare方法在UI线程执行
 	 */
-//	public static Handler mHandler = null;
+	// public static Handler mHandler = null;
 	/**
 	 * 保存当前Activity实例， 静态变量
 	 */
@@ -52,14 +54,14 @@ public class UmengGame extends Cocos2dxActivity {
 
 		mActivity = this;
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 
 		CCUMSocialController.initSocialSDK(mActivity, "com.umeng.social");
 	}
-	
+
 	/*
 	 * * (non-Javadoc)
 	 * 
@@ -71,6 +73,17 @@ public class UmengGame extends Cocos2dxActivity {
 		glSurfaceView.setEGLConfigChooser(5, 6, 5, 0, 16, 8);
 
 		return glSurfaceView;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		UMSsoHandler ssoHandler = CCUMSocialController.mController.getConfig()
+				.getSsoHandler(requestCode);
+		if (ssoHandler != null) {
+			ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	/**
