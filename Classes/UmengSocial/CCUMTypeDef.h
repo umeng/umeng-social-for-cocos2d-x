@@ -31,7 +31,8 @@ enum Platform{
     // GOOGLEPLUS = 13,        // google+
     INSTAGRAM = 13,         // instagram
     SMS = 14,               // 短信
-    EMAIL = 15              // 邮件    
+    EMAIL = 15,             // 邮件
+    TENCENT_WEIBO = 16      // 腾讯微博
 };
 
 // // 网络请求回调状态

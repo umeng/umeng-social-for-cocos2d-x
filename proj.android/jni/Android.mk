@@ -10,6 +10,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/HelloWorldScene.cpp \
                    ../../Classes/UmengSocial/Android/CCUMSocialController.cpp  \
+                   ../../Classes/UmengSocial/UMShareButton.cpp \
                    ../../Classes/UmengSocial/CCUMSocialSDK.cpp 
                    
 

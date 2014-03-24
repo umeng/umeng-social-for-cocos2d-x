@@ -2,11 +2,21 @@
 #include <string>
 #include "UmengSocial/CCUMTypeDef.h"
 #include "UmengSocial/CCUMSocialSDK.h"
-
+#include "UmengSocial/UMShareButton.h"
 #include <iostream>
  
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+// #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+// #include "UmengSocial/Android/CCUMSocialController.h"
+// #endif
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+
+#include "UmengSocial/IOS/UmSocialControllerIOS.h"
+
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
 #include "UmengSocial/Android/CCUMSocialController.h"
+
 #endif
 
 // 环境变量PATH在windows下和linux下的分割符定义
@@ -55,22 +65,22 @@ bool HelloWorld::init()
     
     
     // 分享按钮
-    CCMenuItemImage *pShareItem = CCMenuItemImage::create(
-                                                          "share.png",
-                                                          "share.png",
-                                                          this,
-                                                          menu_selector(HelloWorld::menuShareCallback));
-    pShareItem->setPosition(ccp(100,80));
+    // CCMenuItemImage *pShareItem = CCMenuItemImage::create(
+    //                                                       "share.png",
+    //                                                       "share.png",
+    //                                                       this,
+    //                                                       menu_selector(HelloWorld::menuShareCallback));
+    // pShareItem->setPosition(ccp(100,80));
     // CCAction* action = CCMoveTo::create(3.0f, ccp(300, 50));
     // pShareItem->runAction(action);
 
-        // 授权按钮
-    CCMenuItemImage *pAuthItem = CCMenuItemImage::create(
-                                                          "login.png",
-                                                          "login.png",
-                                                          this,
-                                                          menu_selector(HelloWorld::doAuthorize));
-    pAuthItem->setPosition(ccp(100,200));
+//        // 授权按钮
+//    CCMenuItemImage *pAuthItem = CCMenuItemImage::create(
+//                                                          "login.png",
+//                                                          "login.png",
+//                                                          this,
+//                                                          menu_selector(HelloWorld::doAuthorize));
+//    pAuthItem->setPosition(ccp(100,250));
 
     // 关闭按钮
     CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
@@ -81,12 +91,16 @@ bool HelloWorld::init()
     
 	pCloseItem->setPosition(ccp(origin.x + visibleSize.width - pCloseItem->getContentSize().width/2 ,
                                 origin.y + pCloseItem->getContentSize().height/2));
+    
+    UMShareButton *shareButton = UMShareButton::create("share.png","CloseSelected.png",this) ;
+    shareButton->setPosition(ccp(150, 180));
 
     // create menu, it's an autorelease object
     CCMenu* pMenu = CCMenu::create();
-    pMenu->addChild(pShareItem , 1);
+    // pMenu->addChild(pShareItem , 1);
     pMenu->addChild(pCloseItem , 1);
-    pMenu->addChild(pAuthItem, 1);
+    pMenu->addChild(shareButton, 1) ;
+//    pMenu->addChild(pAuthItem, 1);
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu, 1);
 
@@ -96,7 +110,7 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
     
-    CCLabelTTF* pLabel = CCLabelTTF::create("COCOS2D-X HACKATHON", "Arial", 34);
+    CCLabelTTF* pLabel = CCLabelTTF::create("COCOS2D-X HACKATHON  -- Umeng.com ", "Arial", 34);
     
     // position the label on the center of the screen
     pLabel->setPosition(ccp(origin.x + visibleSize.width/2,
@@ -115,23 +129,6 @@ bool HelloWorld::init()
     this->addChild(pSprite, 0);
     
     return true;
-}
-
-void HelloWorld::openUmengShare()
-{
-
-    JniMethodInfo methodInfo ;
-
-    //getStaticMethodInfo 次函数返回一个bool值表示是否找到此函数 
-    bool isHave = JniHelper::getStaticMethodInfo(methodInfo,"com/umeng/game/UmengGame","openShare", "()V");  
-  
-    if (!isHave) { 
-        CCLog("jni:此函数不存在"); 
-    }else{ 
-        CCLog("jni:此函数存在"); 
-        //调用此函数 
-        methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID); 
-    } 
 }
 
 /*
@@ -156,16 +153,18 @@ void shareCallback(int platform, int stCode)
 void HelloWorld::menuShareCallback(CCObject* pSender)
 {
     CCUMSocialSDK *sdk = CCUMSocialSDK::create();
-    static int shareCount = 1 ;
-    int num = shareCount % 3 ;
-    if ( num == 1 ) {
+//    static int shareCount = 1 ;
+//    int num = shareCount % 3 ;
+    sdk->setAppKey("4eaee02c527015373b000003");
+//    if ( num == 1 ) {
         // 打开分享面板, 注册分享回调
         sdk->openShare("COCOS2D-X HACKATHON -->  openShare","/sdcard/image.png", share_selector(shareCallback));
-    } else {
-        sdk->directShare(SINA, "COCOS2D-X HACKATHON  -->  directShare","/sdcard/image.png",share_selector(shareCallback));
-    }
+//    }
+//    else {
+//        sdk->directShare(SINA, "COCOS2D-X HACKATHON  -->  directShare","/sdcard/image.png",share_selector(shareCallback));
+//    }
 
-    ++shareCount;
+//    ++shareCount;
 }
 
 // 授权

@@ -28,6 +28,8 @@ private:
 public:
     
     static CCUMSocialSDK* create() ;
+
+    void setAppKey(const char* appkey);
     
     /*
      * 对某平台进行授权

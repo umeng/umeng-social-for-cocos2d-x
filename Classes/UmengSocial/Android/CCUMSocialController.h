@@ -70,28 +70,12 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareComplet
 *
 */
 bool getMethod(JniMethodInfo &mi, const char *methodName, const char *paramCode);
-    
-/*
-*
-*/
-void releaseMethod(JniMethodInfo &mi);
 
 /*
-* 设置要分享的文字内容
-*
-*/
-void setShareTextContent(const char* text);
-/*
-*设置要分享的图片的本地路径
-*
-*/
-void setShareImageFilePath(const char* path);
-/*
-* 设置要分享的图片的url
-*
-*/
-void setShareImagesUrl(const char* url);
-    
+ * 设置友盟app key
+ */
+void setUmengAppkey(const char* appkey);
+        
 /*
 * 对某平台进行授权
 *
@@ -120,6 +104,28 @@ void doOpenShare(bool registerListener, ShareEventHandler callback);
 *
 */
 void doDirectShare(int platform, ShareEventHandler callback);
+
+/*
+*
+*/
+void releaseMethod(JniMethodInfo &mi);
+
+/*
+* 设置要分享的文字内容
+*
+*/
+void setShareTextContent(const char* text);
+/*
+*设置要分享的图片的本地路径
+*
+*/
+void setShareImageFilePath(const char* path);
+/*
+* 设置要分享的图片的url
+*
+*/
+void setShareImagesUrl(const char* url);
+
     
     
 // /*

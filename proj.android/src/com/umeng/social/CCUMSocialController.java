@@ -33,8 +33,6 @@ import com.umeng.socialize.exception.SocializeException;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.sensor.UMSensor.OnSensorListener;
 import com.umeng.socialize.sensor.UMSensor.WhitchButton;
-import com.umeng.socialize.sensor.controller.UMShakeService;
-import com.umeng.socialize.sensor.controller.impl.UMShakeServiceFactory;
 
 /**
  * 
@@ -47,7 +45,7 @@ public class CCUMSocialController {
 	 * 
 	 */
 	private static UMSocialService mController;
-	private static UMShakeService mShakeController;
+//	private static UMShakeService mShakeController;
 	private static Cocos2dxActivity mActivity;
 	private static final String TAG = CCUMSocialController.class
 			.getSimpleName();
@@ -252,7 +250,9 @@ public class CCUMSocialController {
 	 */
 	public static void setUmengAppkey(String appkey) {
 		Log.d(TAG, "#### 设置umeng appkey :" + appkey);
-		SocializeConstants.APPKEY = appkey;
+		if (!TextUtils.isEmpty(appkey)) {
+			SocializeConstants.APPKEY = appkey;
+		}
 	}
 
 	/**
@@ -281,9 +281,9 @@ public class CCUMSocialController {
 	 * @param url
 	 */
 	public static void setShareImageUrl(String url) {
-		Log.d(TAG, "#### 设置图片url :" + url);
+		Log.d(TAG, "#### (暂不可用)设置图片url :" + url);
 		if (!TextUtils.isEmpty(url)) {
-			mController.setShareMedia(new UMImage(mActivity, url));
+			// mController.setShareMedia(new UMImage(mActivity, url));
 		}
 	}
 
@@ -544,40 +544,40 @@ public class CCUMSocialController {
 	private native static void OnShareComplete(int platform, int eCode,
 			String descriptor);
 
-	/*******************************************************************************************
-	 * 摇一摇截屏分享功能
-	 ******************************************************************************************/
-	/**
-	 * 注册摇一摇截屏分享功能
-	 * 
-	 * @param speed
-	 * @param sound
-	 * @param platfroms
-	 */
-	public static void registerShakeSensor(int speed, boolean sound,
-			String[] platfroms) {
-
-		if (mShakeController == null) {
-			mShakeController = UMShakeServiceFactory
-					.getShakeService(DESCRIPTOR);
-		}
-		List<SHARE_MEDIA> platformsList = new ArrayList<SHARE_MEDIA>();
-
-		if (platfroms != null && platfroms.length > 0) {
-			for (String share_MEDIA : platfroms) {
-				SHARE_MEDIA target = SHARE_MEDIA.convertToEmun(share_MEDIA);
-				if (target != null && target != SHARE_MEDIA.GENERIC) {
-					platformsList.add(target);
-				}
-			}
-		} else {
-			// 默认添加两个平台
-			platformsList.add(SHARE_MEDIA.SINA);
-			platformsList.add(SHARE_MEDIA.QZONE);
-		}
-		mShakeController.registerShakeListender(mActivity, mCocos2dxAdapter,
-				2000, true, platformsList, mShakeListener);
-	}
+//	/*******************************************************************************************
+//	 * 摇一摇截屏分享功能
+//	 ******************************************************************************************/
+//	/**
+//	 * 注册摇一摇截屏分享功能
+//	 * 
+//	 * @param speed
+//	 * @param sound
+//	 * @param platfroms
+//	 */
+//	public static void registerShakeSensor(int speed, boolean sound,
+//			String[] platfroms) {
+//
+//		if (mShakeController == null) {
+//			mShakeController = UMShakeServiceFactory
+//					.getShakeService(DESCRIPTOR);
+//		}
+//		List<SHARE_MEDIA> platformsList = new ArrayList<SHARE_MEDIA>();
+//
+//		if (platfroms != null && platfroms.length > 0) {
+//			for (String share_MEDIA : platfroms) {
+//				SHARE_MEDIA target = SHARE_MEDIA.convertToEmun(share_MEDIA);
+//				if (target != null && target != SHARE_MEDIA.GENERIC) {
+//					platformsList.add(target);
+//				}
+//			}
+//		} else {
+//			// 默认添加两个平台
+//			platformsList.add(SHARE_MEDIA.SINA);
+//			platformsList.add(SHARE_MEDIA.QZONE);
+//		}
+//		mShakeController.registerShakeListender(mActivity, mCocos2dxAdapter,
+//				2000, true, platformsList, mShakeListener);
+//	}
 
 	/**
 	 * COCOS2D-X自定义的截屏适配器
@@ -625,13 +625,13 @@ public class CCUMSocialController {
 		}
 	};
 
-	/**
-	 * 注册摇一摇截屏分享功能
-	 */
-	public static void unregisterShakeSensor() {
-		checkActivity();
-		mShakeController.unregisterShakeListener(mActivity);
-	}
+//	/**
+//	 * 注册摇一摇截屏分享功能
+//	 */
+//	public static void unregisterShakeSensor() {
+//		checkActivity();
+//		mShakeController.unregisterShakeListener(mActivity);
+//	}
 
 	/**
 	 * 获取cocos2d-x游戏截屏的图片保存路径

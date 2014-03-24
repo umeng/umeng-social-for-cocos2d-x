@@ -7,10 +7,11 @@
  */
 
 #include "CCUMSocialSDK.h"
+#include <vector>
  
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-// #include "CCUMSocialControllerIOS.h"
+#include "UmSocialControllerIOS.h"
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
@@ -19,6 +20,7 @@
 #endif
 
 USING_NS_CC;
+using namespace std;
 
 CCUMSocialSDK* CCUMSocialSDK::_instance = NULL;
 
@@ -42,6 +44,23 @@ CCUMSocialSDK* CCUMSocialSDK::create()
     return _instance;
 }
 
+/*
+ * 设置友盟app key
+ *
+ */
+void CCUMSocialSDK::setAppKey(const char* appkey)
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    // 授权某平台
+    setUmengAppkey(appkey);
+    
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    
+    UmSocialControllerIOS::setAppKey(appkey);
+    
+#endif
+}
+
 /**
  * 对某平台进行授权
  * *@param 	platform 目标平台
@@ -54,7 +73,7 @@ void CCUMSocialSDK::authorize(int platform, AuthEventHandler callback)
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
-    //TODO: iOS
+    UmSocialControllerIOS::authorize(platform, callback);
     
 #endif
 }
@@ -71,7 +90,7 @@ void CCUMSocialSDK::deleteAuthorization(int platform, AuthEventHandler callback)
     deletePlatformAuthorization(platform, callback);
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    
+    UmSocialControllerIOS::deleteAuthorization(platform, callback) ;
     //TODO: iOS
     
 #endif
@@ -88,82 +107,12 @@ bool CCUMSocialSDK::isAuthorized(int platform)
     return isPlatformAuthorized(platform);
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    
-    //TODO: iOS
+    return UmSocialControllerIOS::isAuthorized(platform) ;
     
 #endif
 }
 
 
-
-// /**
-//  *设置要分享的图片的本地路径
-//  *	@param 	text 要设置的分享文字内容
-//  */
-// void CCUMSocialSDK::setShareContent(const char* text)
-// {
-// #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-
-//     setShareTextContent(text);
-    
-// #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    
-//     //TODO: iOS
-    
-// #endif
-// }
-
-
-// /**
-//  *设置要分享的图片的本地路径
-//  *	@param 	path 要设置的图片的本地路径
-//  */
-// void CCUMSocialSDK::setShareImagePath(const char* path)
-// {
-// #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    
-//     setShareImageFilePath(path);
-    
-// #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    
-//     //TODO: iOS
-    
-// #endif
-// }
-
-// /**
-//  * 设置要分享的图片的url
-//  *  @param 	url 要设置的图片的url
-//  */
-// void CCUMSocialSDK::setShareImageUrl(const char* url)
-// {
-// #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    
-//     setShareImagesUrl(url);
-    
-// #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    
-//     //TODO: iOS
-    
-// #endif
-    
-// }
-
-
-// /**
-//  * 打开分享面板, 不注册分享回调
-//  */
-// void CCUMSocialSDK::openShare()
-// {
-//     #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-//     // 打开分享面板
-//     doOpenShare(false, NULL);
-// #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    
-//     //TODO: iOS
-    
-// #endif
-// }
 
 /**
  * 打开分享面板, 并且注册分享回调
@@ -178,9 +127,13 @@ void CCUMSocialSDK::openShare(const char* text, const char* imgName, ShareEventH
     setShareTextContent(text);
     setShareImageFilePath(imgName);
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    
-    //TODO: iOS
-    
+    vector<int> platforms ;
+    platforms.push_back(SINA);
+    platforms.push_back(QZONE);
+    platforms.push_back(RENREN);
+    platforms.push_back(DOUBAN);
+    platforms.push_back(FACEBOOK);
+    UmSocialControllerIOS::openShareWithImagePath(&platforms, text, imgName, callback);
 #endif
 }
 
@@ -196,79 +149,9 @@ void CCUMSocialSDK::directShare(int platform,const char* text, const char* imgNa
     setShareTextContent(text);
     setShareImageFilePath(imgName);
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    
+    UmSocialControllerIOS::directShare(text, imgName, platform, callback) ;
     //TODO: iOS
     
 #endif
 }
 
-// /**
-//  * 添加平台支持
-//  *@param 	platform 要添加的平台
-//  *@param 	appkey   相关平台的app key
-//  *@param 	targetUrl 用户点击某个分享时跳转到的目标页面
-//  */
-// void CCUMSocialSDK::supportPlatform(int platform, const char* appkey, const char* targetUrl)
-// {
-// #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    
-//     doSupportPlatform(platform, appkey, targetUrl);
-    
-// #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    
-//     //TODO: iOS
-
-    
-// #endif
-// }
-
-// /**
-//  * 设置平台顺序呢
-//  * @param 	platformOrders 平台显示在分享面板上的顺序
-//  */
-// void CCUMSocialSDK::setPlatformsOrder(int platformOrders[])
-// {
-// #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    
-// //    setPlatformsOrder(platformOrders);
-    
-// #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    
-//     //TODO: iOS
-    
-// #endif
-// }
-
-
-// /**
-//  * 移除某些平台
-//  *@param 	platforms 要移除的平台
-//  */
-// void CCUMSocialSDK::removePlatforms(int platforms[])
-// {
-// #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-
-// //    removePlatforms(platforms);
-    
-// #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    
-//     //TODO: iOS
-    
-// #endif
-// }
-
-// /**
-//  * 清空sdk
-//  */
-// void CCUMSocialSDK::cleanup()
-// {
-// #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    
-//     cleanupSDK();
-    
-// #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    
-//     //TODO: iOS
-    
-// #endif
-// }

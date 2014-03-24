@@ -111,6 +111,22 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareComplet
 
 
 /*
+ * 设置友盟app key
+ */
+void setUmengAppkey(const char* appkey)
+{
+    JniMethodInfo mi;
+    bool isHave = getMethod(mi, "setUmengAppkey", "(Ljava/lang/String;)V");
+    if ( isHave )
+    {
+        jstring umkey = mi.env->NewStringUTF(appkey);
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, umkey);
+        mi.env->DeleteLocalRef(umkey);
+        releaseMethod(mi);
+    }
+
+}
+/*
  * 对某平台进行授权
  *
  */

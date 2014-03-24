@@ -207,6 +207,8 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/HelloWorldScene.o: \
  jni/../../Classes/UmengSocial/CCUMTypeDef.h \
  jni/../../Classes/UmengSocial/CCUMSocialSDK.h \
  jni/../../Classes/UmengSocial/CCUMTypeDef.h \
+ jni/../../Classes/UmengSocial/UMShareButton.h \
+ jni/../../Classes/UmengSocial/CCUMSocialSDK.h \
  jni/../../Classes/UmengSocial/Android/CCUMSocialController.h \
  /Users/mrsimple/dev/android-ndk-r8e/platforms/android-8/arch-arm/usr/include/jni.h \
  /Users/mrsimple/dev/cocos2d-x-2.2.1/projects/UmengGame/proj.android/../../../cocos2dx/platform/android/jni/JniHelper.h \
@@ -625,6 +627,10 @@ jni/../../Classes/UmengSocial/CCUMTypeDef.h:
 jni/../../Classes/UmengSocial/CCUMSocialSDK.h:
 
 jni/../../Classes/UmengSocial/CCUMTypeDef.h:
+
+jni/../../Classes/UmengSocial/UMShareButton.h:
+
+jni/../../Classes/UmengSocial/CCUMSocialSDK.h:
 
 jni/../../Classes/UmengSocial/Android/CCUMSocialController.h:
 
