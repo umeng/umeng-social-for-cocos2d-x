@@ -5,6 +5,7 @@
 #include "cocos2d.h"
 #include "UmengSocial/CCUMTypeDef.h"
 #include <string>
+#include <vector>
 
 /* Header for class com_umeng_social_CCUMSocialController */
 USING_NS_CC;
@@ -119,12 +120,12 @@ void setShareTextContent(const char* text);
 *设置要分享的图片的本地路径
 *
 */
-void setShareImageFilePath(const char* path);
+void setShareImageName(const char* pathOrUrl);
 /*
 * 设置要分享的图片的url
 *
 */
-void setShareImagesUrl(const char* url);
+// void setShareImagesUrl(const char* url);
 
     
     
@@ -134,11 +135,11 @@ void setShareImagesUrl(const char* url);
 // */
 // void doSupportPlatform(int platform, const char* appkey, const char* targetUrl);
     
-// /*
-// * 设置平台顺序呢
-// *
-// */
-// void setPlatformsOrder(int platformOrders[]);
+/*
+* 设置平台顺序呢
+*
+*/
+void setPlatformsOrder(vector<int>* platforms);
 // /*
 // * 移除某些平台
 // *
@@ -148,7 +149,8 @@ void setShareImagesUrl(const char* url);
 // * 清空sdk
 // */
 // void cleanupSDK();
-    
+
+jstring charToJstring(JNIEnv* env,const char* text) ;
 
     
 #ifdef __cplusplus

@@ -118,22 +118,27 @@ bool CCUMSocialSDK::isAuthorized(int platform)
  * 打开分享面板, 并且注册分享回调
  *@param 	callback 分享回调
  */
-void CCUMSocialSDK::openShare(const char* text, const char* imgName, ShareEventHandler callback)
+void CCUMSocialSDK::openShare(vector<int>* platforms, const char* text, const char* imgName, ShareEventHandler callback)
 {
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    
+    setPlatformsOrder(platforms);
+    // 设置分享内容
+    setShareTextContent(text);
+    // 设置图片内容
+    setShareImageName(imgName);
     // 打开分享面板
     doOpenShare(true, callback);
-    setShareTextContent(text);
-    setShareImageFilePath(imgName);
+
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    vector<int> platforms ;
-    platforms.push_back(SINA);
-    platforms.push_back(QZONE);
-    platforms.push_back(RENREN);
-    platforms.push_back(DOUBAN);
-    platforms.push_back(FACEBOOK);
-    UmSocialControllerIOS::openShareWithImagePath(&platforms, text, imgName, callback);
+//    vector<int> platforms ;
+//    platforms.push_back(SINA);
+//    platforms.push_back(QZONE);
+//    platforms.push_back(RENREN);
+//    platforms.push_back(DOUBAN);
+//    platforms.push_back(FACEBOOK);
+    UmSocialControllerIOS::openShareWithImagePath(platforms, text, imgName, callback);
 #endif
 }
 
@@ -147,7 +152,7 @@ void CCUMSocialSDK::directShare(int platform,const char* text, const char* imgNa
 
     doDirectShare(platform, callback);
     setShareTextContent(text);
-    setShareImageFilePath(imgName);
+    setShareImageName(imgName);
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     UmSocialControllerIOS::directShare(text, imgName, platform, callback) ;
     //TODO: iOS

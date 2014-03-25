@@ -58,7 +58,7 @@ public:
      * 打开分享面板
      *@param 	callback 注册回调
      */
-    void openShare(const char* text, const char* imgName, ShareEventHandler callback);
+    void openShare(vector<int>* platforms,const char* text, const char* imgName, ShareEventHandler callback);
     
     /*
      * 直接分享, 底层分享

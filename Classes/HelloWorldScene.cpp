@@ -4,6 +4,7 @@
 #include "UmengSocial/CCUMSocialSDK.h"
 #include "UmengSocial/UMShareButton.h"
 #include <iostream>
+#include <vector>
  
 // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 // #include "UmengSocial/Android/CCUMSocialController.h"
@@ -46,6 +47,26 @@ CCScene* HelloWorld::scene()
     return scene;
 }
 
+
+/*
+ *授权回调, 还需要传递一个State
+ */
+void authCallback(int platform, int stCode)
+{
+    CCLog("#### authCallback");
+}
+
+/*
+ * 分享回调
+ */
+void shareCallback(int platform, int stCode)
+{
+    CCLog("#### shareCallback");
+    CCLog("platform num is : %d.", platform);
+}
+
+
+
 // on "init" you need to initialize your instance
 bool HelloWorld::init()
 {
@@ -65,14 +86,14 @@ bool HelloWorld::init()
     
     
     // 分享按钮
-    // CCMenuItemImage *pShareItem = CCMenuItemImage::create(
-    //                                                       "share.png",
-    //                                                       "share.png",
-    //                                                       this,
-    //                                                       menu_selector(HelloWorld::menuShareCallback));
-    // pShareItem->setPosition(ccp(100,80));
-    // CCAction* action = CCMoveTo::create(3.0f, ccp(300, 50));
-    // pShareItem->runAction(action);
+     CCMenuItemImage *pShareItem = CCMenuItemImage::create(
+                                                           "share.png",
+                                                           "share.png",
+                                                           this,
+                                                           menu_selector(HelloWorld::menuShareCallback));
+     pShareItem->setPosition(ccp(100,80));
+     CCAction* action = CCMoveTo::create(3.0f, ccp(300, 50));
+     pShareItem->runAction(action);
 
 //        // 授权按钮
 //    CCMenuItemImage *pAuthItem = CCMenuItemImage::create(
@@ -93,11 +114,16 @@ bool HelloWorld::init()
                                 origin.y + pCloseItem->getContentSize().height/2));
     
     UMShareButton *shareButton = UMShareButton::create("share.png","CloseSelected.png",this) ;
+    shareButton->setUmengAppkey("507fcab25270157b37000010") ;
+    shareButton->setShareContent("umeng social cocos2d-x sdk.") ;
+    shareButton->setShareImage("/sdcard/header.jpeg") ;
+    // 设置回调
+    // shareButton->setShareCallback(share_selector(shareCallback)) ;
     shareButton->setPosition(ccp(150, 180));
 
     // create menu, it's an autorelease object
     CCMenu* pMenu = CCMenu::create();
-    // pMenu->addChild(pShareItem , 1);
+     pMenu->addChild(pShareItem , 1);
     pMenu->addChild(pCloseItem , 1);
     pMenu->addChild(shareButton, 1) ;
 //    pMenu->addChild(pAuthItem, 1);
@@ -131,40 +157,22 @@ bool HelloWorld::init()
     return true;
 }
 
-/*
- *授权回调, 还需要传递一个State
- */
-void authCallback(int platform, int stCode)
-{
-    CCLog("#### authCallback");
-}
-
-/*
- * 分享回调
- */
-void shareCallback(int platform, int stCode)
-{
-      CCLog("#### shareCallback");
-      CCLog("platform num is : %d.", platform);
-}
-
 
 // 直接分享
 void HelloWorld::menuShareCallback(CCObject* pSender)
 {
     CCUMSocialSDK *sdk = CCUMSocialSDK::create();
-//    static int shareCount = 1 ;
-//    int num = shareCount % 3 ;
     sdk->setAppKey("4eaee02c527015373b000003");
-//    if ( num == 1 ) {
-        // 打开分享面板, 注册分享回调
-        sdk->openShare("COCOS2D-X HACKATHON -->  openShare","/sdcard/image.png", share_selector(shareCallback));
-//    }
-//    else {
-//        sdk->directShare(SINA, "COCOS2D-X HACKATHON  -->  directShare","/sdcard/image.png",share_selector(shareCallback));
-//    }
+    vector<int>* platforms = new vector<int>();
+    platforms->push_back(SINA);
+    platforms->push_back(RENREN) ;
+    platforms->push_back(DOUBAN) ;
+    platforms->push_back(QZONE) ;
+    platforms->push_back(QQ) ;
+    CCLog("COCOS2D-X openshare");
+    // 打开分享面板, 注册分享回调
+    sdk->openShare(platforms, "COCOS2D-X HACKATHON -->  openShare","/sdcard/image.png", share_selector(shareCallback));
 
-//    ++shareCount;
 }
 
 // 授权

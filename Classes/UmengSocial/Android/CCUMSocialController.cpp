@@ -121,7 +121,7 @@ void setUmengAppkey(const char* appkey)
     {
         jstring umkey = mi.env->NewStringUTF(appkey);
         mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, umkey);
-        mi.env->DeleteLocalRef(umkey);
+        // mi.env->DeleteLocalRef(umkey);
         releaseMethod(mi);
     }
 
@@ -229,27 +229,41 @@ void doDirectShare(int platform, ShareEventHandler callback)
     
 }
 
-
-/*
- * 添加平台支持
- *
- */
-void doSupportPlatform(int platform, const char* appkey, const char* targetUrl)
+// char转jstring
+jstring charToJstring(JNIEnv* env, const char* text)
 {
-    JniMethodInfo mi;
-    bool isHave = getMethod(mi, "supportPlatform", "(ILjava/lang/String;Ljava/lang/String;)V");
-    if ( isHave )
-    {
-        // jstring target = mi.env->NewStringUTF(platform);
-        jstring appid = mi.env->NewStringUTF(appkey);
-        jstring url = mi.env->NewStringUTF(targetUrl);
-        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platform, appid, url);
-        // mi.env->DeleteLocalRef(target);
-        mi.env->DeleteLocalRef(appid);
-        mi.env->DeleteLocalRef(url);
-        releaseMethod(mi);
-    }
+
+    jsize   len   =   strlen(text);
+    jclass   clsstring   =   env->FindClass("java/lang/String");
+    jstring   strencode   =   env->NewStringUTF("GB2312");
+
+    jmethodID   mid  =  env->GetMethodID(clsstring,  "<init>",   "([BLjava/lang/String;)V");
+    jbyteArray   barr  =  env-> NewByteArray(len);
+
+    env-> SetByteArrayRegion(barr,0,len,(jbyte*)text);
+    return (jstring)env-> NewObject(clsstring,mid,barr,strencode);
 }
+
+// /*
+//  * 添加平台支持
+//  *
+//  */
+// void doSupportPlatform(int platform, const char* appkey, const char* targetUrl)
+// {
+//     JniMethodInfo mi;
+//     bool isHave = getMethod(mi, "supportPlatform", "(ILjava/lang/String;Ljava/lang/String;)V");
+//     if ( isHave )
+//     {
+//         // jstring target = mi.env->NewStringUTF(platform);
+//         jstring appid = mi.env->NewStringUTF(appkey);
+//         jstring url = mi.env->NewStringUTF(targetUrl);
+//         mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platform, appid, url);
+//         // mi.env->DeleteLocalRef(target);
+//         mi.env->DeleteLocalRef(appid);
+//         mi.env->DeleteLocalRef(url);
+//         releaseMethod(mi);
+//     }
+// }
 
 
 /*
@@ -263,10 +277,11 @@ void setShareTextContent(const char* text)
     if ( isHave )
     {
         jstring content = mi.env->NewStringUTF(text);
+        // jstring content = charToJstring(mi.env, text);
         mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, content);
-        mi.env->DeleteLocalRef(content);
         releaseMethod(mi);
     }
+    CCLog("#### setShareTextContent");
 }
 
 
@@ -274,88 +289,69 @@ void setShareTextContent(const char* text)
  *设置要分享的图片的本地路径
  *
  */
-void setShareImageFilePath(const char* path)
+void setShareImageName(const char* path)
 {
     JniMethodInfo mi;
-	bool isHave = getMethod(mi, "setShareImagePath", "(Ljava/lang/String;)V");
+	bool isHave = getMethod(mi, "setShareImageName", "(Ljava/lang/String;)V");
     if ( isHave )
     {
         jstring imgPath = mi.env->NewStringUTF(path);
         mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, imgPath);
-        mi.env->DeleteLocalRef(imgPath);
+        // mi.env->DeleteLocalRef(imgPath);
         releaseMethod(mi);
     }
+
+     CCLog("#### setShareImageName");
 }
 
 /*
  * 设置要分享的图片的url
  *
  */
-void setShareImagesUrl(const char* url)
-{
-    JniMethodInfo mi;
-	bool isHave = getMethod(mi, "setShareImageUrl", "(Ljava/lang/String;)V");
-    if ( isHave )
-    {
-        jstring imgUrl = mi.env->NewStringUTF(url);
-        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, imgUrl);
-        mi.env->DeleteLocalRef(imgUrl);
-        releaseMethod(mi);
-    }
-}
+// void setShareImagesUrl(const char* url)
+// {
+//     JniMethodInfo mi;
+// 	bool isHave = getMethod(mi, "setShareImageUrl", "(Ljava/lang/String;)V");
+//     if ( isHave )
+//     {
+//         jstring imgUrl = mi.env->NewStringUTF(url);
+//         mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, imgUrl);
+//         // mi.env->DeleteLocalRef(imgUrl);
+//         releaseMethod(mi);
+//     }
+// }
 
 
 /*
  * 设置平台顺序呢
  *
  */
-void setPlatformsOrder(int platformOrders[])
+void setPlatformsOrder(vector<int>* platforms)
 {
-    
-//    JniMethodInfo mi;
-//	bool isHave = getMethod(mi, "setPlatformsOrder", "([I)V");
-//    if ( platformOrders != NULL )
-//    {
-//        int size = platformOrders.length();
-//        for (int i=0; i<size; i++)
-//        {
-//            
-//        }
-//    }
-//    if ( isHave )
-//    {
-//        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID);
-//        releaseMethod(mi);
-//    }
-}
-/*
- * 移除某些平台
- *
- */
-void removePlatforms(int platforms[])
-{
-//    JniMethodInfo mi;
-//	bool isHave = getMethod(mi, "removePlatfroms", "([I)V");
-//    if ( isHave )
-//    {
-//        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID);
-//        releaseMethod(mi);
-//    }
+    if ( platforms == NULL ) {
+        return ;
+    }
+   JniMethodInfo mi;
+   bool isHave = getMethod(mi, "setPlatformOrder", "([I)V");
+
+   int* platformArr = platforms->data() ;
+   int length = platforms->size() ;
+   for (int i = 0; i < length; ++i)
+   {
+       CCLog("平台, %d.", platformArr[i]);
+   }
+
+    // 创建数组对象,且不能在函数末尾删除引用
+    jintArray iArr = mi.env->NewIntArray(length);
+    // 将nums数组中的内容设置到jintArray对象中,
+    mi.env->SetIntArrayRegion(iArr, 0, length, platformArr);
+   if ( isHave )
+   {
+       mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, iArr);
+       releaseMethod(mi);
+   }
 }
 
-/*
- * 清空sdk
- */
-void cleanupSDK()
-{
-    JniMethodInfo mi;
-	bool isHave = getMethod(mi, "cleanup", "()V");
-    if ( isHave )
-    {
-        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID);
-        releaseMethod(mi);
-    }
-}
 
 /*
  *

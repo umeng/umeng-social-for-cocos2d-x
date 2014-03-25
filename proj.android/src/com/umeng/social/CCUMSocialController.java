@@ -2,7 +2,6 @@ package com.umeng.social;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
@@ -17,7 +16,6 @@ import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.umeng.game.R;
 import com.umeng.scrshot.adapter.UMBaseAdapter;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeConfig;
@@ -25,7 +23,6 @@ import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.bean.StatusCode;
 import com.umeng.socialize.common.SocializeConstants;
 import com.umeng.socialize.controller.RequestType;
-import com.umeng.socialize.controller.UMFacebookHandler;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.controller.listener.SocializeListeners.SnsPostListener;
@@ -33,7 +30,6 @@ import com.umeng.socialize.controller.listener.SocializeListeners.SocializeClien
 import com.umeng.socialize.controller.listener.SocializeListeners.UMAuthListener;
 import com.umeng.socialize.db.OauthHelper;
 import com.umeng.socialize.exception.SocializeException;
-import com.umeng.socialize.media.FaceBookShareContent;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.sensor.UMSensor.OnSensorListener;
 import com.umeng.socialize.sensor.UMSensor.WhitchButton;
@@ -281,22 +277,11 @@ public class CCUMSocialController {
 	 * 
 	 * @param text
 	 */
-	public static void setShareImagePath(String path) {
+	public static void setShareImageName(String path) {
 		Log.d(TAG, "#### 设置图片路径 :" + path);
 		File imgFile = new File(path);
 		if (!TextUtils.isEmpty(path) && imgFile.exists()) {
 			mController.setShareMedia(new UMImage(mActivity, new File(path)));
-		}
-	}
-
-	/**
-	 * 
-	 * @param url
-	 */
-	public static void setShareImageUrl(String url) {
-		Log.d(TAG, "#### (暂不可用)设置图片url :" + url);
-		if (!TextUtils.isEmpty(url)) {
-			// mController.setShareMedia(new UMImage(mActivity, url));
 		}
 	}
 
@@ -337,7 +322,7 @@ public class CCUMSocialController {
 	}
 
 	/**
-	 * 设置平台顺序
+	 * 设置平台顺序, 没有的平台则添加, 内置的但是没有给出的则移除
 	 * 
 	 * @param platforms
 	 *            平台的顺序数组
@@ -349,8 +334,14 @@ public class CCUMSocialController {
 			List<SHARE_MEDIA> cacheList = new ArrayList<SHARE_MEDIA>();
 			// 迭代
 			for (int i = 0; i < length; i++) {
-				SHARE_MEDIA target = getPlatform(i);
+				int index = platforms[i];
+				SHARE_MEDIA target = getPlatform(index);
+				Log.d(TAG, "### 平台 " + target);
 				if (target != null && target != SHARE_MEDIA.GENERIC) {
+					// 如果没有添加到SDK则添加到里面, 支持的平台有QQ,微信,微信朋友圈
+					if (!isPlatformConfiged(target)) {
+						supportPlatfrom(index, "", "");
+					}
 					// 先将有效的平台缓存到列表中, 最后再转换为数组
 					cacheList.add(target);
 				}
@@ -359,8 +350,16 @@ public class CCUMSocialController {
 			mController.getConfig().setPlatformOrder(
 					cacheList.toArray(new SHARE_MEDIA[cacheList.size()]));
 		}
+	}
 
-		Log.d(TAG, "@@@@ setPlatformOrder");
+	/**
+	 * 平台是否配置在SDK了
+	 * 
+	 * @param target
+	 * @return
+	 */
+	private static boolean isPlatformConfiged(SHARE_MEDIA target) {
+		return mController.getConfig().getPlatforms().contains(target);
 	}
 
 	/**
