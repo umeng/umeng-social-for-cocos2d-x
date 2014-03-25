@@ -183,21 +183,21 @@ public class CCUMSocialController {
 		checkActivity();
 		// 在UI线程执行打开分享面板操作
 		mSDKHandler.postDelayed(new Runnable() {
-
 			@Override
 			public void run() {
 				Log.d(TAG, "#### open share in thread.");
 				// 打开分享面板
-				// mController.openShare(mActivity, false);
-				FaceBookShareContent faContent = new FaceBookShareContent(
-						"facebook hello" + new Date().toLocaleString());
-				faContent.setShareImage(new UMImage(mActivity,
-						R.drawable.shake_umeng_socialize_close));
-				mController.setShareMedia(faContent);
-				UMFacebookHandler fbHandler = new UMFacebookHandler(mActivity);
-				fbHandler.addToSocialSDK();
-				mController.directShare(mActivity, SHARE_MEDIA.FACEBOOK,
-						mSocialShareListener);
+				mController.openShare(mActivity, false);
+				// FaceBookShareContent faContent = new FaceBookShareContent(
+				// "facebook hello" + new Date().toLocaleString());
+				// faContent.setShareImage(new UMImage(mActivity,
+				// R.drawable.shake_umeng_socialize_close));
+				// mController.setShareMedia(faContent);
+				// UMFacebookHandler fbHandler = new
+				// UMFacebookHandler(mActivity);
+				// fbHandler.addToSocialSDK();
+				// mController.directShare(mActivity, SHARE_MEDIA.FACEBOOK,
+				// mSocialShareListener);
 			}
 		}, DELAY_MS);
 		Log.d(TAG, "@@@@ openShare");

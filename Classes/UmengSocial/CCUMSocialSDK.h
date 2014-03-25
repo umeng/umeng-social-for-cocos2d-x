@@ -10,6 +10,7 @@
  
 #include "cocos2d.h"
 #include "CCUMTypeDef.h"
+#include <vector>
 
 USING_NS_CC;
 using namespace std;
