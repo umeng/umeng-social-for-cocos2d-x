@@ -51,6 +51,9 @@ CCUMSocialSDK* CCUMSocialSDK::create()
 void CCUMSocialSDK::setAppKey(const char* appkey)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    if ( appkey == NULL ) {
+        CCLog("CCUMSocialSDK::setAppKey, key == null");
+    }
     // 授权某平台
     setUmengAppkey(appkey);
     
@@ -122,22 +125,16 @@ void CCUMSocialSDK::openShare(vector<int>* platforms, const char* text, const ch
 {
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    
-    setPlatformsOrder(platforms);
     // 设置分享内容
     setShareTextContent(text);
     // 设置图片内容
     setShareImageName(imgName);
+    // 设置平台
+    setPlatformsOrder(platforms);
     // 打开分享面板
     doOpenShare(true, callback);
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-//    vector<int> platforms ;
-//    platforms.push_back(SINA);
-//    platforms.push_back(QZONE);
-//    platforms.push_back(RENREN);
-//    platforms.push_back(DOUBAN);
-//    platforms.push_back(FACEBOOK);
     UmSocialControllerIOS::openShareWithImagePath(platforms, text, imgName, callback);
 #endif
 }

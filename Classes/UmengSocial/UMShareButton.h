@@ -21,11 +21,18 @@ class UMShareButton : public cocos2d::CCMenuItemImage
 {
 public:
     virtual  ~UMShareButton() ;
+
+    // 
+    UMShareButton(const char *normalImage, const char *selectedImage);
+
+
+    // /** creates a menu item with a normal and selected image*/
+    // static UMShareButton* create(const char *normalImage, const char *selectedImage, CCObject* target);
+
+    // * creates a menu item with a normal and selected image
+    // static UMShareButton* create(const char *normalImage, const char *selectedImage, const char* disableImage, CCObject* target);
     
-    /** creates a menu item with a normal and selected image*/
-    static UMShareButton* create(const char *normalImage, const char *selectedImage, CCObject* target);
-    
-    // 设置友盟app key
+    // // 设置友盟app key
     void setUmengAppkey(const char* appkey);
     // 设置文本内容
     void setShareContent(const char* text);
@@ -33,16 +40,20 @@ public:
     void setShareImage(const char* imgName);
     // 设置分享回调
     void setShareCallback(ShareEventHandler callback);
+    // 
+    void setPlatforms(vector<int>* platforms);
 
 private:
     UMShareButton();
     void shareCallback(CCNode* pSender);
+    char* copyChars(const char* source);
+private:
     vector<int>* mPlatforms;
-    const char* mShareText;
-    const char*  mImageName;
-    const char*  mAppKey;
+    char* mShareText;
+    char*  mImageName;
+    char* mAppKey;
+    CCUMSocialSDK* mSocialSDK;
     ShareEventHandler mCallback ;
-    CCUMSocialSDK *socialSDK ;
 };
 
 #endif /* defined(__crossdemo__UMShareButton__) */

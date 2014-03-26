@@ -229,20 +229,20 @@ void doDirectShare(int platform, ShareEventHandler callback)
     
 }
 
-// char转jstring
-jstring charToJstring(JNIEnv* env, const char* text)
-{
+// // char转jstring
+// jstring charToJstring(JNIEnv* env, const char* text)
+// {
 
-    jsize   len   =   strlen(text);
-    jclass   clsstring   =   env->FindClass("java/lang/String");
-    jstring   strencode   =   env->NewStringUTF("GB2312");
+//     jsize   len   =   strlen(text);
+//     jclass   clsstring   =   env->FindClass("java/lang/String");
+//     jstring   strencode   =   env->NewStringUTF("GB2312");
 
-    jmethodID   mid  =  env->GetMethodID(clsstring,  "<init>",   "([BLjava/lang/String;)V");
-    jbyteArray   barr  =  env-> NewByteArray(len);
+//     jmethodID   mid  =  env->GetMethodID(clsstring,  "<init>",   "([BLjava/lang/String;)V");
+//     jbyteArray   barr  =  env-> NewByteArray(len);
 
-    env-> SetByteArrayRegion(barr,0,len,(jbyte*)text);
-    return (jstring)env-> NewObject(clsstring,mid,barr,strencode);
-}
+//     env-> SetByteArrayRegion(barr,0,len,(jbyte*)text);
+//     return (jstring)env-> NewObject(clsstring,mid,barr,strencode);
+// }
 
 // /*
 //  * 添加平台支持
@@ -291,6 +291,7 @@ void setShareTextContent(const char* text)
  */
 void setShareImageName(const char* path)
 {
+
     JniMethodInfo mi;
 	bool isHave = getMethod(mi, "setShareImageName", "(Ljava/lang/String;)V");
     if ( isHave )
@@ -300,27 +301,8 @@ void setShareImageName(const char* path)
         // mi.env->DeleteLocalRef(imgPath);
         releaseMethod(mi);
     }
-
-     CCLog("#### setShareImageName");
+    CCLog("#### setShareImageName");
 }
-
-/*
- * 设置要分享的图片的url
- *
- */
-// void setShareImagesUrl(const char* url)
-// {
-//     JniMethodInfo mi;
-// 	bool isHave = getMethod(mi, "setShareImageUrl", "(Ljava/lang/String;)V");
-//     if ( isHave )
-//     {
-//         jstring imgUrl = mi.env->NewStringUTF(url);
-//         mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, imgUrl);
-//         // mi.env->DeleteLocalRef(imgUrl);
-//         releaseMethod(mi);
-//     }
-// }
-
 
 /*
  * 设置平台顺序呢
@@ -336,10 +318,6 @@ void setPlatformsOrder(vector<int>* platforms)
 
    int* platformArr = platforms->data() ;
    int length = platforms->size() ;
-   for (int i = 0; i < length; ++i)
-   {
-       CCLog("平台, %d.", platformArr[i]);
-   }
 
     // 创建数组对象,且不能在函数末尾删除引用
     jintArray iArr = mi.env->NewIntArray(length);

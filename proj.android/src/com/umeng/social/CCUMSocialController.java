@@ -184,16 +184,6 @@ public class CCUMSocialController {
 				Log.d(TAG, "#### open share in thread.");
 				// 打开分享面板
 				mController.openShare(mActivity, false);
-				// FaceBookShareContent faContent = new FaceBookShareContent(
-				// "facebook hello" + new Date().toLocaleString());
-				// faContent.setShareImage(new UMImage(mActivity,
-				// R.drawable.shake_umeng_socialize_close));
-				// mController.setShareMedia(faContent);
-				// UMFacebookHandler fbHandler = new
-				// UMFacebookHandler(mActivity);
-				// fbHandler.addToSocialSDK();
-				// mController.directShare(mActivity, SHARE_MEDIA.FACEBOOK,
-				// mSocialShareListener);
 			}
 		}, DELAY_MS);
 		Log.d(TAG, "@@@@ openShare");
@@ -279,8 +269,11 @@ public class CCUMSocialController {
 	 */
 	public static void setShareImageName(String path) {
 		Log.d(TAG, "#### 设置图片路径 :" + path);
+		if (TextUtils.isEmpty(path)) {
+			return;
+		}
 		File imgFile = new File(path);
-		if (!TextUtils.isEmpty(path) && imgFile.exists()) {
+		if (imgFile.exists()) {
 			mController.setShareMedia(new UMImage(mActivity, new File(path)));
 		}
 	}
@@ -322,7 +315,7 @@ public class CCUMSocialController {
 	}
 
 	/**
-	 * 设置平台顺序, 没有的平台则添加, 内置的但是没有给出的则移除
+	 * 设置平台顺序, 没有的平台则添加, 内置的但是没有给出的则移除.
 	 * 
 	 * @param platforms
 	 *            平台的顺序数组
@@ -349,6 +342,16 @@ public class CCUMSocialController {
 			// 设置顺序, 可变参数列表兼容数组类型.
 			mController.getConfig().setPlatformOrder(
 					cacheList.toArray(new SHARE_MEDIA[cacheList.size()]));
+
+			// 移除平台
+			List<SHARE_MEDIA> tempList = new ArrayList<SHARE_MEDIA>(mController
+					.getConfig().getPlatforms());
+			tempList.removeAll(cacheList);
+			SHARE_MEDIA[] removes = tempList.toArray(new SHARE_MEDIA[tempList.size()]);
+			for (SHARE_MEDIA share_MEDIA : removes) {
+				Log.d(TAG, "### remove " + share_MEDIA) ;
+			}
+			mController.getConfig().removePlatform(SHARE_MEDIA.SINA);
 		}
 	}
 

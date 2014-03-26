@@ -92,7 +92,7 @@ bool HelloWorld::init()
                                                            this,
                                                            menu_selector(HelloWorld::menuShareCallback));
      pShareItem->setPosition(ccp(100,80));
-     CCAction* action = CCMoveTo::create(3.0f, ccp(300, 50));
+     CCAction* action = CCMoveTo::create(2.0f, ccp(300, 50));
      pShareItem->runAction(action);
 
 //        // 授权按钮
@@ -113,7 +113,10 @@ bool HelloWorld::init()
 	pCloseItem->setPosition(ccp(origin.x + visibleSize.width - pCloseItem->getContentSize().width/2 ,
                                 origin.y + pCloseItem->getContentSize().height/2));
     
-    UMShareButton *shareButton = UMShareButton::create("share.png","CloseSelected.png",this) ;
+
+    // share button.
+    UMShareButton *shareButton = new UMShareButton("share.png","CloseSelected.png") ;
+
     shareButton->setUmengAppkey("507fcab25270157b37000010") ;
     shareButton->setShareContent("umeng social cocos2d-x sdk.") ;
     shareButton->setShareImage("/sdcard/header.jpeg") ;
@@ -121,9 +124,10 @@ bool HelloWorld::init()
     // shareButton->setShareCallback(share_selector(shareCallback)) ;
     shareButton->setPosition(ccp(150, 180));
 
+
     // create menu, it's an autorelease object
     CCMenu* pMenu = CCMenu::create();
-     pMenu->addChild(pShareItem , 1);
+    pMenu->addChild(pShareItem , 1);
     pMenu->addChild(pCloseItem , 1);
     pMenu->addChild(shareButton, 1) ;
 //    pMenu->addChild(pAuthItem, 1);
