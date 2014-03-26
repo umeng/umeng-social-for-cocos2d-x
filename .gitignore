@@ -1,1 +1,14 @@
+*.a
+*.lib
+*.class
 .DS_Store
+proj.blackberry/
+proj.mac/*
+proj.win32/*
+proj.wp8/
+proj.winrt/
+proj.linux/
+proj.marmalade/
+proj.android/obj/*
+proj.android/gen/*
+proj.android/bin/*

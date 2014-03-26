@@ -5,7 +5,11 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
+<<<<<<< HEAD
 	<string>F9BA60BF-1BE9-49EB-A60E-A190DDA57442</string>
+=======
+	<string>E54F9070-52AB-49FB-B0AF-DA64150FFBEC</string>
+>>>>>>> facebook-test
 	<key>IDESourceControlProjectName</key>
 	<string>UmengGame</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>

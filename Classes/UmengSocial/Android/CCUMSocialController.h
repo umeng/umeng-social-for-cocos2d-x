@@ -5,6 +5,7 @@
 #include "cocos2d.h"
 #include "UmengSocial/CCUMTypeDef.h"
 #include <string>
+#include <vector>
 
 /* Header for class com_umeng_social_CCUMSocialController */
 USING_NS_CC;
@@ -18,34 +19,19 @@ extern "C" {
 /*
  * Class:     com_umeng_social_CCUMSocialController
  * Method:    OnAuthorizeStart
- * Signature: (Ljava/lang/String;)V
+ * Signature: (I)V
  */
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeStart
-  (JNIEnv *, jclass, jstring);
+  (JNIEnv *, jclass, jint);
 
-/*
- * Class:     com_umeng_social_CCUMSocialController
- * Method:    OnAuthorizeError
- * Signature: (Ljava/lang/String;Ljava/lang/String;)V
- */
-JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeError
-  (JNIEnv *, jclass, jstring, jstring);
-
-/*
- * Class:     com_umeng_social_CCUMSocialController
- * Method:    OnAuthorizeCancel
- * Signature: (Ljava/lang/String;)V
- */
-JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeCancel
-  (JNIEnv *, jclass, jstring);
 
 /*
  * Class:     com_umeng_social_CCUMSocialController
  * Method:    OnAuthorizeComplete
- * Signature: ([Ljava/lang/String;Ljava/lang/String;)V
+ * Signature: ([Ljava/lang/String;I)V
  */
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeComplete
-  (JNIEnv *, jclass, jobjectArray, jstring);
+  (JNIEnv *, jclass, jint, jint, jobjectArray);
 
 /*
  * Class:     com_umeng_social_CCUMSocialController
@@ -58,26 +44,26 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareStart
 /*
  * Class:     com_umeng_social_CCUMSocialController
  * Method:    OnShareComplete
- * Signature: (Ljava/lang/String;ILjava/lang/String;)V
+ * Signature: (IILjava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareComplete
-  (JNIEnv *, jclass, jstring, jint, jstring);
+  (JNIEnv *, jclass, jint, jint, jstring);
 
-/*
- * Class:     com_umeng_social_CCUMSocialController
- * Method:    getCocos2dxScrShot
- * Signature: ()Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_com_umeng_social_CCUMSocialController_getCocos2dxScrShot
-  (JNIEnv *, jclass);
+// /*
+//  * Class:     com_umeng_social_CCUMSocialController
+//  * Method:    getCocos2dxScrShot
+//  * Signature: ()Ljava/lang/String;
+//  */
+// JNIEXPORT jstring JNICALL Java_com_umeng_social_CCUMSocialController_getCocos2dxScrShot
+//   (JNIEnv *, jclass);
 
-/*
- * Class:     com_umeng_social_CCUMSocialController
- * Method:    onShakeComplete
- * Signature: ()V
- */
-JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_onShakeComplete
-  (JNIEnv *, jclass);
+// /*
+//  * Class:     com_umeng_social_CCUMSocialController
+//  * Method:    onShakeComplete
+//  * Signature: ()V
+//  */
+// JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_onShakeComplete
+//   (JNIEnv *, jclass);
     
 
 
@@ -85,7 +71,41 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_onShakeComplet
 *
 */
 bool getMethod(JniMethodInfo &mi, const char *methodName, const char *paramCode);
+
+/*
+ * 设置友盟app key
+ */
+void setUmengAppkey(const char* appkey);
+        
+/*
+* 对某平台进行授权
+*
+*/
+void doAuthorize(int platform, AuthEventHandler callback);
+/*
+* 删除某平台的授权信息
+*
+*/
+void deletePlatformAuthorization(int platform, AuthEventHandler callback);
     
+/*
+* 判断某平台是否已经授权
+*
+*/
+bool isPlatformAuthorized(int platform);
+    
+/*
+* 打开分享面板
+*
+*/
+void doOpenShare(bool registerListener, ShareEventHandler callback);
+    
+/*
+* 底层分享
+*
+*/
+void doDirectShare(int platform, ShareEventHandler callback);
+
 /*
 *
 */
@@ -100,64 +120,37 @@ void setShareTextContent(const char* text);
 *设置要分享的图片的本地路径
 *
 */
-void setShareImageFilePath(const char* path);
+void setShareImageName(const char* pathOrUrl);
 /*
 * 设置要分享的图片的url
 *
 */
-void setShareImagesUrl(const char* url);
-    
-/*
-* 对某平台进行授权
-*
-*/
-void doAuthorize(const char* platform, AuthEventHandler callback);
-/*
-* 删除某平台的授权信息
-*
-*/
-void deletePlatformAuthorization(const char* platform, AuthEventHandler callback);
-    
-/*
-* 判断某平台是否已经授权
-*
-*/
-bool isPlatformAuthorized(const char* platform);
-    
-/*
-* 打开分享面板
-*
-*/
-void doOpenShare(bool registerListener, ShareEventHandler callback);
-    
-/*
-* 底层分享
-*
-*/
-void doDirectShare(const char* platform, ShareEventHandler callback);
+// void setShareImagesUrl(const char* url);
+
     
     
-/*
-* 添加平台支持
-*
-*/
-void doSupportPlatform(const char* platform, const char* appkey, const char* targetUrl);
+// /*
+// * 添加平台支持
+// *
+// */
+// void doSupportPlatform(int platform, const char* appkey, const char* targetUrl);
     
 /*
 * 设置平台顺序呢
 *
 */
-void setPlatformsOrder(string platformOrders[]);
-/*
-* 移除某些平台
-*
-*/
-void removePlatforms(string platforms[]);
-/*
-* 清空sdk
-*/
-void cleanupSDK();
-    
+void setSocialPlatforms(vector<int>* platforms);
+// /*
+// * 移除某些平台
+// *
+// */
+// void removePlatforms(int platforms[]);
+// /*
+// * 清空sdk
+// */
+// void cleanupSDK();
+
+jstring charToJstring(JNIEnv* env,const char* text) ;
 
     
 #ifdef __cplusplus
