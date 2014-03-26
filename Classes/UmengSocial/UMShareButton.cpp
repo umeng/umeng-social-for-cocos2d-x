@@ -64,7 +64,7 @@ void UMShareButton::setUmengAppkey(const char* appkey)
 
      this->mAppKey = copyChars(appkey);
 
-    CCLog("设置app key : %s .", this->mAppKey);
+    // CCLog("设置app key : %s .", this->mAppKey);
 }
 
 
@@ -159,7 +159,7 @@ void UMShareButton::shareCallback(CCNode* pSender)
         mPlatforms->push_back(QZONE) ;
         mPlatforms->push_back(RENREN) ;
         mPlatforms->push_back(DOUBAN) ;
-        mPlatforms->push_back(SMS);
+        mPlatforms->push_back(TENCENT_WEIBO);
     }
     if ( mSocialSDK != NULL) {
         mSocialSDK->setAppKey(this->mAppKey);

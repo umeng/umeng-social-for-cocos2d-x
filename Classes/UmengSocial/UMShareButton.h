@@ -50,7 +50,7 @@ private:
 private:
     vector<int>* mPlatforms;
     char* mShareText;
-    char*  mImageName;
+    char* mImageName;
     char* mAppKey;
     CCUMSocialSDK* mSocialSDK;
     ShareEventHandler mCallback ;

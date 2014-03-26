@@ -139,7 +139,7 @@ void setShareImageName(const char* pathOrUrl);
 * 设置平台顺序呢
 *
 */
-void setPlatformsOrder(vector<int>* platforms);
+void setSocialPlatforms(vector<int>* platforms);
 // /*
 // * 移除某些平台
 // *

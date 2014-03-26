@@ -28,7 +28,6 @@ enum Platform{
     YIXIN_CIRCLE = 10,      // 易信朋友圈
     FACEBOOK = 11,          // facebook
     TWITTER = 12,           // twitter
-    // GOOGLEPLUS = 13,        // google+
     INSTAGRAM = 13,         // instagram
     SMS = 14,               // 短信
     EMAIL = 15,             // 邮件

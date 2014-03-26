@@ -308,13 +308,13 @@ void setShareImageName(const char* path)
  * 设置平台顺序呢
  *
  */
-void setPlatformsOrder(vector<int>* platforms)
+void setSocialPlatforms(vector<int>* platforms)
 {
     if ( platforms == NULL ) {
         return ;
     }
    JniMethodInfo mi;
-   bool isHave = getMethod(mi, "setPlatformOrder", "([I)V");
+   bool isHave = getMethod(mi, "setPlatforms", "([I)V");
 
    int* platformArr = platforms->data() ;
    int length = platforms->size() ;

@@ -130,7 +130,7 @@ void CCUMSocialSDK::openShare(vector<int>* platforms, const char* text, const ch
     // 设置图片内容
     setShareImageName(imgName);
     // 设置平台
-    setPlatformsOrder(platforms);
+    setSocialPlatforms(platforms);
     // 打开分享面板
     doOpenShare(true, callback);
 

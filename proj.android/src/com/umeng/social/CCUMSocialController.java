@@ -320,7 +320,7 @@ public class CCUMSocialController {
 	 * @param platforms
 	 *            平台的顺序数组
 	 */
-	public static void setPlatformOrder(int[] platforms) {
+	public static void setPlatforms(int[] platforms) {
 		if (platforms != null && platforms.length > 0) {
 			int length = platforms.length;
 			//
@@ -339,19 +339,18 @@ public class CCUMSocialController {
 					cacheList.add(target);
 				}
 			}
-			// 设置顺序, 可变参数列表兼容数组类型.
-			mController.getConfig().setPlatformOrder(
-					cacheList.toArray(new SHARE_MEDIA[cacheList.size()]));
 
-			// 移除平台
-			List<SHARE_MEDIA> tempList = new ArrayList<SHARE_MEDIA>(mController
-					.getConfig().getPlatforms());
-			tempList.removeAll(cacheList);
-			SHARE_MEDIA[] removes = tempList.toArray(new SHARE_MEDIA[tempList.size()]);
-			for (SHARE_MEDIA share_MEDIA : removes) {
-				Log.d(TAG, "### remove " + share_MEDIA) ;
+			SHARE_MEDIA[] platformsMedias = new SHARE_MEDIA[cacheList.size()];
+			cacheList.toArray(platformsMedias);
+
+			// 设置平台
+			mController.getConfig().setPlatforms(platformsMedias);
+			// 设置显示顺序
+			mController.getConfig().setPlatformOrder(platformsMedias);
+
+			for (SHARE_MEDIA share_MEDIA : cacheList) {
+				Log.d(TAG, "#### 平台 : " + share_MEDIA);
 			}
-			mController.getConfig().removePlatform(SHARE_MEDIA.SINA);
 		}
 	}
 
@@ -710,6 +709,7 @@ public class CCUMSocialController {
 		mPlatformsList.add(13, SHARE_MEDIA.INSTAGRAM);
 		mPlatformsList.add(14, SHARE_MEDIA.SMS);
 		mPlatformsList.add(15, SHARE_MEDIA.EMAIL);
+		mPlatformsList.add(16, SHARE_MEDIA.TENCENT);
 	}
 
 }
