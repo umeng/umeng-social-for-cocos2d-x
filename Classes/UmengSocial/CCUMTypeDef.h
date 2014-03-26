@@ -9,9 +9,9 @@
 #ifndef _CCUMTypeDef_h
 #define _CCUMTypeDef_h
 
-#include "cocos2d.h"
+//#include "cocos2d.h"
 
-USING_NS_CC;
+//USING_NS_CC;
 
 
 enum Platform{
@@ -28,24 +28,26 @@ enum Platform{
     YIXIN_CIRCLE = 10,      // 易信朋友圈
     FACEBOOK = 11,          // facebook
     TWITTER = 12,           // twitter
-    GOOGLEPLUS = 13,        // google+
-    INSTAGRAM = 14,         // instagram
-    SMS = 15,               // 短信
-    GMAIL = 16              // 邮件
-    
-} ;
+    // GOOGLEPLUS = 13,        // google+
+    INSTAGRAM = 13,         // instagram
+    SMS = 14,               // 短信
+    EMAIL = 15,             // 邮件
+    TENCENT_WEIBO = 16      // 腾讯微博
+};
 
-// 网络请求回调状态
-enum State { 
-    START,                  // 分享启动
-    ERROR,                  // 错误
-    CANCEL,                 // 取消
-    COMPLETE                // 分享完成
+// // 网络请求回调状态
+// enum State { 
+//     ST_START = 0,                  // 分享启动
+//     ST_ERROR = 1,                  // 错误
+//     ST_CANCEL = 2,                 // 取消
+//     ST_COMPLETE = 3                // 分享完成
 
- };
+//  };
 
-typedef void (*ShareEventHandler) (const char* platform,State state ,int stCode);
-typedef void (*AuthEventHandler) (const char* platform, State state ,int stCode);
+// 最好还是添加一个字符串数组参数用来传递字符串信息, char* args[];
+typedef void (*AuthEventHandler) (int platform, int stCode);
+typedef void (*ShareEventHandler) (int platform,int stCode);
+
 // 
 #define auth_selector(_SELECTOR) (AuthEventHandler)(&_SELECTOR)
 #define share_selector(_SELECTOR) (ShareEventHandler)(&_SELECTOR)
