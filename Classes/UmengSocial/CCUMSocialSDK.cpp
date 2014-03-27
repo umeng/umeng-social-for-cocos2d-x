@@ -33,7 +33,7 @@ CCUMSocialSDK::CCUMSocialSDK()
 
 
 /*
- *
+ * 创建CCUMSocialSDK对象, 单例模式
  */
 CCUMSocialSDK* CCUMSocialSDK::create()
 {

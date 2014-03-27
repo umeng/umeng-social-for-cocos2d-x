@@ -115,8 +115,9 @@ bool HelloWorld::init()
     
 
     // share button.
-    UMShareButton *shareButton = new UMShareButton("share.png","CloseSelected.png") ;
+    // UMShareButton *shareButton = new UMShareButton("share.png","CloseSelected.png") ;
 
+    UMShareButton *shareButton = UMShareButton::create("share.png","CloseSelected.png") ;
     shareButton->setUmengAppkey("507fcab25270157b37000010") ;
     shareButton->setShareContent("umeng social cocos2d-x sdk.") ;
     shareButton->setShareImage("/sdcard/header.jpeg") ;

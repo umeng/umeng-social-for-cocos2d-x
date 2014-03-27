@@ -45,9 +45,7 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeCom
 (JNIEnv *env, jclass clz, jint platform, jint stCode, jobjectArray data)
 {
     if ( authCallback != NULL ) {
-        // const char *str = env->GetStringUTFChars(platform, 0);
         authCallback(platform, stCode);
-        // env->ReleaseStringUTFChars(platform, str);
     }
 
 }
@@ -82,31 +80,6 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareComplet
             shareCallback(platform, stCode);
         }
 }
-
-// /*
-//  * 获取cocos2d-x游戏截屏, 并且返回图片的保存路径
-//  * Class:     com_umeng_social_CCUMSocialController
-//  * Method:    getCocos2dxScrShot
-//  * Signature: ()Ljava/lang/String;
-//  */
-// JNIEXPORT jstring JNICALL Java_com_umeng_social_CCUMSocialController_getCocos2dxScrShot
-// (JNIEnv *env, jclass clz)
-// {
-    
-// }
-
-// /*
-//  * 用户摇一摇结束,开发者可以在此函数中执行暂停游戏等操作
-//  * Class:     com_umeng_social_CCUMSocialController
-//  * Method:    onShakeComplete
-//  * Signature: ()V
-//  */
-// JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_onShakeComplete
-// (JNIEnv *env, jclass clz)
-// {
-    
-// }
-
 
 /*
  * 设置友盟app key
@@ -310,41 +283,5 @@ void releaseMethod(JniMethodInfo &mi) {
 }
 
 
-
-// // char转jstring
-// jstring charToJstring(JNIEnv* env, const char* text)
-// {
-
-//     jsize   len   =   strlen(text);
-//     jclass   clsstring   =   env->FindClass("java/lang/String");
-//     jstring   strencode   =   env->NewStringUTF("GB2312");
-
-//     jmethodID   mid  =  env->GetMethodID(clsstring,  "<init>",   "([BLjava/lang/String;)V");
-//     jbyteArray   barr  =  env-> NewByteArray(len);
-
-//     env-> SetByteArrayRegion(barr,0,len,(jbyte*)text);
-//     return (jstring)env-> NewObject(clsstring,mid,barr,strencode);
-// }
-
-// /*
-//  * 添加平台支持
-//  *
-//  */
-// void doSupportPlatform(int platform, const char* appkey, const char* targetUrl)
-// {
-//     JniMethodInfo mi;
-//     bool isHave = getMethod(mi, "supportPlatform", "(ILjava/lang/String;Ljava/lang/String;)V");
-//     if ( isHave )
-//     {
-//         // jstring target = mi.env->NewStringUTF(platform);
-//         jstring appid = mi.env->NewStringUTF(appkey);
-//         jstring url = mi.env->NewStringUTF(targetUrl);
-//         mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platform, appid, url);
-//         // mi.env->DeleteLocalRef(target);
-//         mi.env->DeleteLocalRef(appid);
-//         mi.env->DeleteLocalRef(url);
-//         releaseMethod(mi);
-//     }
-// }
 
 

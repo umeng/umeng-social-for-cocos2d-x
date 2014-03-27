@@ -1,6 +1,6 @@
 //
 //  UMShareButton.cpp
-//  crossdemo
+//  Umeng Social SDK ShareButton
 //
 //  Created by mrsimple on 3/18/14.
 //
@@ -11,7 +11,6 @@
 #include <iostream>
 USING_NS_CC;
 using namespace std;
-
 
 
 /*
@@ -38,6 +37,16 @@ UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
     mSocialSDK = CCUMSocialSDK::create() ;
 }
 
+/*
+ * 创建一个UMShareButton对象
+ * @param  normalImage  按钮正常情况下显示的图片
+ * @param  selectedImage 按钮选中情况下显示的图片
+ */
+UMShareButton* UMShareButton::create(const char *normalImage, const char *selectedImage)
+{
+    UMShareButton* shareButton = new UMShareButton(normalImage, selectedImage) ;
+    return shareButton ;
+}
 
 /*
  * 析构函数,释放内存
@@ -57,16 +66,7 @@ UMShareButton::~UMShareButton()
  */
 void UMShareButton::setUmengAppkey(const char* appkey)
 {
-    // size_t length = strlen(appkey);
-    // if ( this->mAppKey == NULL ) {
-    //     this->mAppKey = (char*)malloc(sizeof(char) * length + 1);
-    // }
-    // memset(this->mAppKey, 0, sizeof(char) * length + 1);
-    // strcpy(this->mAppKey, appkey);
-
      this->mAppKey = copyChars(appkey);
-
-    // CCLog("设置app key : %s .", this->mAppKey);
 }
 
 
@@ -76,13 +76,6 @@ void UMShareButton::setUmengAppkey(const char* appkey)
  */
 void UMShareButton::setShareContent(const char* text)
 {
-    // size_t length = strlen(text);
-    // if ( mShareText == NULL ) {
-    //     this->mShareText = (char*)malloc(sizeof(char) * length + 1);
-    // }
-
-    // memset(mShareText, 0, sizeof(char) * length + 1);
-    // strcpy(mShareText, text);
     this->mShareText = copyChars(text);
 }
 
@@ -93,15 +86,7 @@ void UMShareButton::setShareContent(const char* text)
  */
 void UMShareButton::setShareImage(const char* imgName)
 {
-    // size_t length = strlen(imgName);
-    //     if ( mImageName == NULL ) {
-    //     this->mImageName = (char*)malloc(sizeof(char) * length + 1);
-    // }
-    // memset(mImageName, 0, sizeof(char) * length + 1);
-    // strcpy(mImageName, imgName);
-
       this->mImageName = copyChars(imgName);
-
 }
 
 

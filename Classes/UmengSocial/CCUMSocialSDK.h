@@ -30,6 +30,10 @@ public:
     
     static CCUMSocialSDK* create() ;
 
+    /*
+     * 设置友盟app key
+     * @param appKey 友盟app key
+     */
     void setAppKey(const char* appkey);
     
     /*
@@ -52,10 +56,6 @@ public:
     
     /*
      * 打开分享面板
-     */
-    // void openShare();
-    /*
-     * 打开分享面板
      *@param 	callback 注册回调
      */
     void openShare(vector<int>* platforms,const char* text, const char* imgName, ShareEventHandler callback);
@@ -66,29 +66,6 @@ public:
      */
     void directShare(int platform, const char* text, const char* imgName, ShareEventHandler callback);
     
-    
-    // /*
-    //  * 添加平台支持
-    //  *@param 	platform 要添加的平台
-    //  *@param 	appkey   相关平台的app key
-    //  *@param 	targetUrl 用户点击某个分享时跳转到的目标页面
-    //  */
-    // void supportPlatform(int platform, const char* appkey, const char* targetUrl);
-    
-    
-    //  * 设置平台顺序呢
-    //  * @param 	platformOrders 平台显示在分享面板上的顺序
-     
-    // void setPlatformsOrder(int platformOrders[]);
-    // /*
-    //  * 移除某些平台
-    //  *@param 	platforms 要移除的平台
-    //  */
-    // void removePlatforms(int platforms[]);
-    // /*
-    //  * 清空sdk
-    //  */
-    // void cleanup();
     
 };
 

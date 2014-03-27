@@ -1,6 +1,6 @@
 //
 //  UMShareButton.h
-//  crossdemo
+//  Umeng Social SDK ShareButton
 //
 //  Created by mrsimple on 3/18/14.
 //
@@ -22,15 +22,8 @@ class UMShareButton : public cocos2d::CCMenuItemImage
 public:
     virtual  ~UMShareButton() ;
 
-    // 
-    UMShareButton(const char *normalImage, const char *selectedImage);
-
-
-    // /** creates a menu item with a normal and selected image*/
-    // static UMShareButton* create(const char *normalImage, const char *selectedImage, CCObject* target);
-
-    // * creates a menu item with a normal and selected image
-    // static UMShareButton* create(const char *normalImage, const char *selectedImage, const char* disableImage, CCObject* target);
+    /** creates a menu item with a normal and selected image*/
+    static UMShareButton* create(const char *normalImage, const char *selectedImage);
     
     // // 设置友盟app key
     void setUmengAppkey(const char* appkey);
@@ -45,14 +38,24 @@ public:
 
 private:
     UMShareButton();
+    // 构造函数
+    UMShareButton(const char *normalImage, const char *selectedImage);
+    // 分享按钮回调, 打开友盟分享面板
     void shareCallback(CCNode* pSender);
+    // 拷贝字符
     char* copyChars(const char* source);
 private:
-    vector<int>* mPlatforms;
-    char* mShareText;
-    char* mImageName;
-    char* mAppKey;
+    // 友盟分享组件SDK
     CCUMSocialSDK* mSocialSDK;
+    // 要添加支持的平台
+    vector<int>* mPlatforms;
+    // 要分享的文本内容
+    char* mShareText;
+    // 要分享的图片本地路径或者url
+    char* mImageName;
+    // 友盟的appkey
+    char* mAppKey;
+    // 分享回调
     ShareEventHandler mCallback ;
 };
 

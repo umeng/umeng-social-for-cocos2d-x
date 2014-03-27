@@ -55,23 +55,6 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareStart
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareComplete
   (JNIEnv *, jclass, jint, jint, jstring);
 
-// /*
-//  * Class:     com_umeng_social_CCUMSocialController
-//  * Method:    getCocos2dxScrShot
-//  * Signature: ()Ljava/lang/String;
-//  */
-// JNIEXPORT jstring JNICALL Java_com_umeng_social_CCUMSocialController_getCocos2dxScrShot
-//   (JNIEnv *, jclass);
-
-// /*
-//  * Class:     com_umeng_social_CCUMSocialController
-//  * Method:    onShakeComplete
-//  * Signature: ()V
-//  */
-// JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_onShakeComplete
-//   (JNIEnv *, jclass);
-    
-
 
 /*
  * 获取某个方法的对象
@@ -142,27 +125,6 @@ void setShareImageName(const char* pathOrUrl);
  * @param platforms SDK支持的平台， 参考CCUMTypeDef.h中的Platform枚举定义
  */
 void setSocialPlatforms(vector<int>* platforms);
-
-    
-    
-// /*
-// * 添加平台支持
-// *
-// */
-// void doSupportPlatform(int platform, const char* appkey, const char* targetUrl);
-    
-
-// /*
-// * 移除某些平台
-// *
-// */
-// void removePlatforms(int platforms[]);
-// /*
-// * 清空sdk
-// */
-// void cleanupSDK();
-
-// jstring charToJstring(JNIEnv* env,const char* text) ;
 
     
 #ifdef __cplusplus
