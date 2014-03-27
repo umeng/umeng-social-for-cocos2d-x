@@ -7,16 +7,13 @@ import java.util.List;
 import org.cocos2dx.lib.Cocos2dxActivity;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.hardware.SensorEvent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.umeng.scrshot.adapter.UMBaseAdapter;
+import com.umeng.socialize.bean.CustomPlatform;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeConfig;
 import com.umeng.socialize.bean.SocializeEntity;
@@ -31,8 +28,6 @@ import com.umeng.socialize.controller.listener.SocializeListeners.UMAuthListener
 import com.umeng.socialize.db.OauthHelper;
 import com.umeng.socialize.exception.SocializeException;
 import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.sensor.UMSensor.OnSensorListener;
-import com.umeng.socialize.sensor.UMSensor.WhitchButton;
 
 /**
  * 
@@ -53,6 +48,18 @@ public class CCUMSocialController {
 	private static Handler mSDKHandler = new Handler(Looper.getMainLooper());;
 	private static final int DELAY_MS = 100;
 	private static String DESCRIPTOR;
+
+	// ******* 以下字段的调用都在supportPlatfrom函数中 *********
+	// QQ app id
+	private static final String QQ_APPKEY = "";
+	// 微信或者微信朋友圈 app id
+	private static final String WEIXIN_APPKEY = "";
+	// 易信或者易信朋友圈app id, 需要添加易信或者易信朋友圈平台的支持, 请参考线上文档
+	private static final String YIXIN_APPKEY = "";
+	// 来往和来往动态的app id, 需要添加来往或者来往动态平台的支持, 请参考线上文档
+	private static final String LAIWANG_APPKEY = "";
+	// 在某些平台的分享中， 希望用户点击该分享内容跳转到的目标平台, 一般为app的官网或者下载地址
+	private static final String TARGET_URL = "http://www.umeng.com/social";
 
 	/**
 	 * 初始化SDK
@@ -168,13 +175,9 @@ public class CCUMSocialController {
 	 * @param registerCallback
 	 *            是否注册回调接口
 	 */
-	public static void openShare(boolean registerCallback) {
-		if (registerCallback) {
-			// 注册回调接口
-			mController.registerListener(mSocialShareListener);
-		}
-
-		Log.d(TAG, "@@@@ openShare, " + registerCallback);
+	public static void openShare() {
+		// 注册回调接口, 默认将分享回调注册要sdk
+		mController.registerListener(mSocialShareListener);
 
 		checkActivity();
 		// 在UI线程执行打开分享面板操作
@@ -236,14 +239,18 @@ public class CCUMSocialController {
 	}
 
 	/**
+	 * 使得runnable中的代码运行在opengl线程, 即cocos2d-x的opengl线程
 	 * 
 	 * @param runnable
 	 */
 	public static void runOnGLThread(Runnable runnable) {
-		mActivity.runOnGLThread(runnable);
+		if (mActivity != null) {
+			mActivity.runOnGLThread(runnable);
+		}
 	}
 
 	/**
+	 * 设置友盟的app key, 也可以通过manifest指定
 	 * 
 	 * @param text
 	 */
@@ -255,6 +262,7 @@ public class CCUMSocialController {
 	}
 
 	/**
+	 * 设置要分享的文字内容
 	 * 
 	 * @param text
 	 */
@@ -264,17 +272,26 @@ public class CCUMSocialController {
 	}
 
 	/**
+	 * 设置要分享的图片路径或者url
 	 * 
-	 * @param text
+	 * @param imgName
+	 *            图片的本地路径或者url, 如果是url则必须以http://或者https://开头
 	 */
-	public static void setShareImageName(String path) {
-		Log.d(TAG, "#### 设置图片路径 :" + path);
-		if (TextUtils.isEmpty(path)) {
+	public static void setShareImageName(String imgName) {
+		Log.d(TAG, "#### 设置图片路径 :" + imgName);
+		if (TextUtils.isEmpty(imgName)) {
 			return;
 		}
-		File imgFile = new File(path);
-		if (imgFile.exists()) {
-			mController.setShareMedia(new UMImage(mActivity, new File(path)));
+
+		// 网络图片
+		if (imgName.startsWith("http://") || imgName.startsWith("https://")) {
+			mController.setShareMedia(new UMImage(mActivity, imgName));
+		} else {
+			// 本地图片
+			File imgFile = new File(imgName);
+			if (imgFile.exists()) {
+				mController.setShareMedia(new UMImage(mActivity, imgFile));
+			}
 		}
 	}
 
@@ -289,8 +306,7 @@ public class CCUMSocialController {
 	 * @param targetUrl
 	 *            用户点击分享内容时跳转的页面, 一般为APP主页或者下载页
 	 */
-	public static void supportPlatfrom(int platform, String appkey,
-			String targetUrl) {
+	public static void supportPlatfrom(int platform) {
 		SHARE_MEDIA target = getPlatform(platform);
 		// 判断target
 		if (target == null || target == SHARE_MEDIA.GENERIC) {
@@ -300,11 +316,12 @@ public class CCUMSocialController {
 		SocializeConfig mConfig = mController.getConfig();
 		if (target == SHARE_MEDIA.QQ) {
 			// 添加QQ平台支持
-			mConfig.supportQQPlatform(mActivity, appkey, targetUrl);
+			mConfig.supportQQPlatform(mActivity, QQ_APPKEY, TARGET_URL);
 		} else if (target == SHARE_MEDIA.WEIXIN) {
-			mConfig.supportWXPlatform(mActivity, appkey, targetUrl);
+			mConfig.supportWXPlatform(mActivity, WEIXIN_APPKEY, TARGET_URL);
 		} else if (target == SHARE_MEDIA.WEIXIN_CIRCLE) {
-			mConfig.supportWXCirclePlatform(mActivity, appkey, targetUrl);
+			mConfig.supportWXCirclePlatform(mActivity, WEIXIN_APPKEY,
+					TARGET_URL);
 		} else {
 			Log.e(TAG,
 					target
@@ -333,7 +350,7 @@ public class CCUMSocialController {
 				if (target != null && target != SHARE_MEDIA.GENERIC) {
 					// 如果没有添加到SDK则添加到里面, 支持的平台有QQ,微信,微信朋友圈
 					if (!isPlatformConfiged(target)) {
-						supportPlatfrom(index, "", "");
+						supportPlatfrom(index);
 					}
 					// 先将有效的平台缓存到列表中, 最后再转换为数组
 					cacheList.add(target);
@@ -361,27 +378,24 @@ public class CCUMSocialController {
 	 * @return
 	 */
 	private static boolean isPlatformConfiged(SHARE_MEDIA target) {
-		return mController.getConfig().getPlatforms().contains(target);
-	}
-
-	/**
-	 * 移除平台
-	 * 
-	 * @param platforms
-	 *            要移除的平台数组
-	 */
-	public static void removePlatfroms(int[] platforms) {
-		if (platforms != null && platforms.length > 0) {
-			for (int index : platforms) {
-				SHARE_MEDIA target = getPlatform(index);
-				// 合法的平台
-				if (target != null && target != SHARE_MEDIA.GENERIC) {
-					mController.getConfig().removePlatform(target);
-				}
-			}
+		// 内置平台
+		List<SHARE_MEDIA> internalList = mController.getConfig().getPlatforms();
+		// 如果是内置平台, 找到以后直接返回
+		if (internalList.contains(target)) {
+			return true;
 		}
 
-		Log.d(TAG, "@@@@ removePlatfroms");
+		// 自定义平台
+		List<CustomPlatform> customPlatforms = mController.getConfig()
+				.getCustomPlatforms();
+		// 在自定义平台查找
+		boolean isfind = false;
+		for (CustomPlatform cs : customPlatforms) {
+			if (cs != null && cs.mKeyword.equals(target.toString())) {
+				isfind = true;
+			}
+		}
+		return isfind;
 	}
 
 	/**
@@ -455,7 +469,8 @@ public class CCUMSocialController {
 
 				@Override
 				public void run() {
-					OnAuthorizeComplete(getPlatformInt(platform), -1, null);
+					OnAuthorizeComplete(getPlatformInt(platform), -1,
+							new String[] { "cancel" });
 				}
 			});
 
@@ -593,71 +608,71 @@ public class CCUMSocialController {
 	// 2000, true, platformsList, mShakeListener);
 	// }
 
-	/**
-	 * COCOS2D-X自定义的截屏适配器
-	 */
-	private static UMBaseAdapter mCocos2dxAdapter = new UMBaseAdapter() {
-
-		@Override
-		public Bitmap getBitmap() {
-			String scrshotImgPath = getCocos2dxScrShot();
-			return BitmapFactory.decodeFile(scrshotImgPath);
-		}
-	};
-
-	/**
-	 * 摇一摇截屏分享监听器, 与直接分享公用一套native 回调函数
-	 */
-	private static OnSensorListener mShakeListener = new OnSensorListener() {
-
-		@Override
-		public void onStart() {
-			OnShareStart();
-		}
-
-		@Override
-		public void onComplete(SHARE_MEDIA platform, int eCode,
-				SocializeEntity entity) {
-			OnShareComplete(getPlatformInt(platform), eCode, entity.mDescriptor);
-		}
-
-		@Override
-		public void onButtonClick(WhitchButton button) {
-
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * com.umeng.socialize.sensor.UMSensor.OnSensorListener#onActionComplete
-		 * (android.hardware.SensorEvent)
-		 */
-		@Override
-		public void onActionComplete(SensorEvent event) {
-			onShakeComplete();
-		}
-	};
-
 	// /**
-	// * 注册摇一摇截屏分享功能
+	// * COCOS2D-X自定义的截屏适配器
 	// */
-	// public static void unregisterShakeSensor() {
-	// checkActivity();
-	// mShakeController.unregisterShakeListener(mActivity);
+	// private static UMBaseAdapter mCocos2dxAdapter = new UMBaseAdapter() {
+	//
+	// @Override
+	// public Bitmap getBitmap() {
+	// String scrshotImgPath = getCocos2dxScrShot();
+	// return BitmapFactory.decodeFile(scrshotImgPath);
 	// }
-
-	/**
-	 * 获取cocos2d-x游戏截屏的图片保存路径
-	 * 
-	 * @return
-	 */
-	private native static String getCocos2dxScrShot();
-
-	/**
-	 * 用户摇一摇完成, 回调给native层, 使得开发者可以暂停游戏等
-	 */
-	private native static void onShakeComplete();
+	// };
+	//
+	// /**
+	// * 摇一摇截屏分享监听器, 与直接分享公用一套native 回调函数
+	// */
+	// private static OnSensorListener mShakeListener = new OnSensorListener() {
+	//
+	// @Override
+	// public void onStart() {
+	// OnShareStart();
+	// }
+	//
+	// @Override
+	// public void onComplete(SHARE_MEDIA platform, int eCode,
+	// SocializeEntity entity) {
+	// OnShareComplete(getPlatformInt(platform), eCode, entity.mDescriptor);
+	// }
+	//
+	// @Override
+	// public void onButtonClick(WhitchButton button) {
+	//
+	// }
+	//
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see
+	// * com.umeng.socialize.sensor.UMSensor.OnSensorListener#onActionComplete
+	// * (android.hardware.SensorEvent)
+	// */
+	// @Override
+	// public void onActionComplete(SensorEvent event) {
+	// onShakeComplete();
+	// }
+	// };
+	//
+	// // /**
+	// // * 注册摇一摇截屏分享功能
+	// // */
+	// // public static void unregisterShakeSensor() {
+	// // checkActivity();
+	// // mShakeController.unregisterShakeListener(mActivity);
+	// // }
+	//
+	// /**
+	// * 获取cocos2d-x游戏截屏的图片保存路径
+	// *
+	// * @return
+	// */
+	// private native static String getCocos2dxScrShot();
+	//
+	// /**
+	// * 用户摇一摇完成, 回调给native层, 使得开发者可以暂停游戏等
+	// */
+	// private native static void onShakeComplete();
 
 	/**
 	 * 通过整型获取对应的平台, C++中使用enum常量来代表平台

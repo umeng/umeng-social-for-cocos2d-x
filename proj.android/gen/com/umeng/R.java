@@ -173,19 +173,11 @@ public final class R {
 	public static final class id {
 		public static final int header = 0x7f0a0051;
 		public static final int listView = 0x7f0a0031;
-<<<<<<< HEAD
-		public static final int progress_bar_parent = 0x7f0a005c;
-		public static final int pull_to_refresh_image = 0x7f0a0075;
-		public static final int pull_to_refresh_progress = 0x7f0a0074;
-		public static final int pull_to_refresh_text = 0x7f0a0076;
-		public static final int pull_to_refresh_updated_at = 0x7f0a0077;
-=======
 		public static final int progress_bar_parent = 0x7f0a005d;
 		public static final int pull_to_refresh_image = 0x7f0a0076;
 		public static final int pull_to_refresh_progress = 0x7f0a0075;
 		public static final int pull_to_refresh_text = 0x7f0a0077;
 		public static final int pull_to_refresh_updated_at = 0x7f0a0078;
->>>>>>> facebook-test
 		public static final int search_text = 0x7f0a0030;
 		public static final int section = 0x7f0a002d;
 		public static final int slideBar = 0x7f0a0032;
@@ -331,101 +323,6 @@ public final class R {
 		public static final int umeng_socialize_comment_more = 0x7f030011;
 		public static final int umeng_socialize_comment_view = 0x7f030012;
 		public static final int umeng_socialize_composer_header = 0x7f030013;
-<<<<<<< HEAD
-		public static final int umeng_socialize_failed_load_page = 0x7f030014;
-		public static final int umeng_socialize_full_alert_dialog = 0x7f030015;
-		public static final int umeng_socialize_full_alert_dialog_item = 0x7f030016;
-		public static final int umeng_socialize_full_curtain = 0x7f030017;
-		public static final int umeng_socialize_oauth_dialog = 0x7f030018;
-		public static final int umeng_socialize_post_comment = 0x7f030019;
-		public static final int umeng_socialize_post_comment_platform = 0x7f03001a;
-		public static final int umeng_socialize_post_share = 0x7f03001b;
-		public static final int umeng_socialize_pull_to_refresh_header = 0x7f03001c;
-		public static final int umeng_socialize_shareboard_item = 0x7f03001d;
-		public static final int umeng_socialize_simple_spinner_item = 0x7f03001e;
-		public static final int umeng_socialize_titile_bar = 0x7f03001f;
-		public static final int umeng_socialize_titile_bar_comment = 0x7f030020;
-		public static final int umeng_socialize_ucenter = 0x7f030021;
-		public static final int umeng_socialize_ucenter_platform_item = 0x7f030022;
-		public static final int umeng_test_ucenter = 0x7f030023;
-	}
-	public static final class string {
-		public static final int com_facebook_loading = 0x7f06003c;
-		public static final int pull_to_refresh_pull_label = 0x7f060001;
-		public static final int pull_to_refresh_refreshing_label = 0x7f060003;
-		public static final int pull_to_refresh_release_label = 0x7f060002;
-		public static final int pull_to_refresh_tap_label = 0x7f060004;
-		public static final int umeng_example_home_btn_plus = 0x7f060035;
-		public static final int umeng_socialize_back = 0x7f060008;
-		public static final int umeng_socialize_cancel_btn_str = 0x7f060038;
-		public static final int umeng_socialize_comment = 0x7f060006;
-		public static final int umeng_socialize_comment_detail = 0x7f060007;
-		public static final int umeng_socialize_content_hint = 0x7f060037;
-		public static final int umeng_socialize_friends = 0x7f06000a;
-		public static final int umeng_socialize_img_des = 0x7f06003a;
-		public static final int umeng_socialize_login = 0x7f060015;
-		public static final int umeng_socialize_login_qq = 0x7f060014;
-		public static final int umeng_socialize_msg_hor = 0x7f060010;
-		public static final int umeng_socialize_msg_min = 0x7f06000f;
-		public static final int umeng_socialize_msg_sec = 0x7f06000e;
-		public static final int umeng_socialize_near_At = 0x7f060009;
-		public static final int umeng_socialize_network_break_alert = 0x7f060005;
-		public static final int umeng_socialize_send = 0x7f06000b;
-		public static final int umeng_socialize_send_btn_str = 0x7f060039;
-		public static final int umeng_socialize_share = 0x7f06003b;
-		public static final int umeng_socialize_share_content = 0x7f060013;
-		public static final int umeng_socialize_text_add_custom_platform = 0x7f060034;
-		public static final int umeng_socialize_text_authorize = 0x7f060017;
-		public static final int umeng_socialize_text_choose_account = 0x7f060016;
-		public static final int umeng_socialize_text_comment_hint = 0x7f06001b;
-		public static final int umeng_socialize_text_douban_key = 0x7f060031;
-		public static final int umeng_socialize_text_friend_list = 0x7f06001c;
-		public static final int umeng_socialize_text_loading_message = 0x7f06002b;
-		public static final int umeng_socialize_text_login_fail = 0x7f06001a;
-		public static final int umeng_socialize_text_qq_key = 0x7f06002e;
-		public static final int umeng_socialize_text_qq_zone_key = 0x7f06002f;
-		public static final int umeng_socialize_text_renren_key = 0x7f060030;
-		public static final int umeng_socialize_text_sina_key = 0x7f06002d;
-		public static final int umeng_socialize_text_tencent_key = 0x7f06002c;
-		public static final int umeng_socialize_text_tencent_no_connection = 0x7f06001e;
-		public static final int umeng_socialize_text_tencent_no_install = 0x7f060021;
-		public static final int umeng_socialize_text_tencent_oauth_login_fail = 0x7f06001f;
-		public static final int umeng_socialize_text_tencent_version_no_match = 0x7f060020;
-		public static final int umeng_socialize_text_ucenter = 0x7f060019;
-		public static final int umeng_socialize_text_unauthorize = 0x7f060018;
-		public static final int umeng_socialize_text_visitor = 0x7f06001d;
-		public static final int umeng_socialize_text_waitting = 0x7f060022;
-		public static final int umeng_socialize_text_waitting_message = 0x7f06002a;
-		public static final int umeng_socialize_text_waitting_qq = 0x7f060027;
-		public static final int umeng_socialize_text_waitting_qzone = 0x7f060028;
-		public static final int umeng_socialize_text_waitting_redirect = 0x7f060029;
-		public static final int umeng_socialize_text_waitting_share = 0x7f060036;
-		public static final int umeng_socialize_text_waitting_weixin = 0x7f060023;
-		public static final int umeng_socialize_text_waitting_weixin_circle = 0x7f060024;
-		public static final int umeng_socialize_text_waitting_yixin = 0x7f060025;
-		public static final int umeng_socialize_text_waitting_yixin_circle = 0x7f060026;
-		public static final int umeng_socialize_text_weixin_circle_key = 0x7f060033;
-		public static final int umeng_socialize_text_weixin_key = 0x7f060032;
-		public static final int umeng_socialize_tip_blacklist = 0x7f06000c;
-		public static final int umeng_socialize_tip_loginfailed = 0x7f06000d;
-		public static final int umeng_socialize_ucenter_login_title_guide = 0x7f060011;
-		public static final int umeng_socialize_ucenter_login_title_platform = 0x7f060012;
-	}
-	public static final class style {
-		public static final int Theme_UMDefault = 0x7f07000b;
-		public static final int Theme_UMDialog = 0x7f07000a;
-		public static final int umeng_socialize_action_bar_item_im = 0x7f070003;
-		public static final int umeng_socialize_action_bar_item_tv = 0x7f070004;
-		public static final int umeng_socialize_action_bar_itemlayout = 0x7f070002;
-		public static final int umeng_socialize_dialog_anim_fade = 0x7f070008;
-		public static final int umeng_socialize_dialog_animations = 0x7f070007;
-		public static final int umeng_socialize_divider = 0x7f07000c;
-		public static final int umeng_socialize_edit_padding = 0x7f07000e;
-		public static final int umeng_socialize_list_item = 0x7f07000d;
-		public static final int umeng_socialize_popup_dialog = 0x7f070006;
-		public static final int umeng_socialize_popup_dialog_anim = 0x7f070005;
-		public static final int umeng_socialize_shareboard_animation = 0x7f070009;
-=======
 		public static final int umeng_socialize_failed_load_page = 0x7f030015;
 		public static final int umeng_socialize_full_alert_dialog = 0x7f030016;
 		public static final int umeng_socialize_full_alert_dialog_item = 0x7f030017;
@@ -519,6 +416,5 @@ public final class R {
 		public static final int umeng_socialize_popup_dialog = 0x7f090004;
 		public static final int umeng_socialize_popup_dialog_anim = 0x7f090003;
 		public static final int umeng_socialize_shareboard_animation = 0x7f090007;
->>>>>>> facebook-test
 	}
 }

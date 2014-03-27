@@ -15,8 +15,7 @@ using namespace std;
 
 
 /*
- * 设置文本内容
- * @param
+ * 构造函数
  */
 UMShareButton::UMShareButton()
 {
@@ -26,7 +25,8 @@ UMShareButton::UMShareButton()
 
 /*
  * 设置文本内容
- * @param
+ * @param  normalImage  按钮正常情况下显示的图片
+ * @param  selectedImage 按钮选中情况下显示的图片
  */
 UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
 :mPlatforms(NULL), mAppKey(NULL),mShareText(NULL),mImageName(NULL),mSocialSDK(NULL),mCallback(NULL)
@@ -40,11 +40,13 @@ UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
 
 
 /*
- * 设置文本内容
- * @param
+ * 析构函数,释放内存
  */
 UMShareButton::~UMShareButton()
 {
+    delete mAppKey;
+    delete mImageName;
+    delete mShareText;
     delete mSocialSDK;
     delete mPlatforms;
 }
@@ -86,7 +88,7 @@ void UMShareButton::setShareContent(const char* text)
 
 
 /*
- * 设置本地图片和url图片, url图片必须以http://开头
+ * 设置本地图片和url图片, url图片必须以http://或者https://开头
  * @param 图片的本地路径或者url地址.
  */
 void UMShareButton::setShareImage(const char* imgName)
@@ -104,8 +106,8 @@ void UMShareButton::setShareImage(const char* imgName)
 
 
 /*
- *
- *
+ * 申请内存, 拷贝字符串到目标字符指针, 返回该指针.
+ * @param source 要拷贝的字符指针
  */
 char* UMShareButton::copyChars(const char* source)
 {
@@ -127,8 +129,8 @@ char* UMShareButton::copyChars(const char* source)
 
 
 /*
- * 设置回调
- * @param
+ * 设置分享回调回调
+ * @param callback 分享回调
  */
 void UMShareButton::setShareCallback(ShareEventHandler callback)
 {
@@ -137,8 +139,8 @@ void UMShareButton::setShareCallback(ShareEventHandler callback)
 
 
 /*
- *
- * @param
+ * 设置友盟SDK支持的平台， 平台的申明参考CCUMTypeDef.h中的Platform枚举
+ * @param platforms 友盟SDK支持的平台
  */
 void UMShareButton::setPlatforms(vector<int>* platforms)
 {
@@ -147,8 +149,8 @@ void UMShareButton::setPlatforms(vector<int>* platforms)
 
 
 /*
- *
- * @param
+ * 点击该按钮时的回调, 这里实现为调用打开分享面板
+ * @param pSender 
  */
 void UMShareButton::shareCallback(CCNode* pSender)
 {
