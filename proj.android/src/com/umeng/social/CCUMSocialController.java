@@ -456,6 +456,7 @@ public class CCUMSocialController {
 
 				@Override
 				public void run() {
+					Log.d(TAG, value.toString());
 					OnAuthorizeComplete(getPlatformInt(platform),
 							StatusCode.ST_CODE_SUCCESSED, getAuthData(value));
 				}
@@ -483,10 +484,27 @@ public class CCUMSocialController {
 		 * @return 如果含有access_token则获取access_token和过期时间, 传递到native层
 		 */
 		private String[] getAuthData(Bundle data) {
-			if (data != null && data.containsKey("access_token")) {
-				String[] authData = new String[2];
-				authData[0] = data.getString("access_token");
-				authData[1] = data.getString("expires_in");
+			if (data != null
+					&& (data.containsKey("access_token") || data
+							.containsKey("access_secret"))) {
+				String[] authData = new String[3];
+				// 有的字段为secret
+				if (data.containsKey("access_secret")) {
+					authData[0] = data.getString("access_secret");
+				} else {
+					authData[0] = data.getString("access_token");
+				}
+				if (data.containsKey("expires_in")) {
+					authData[1] = data.getString("expires_in");
+				} else {
+					authData[1] = "没有过期时间";
+				}
+				if (data.containsKey("uid")) {
+					authData[2] = data.getString("uid");
+				} else {
+					authData[2] = "";
+				}
+
 				return authData;
 			} else {
 				return new String[] {};

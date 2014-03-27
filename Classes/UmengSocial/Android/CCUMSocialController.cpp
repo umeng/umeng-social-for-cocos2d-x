@@ -26,7 +26,8 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeSta
 {
     if ( NULL != authCallback ) 
     {
-        authCallback(platform, 200);
+        map<string, string> nullData;
+        authCallback(platform, 100, nullData);
     }
 
 }
@@ -45,9 +46,45 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeCom
 (JNIEnv *env, jclass clz, jint platform, jint stCode, jobjectArray data)
 {
     if ( authCallback != NULL ) {
-        authCallback(platform, stCode);
+        map<string, string> dataMap;
+        // 获取数据
+        getData(env, data, dataMap) ;
+        authCallback(platform, stCode, dataMap);
     }
 
+}
+
+
+/*
+ *
+ *
+ */
+void getData(JNIEnv *env, jobjectArray data, map<string, string>& outputMap) 
+{
+    jsize count = env->GetArrayLength(data);
+
+    if ( count > 2 ) 
+    {
+        // token
+        jstring token = (jstring) env->GetObjectArrayElement(data, 0);
+        // 过期时间
+        jstring expires_in = (jstring) env->GetObjectArrayElement(data, 1);
+
+        jstring uid = (jstring) env->GetObjectArrayElement(data, 2);
+        const char* pToken = env->GetStringUTFChars(token, NULL);
+        const char* pExpires = env->GetStringUTFChars(expires_in, NULL);
+        const char* pUid = env->GetStringUTFChars(uid, NULL);
+        outputMap.insert(pair<string,string>("token", pToken));
+        outputMap.insert(pair<string,string>("expires_in", pExpires));
+        outputMap.insert(pair<string,string>("uid", pUid));
+    }
+    else if ( count == 1 )
+    {
+        // 错误消息
+        jstring msg = (jstring) env->GetObjectArrayElement(data, 0);
+        const char* pMsg = env->GetStringUTFChars(msg, NULL);
+        outputMap.insert(pair<string,string>("msg", pMsg));
+    }
 }
 
 /*
@@ -60,10 +97,9 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareStart
 (JNIEnv *env, jclass clz)
 {
     if ( shareCallback != NULL ) {
-        // const char *str = env->GetStringUTFChars(platform, 0);
         // 参数1代表平台, 参数2代表状态, 比如start, cancel, complete, 参数3代表状态码, 200为成功.
-        shareCallback(-1, 200);
-        // env->ReleaseStringUTFChars(platform, str);
+        shareCallback(-1, 100, "");
+
     }
 }
 
@@ -77,7 +113,7 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareComplet
 (JNIEnv *env, jclass clz, jint platform, jint stCode, jstring descriptor)
 {
         if ( shareCallback != NULL ) {
-            shareCallback(platform, stCode);
+            shareCallback(platform, stCode, "");
         }
 }
 

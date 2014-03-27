@@ -6,6 +6,10 @@
 //  Copyright (c) 2014 mrsimple. All rights reserved.
 //
 
+#include <map>
+#include <string>
+using namespace std;
+
 #ifndef _CCUMTypeDef_h
 #define _CCUMTypeDef_h
 
@@ -44,8 +48,8 @@ enum Platform{
 //  };
 
 // 最好还是添加一个字符串数组参数用来传递字符串信息, char* args[];
-typedef void (*AuthEventHandler) (int platform, int stCode);
-typedef void (*ShareEventHandler) (int platform,int stCode);
+typedef void (*AuthEventHandler) (int platform, int stCode,const map<string, string>& data);
+typedef void (*ShareEventHandler) (int platform,int stCode,const string& errorMsg);
 
 // 
 #define auth_selector(_SELECTOR) (AuthEventHandler)(&_SELECTOR)
