@@ -8,9 +8,11 @@
 
 #include "UmSocialControllerIOS.h"
 #import "UMSocial.h"
+#import "UMSocialUIObject.h"
 #import <UIKit/UIKit.h>
 
 string UmSocialControllerIOS::m_appKey = "";
+//UMSocialUIDelegateObject * UmSocialControllerIOS::m_socialDelegate = nil;
 
 NSString* getPlatformString(int platform){
     NSString *const platforms[17] = {
@@ -109,12 +111,14 @@ void UmSocialControllerIOS::openShareWithImagePath(vector<int>* platforms, const
     if(imagePath){
         image = [UIImage imageNamed:getNSStringFromCString(imagePath)];
     }
+    
+    UMSocialUIObject * delegate = [[UMSocialUIObject alloc] initWithCallback:callback];
     [UMSocialSnsService presentSnsIconSheetView:getViewController()
                                          appKey:[NSString stringWithUTF8String:m_appKey.c_str() ]
                                       shareText:[NSString stringWithUTF8String:text ]
                                      shareImage:image
                                 shareToSnsNames:array
-                                       delegate:nil];
+                                       delegate:delegate];
     [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskLandscape];
 
 }

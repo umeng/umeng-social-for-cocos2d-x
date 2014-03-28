@@ -115,14 +115,12 @@ bool HelloWorld::init()
     
 
     // share button.
-    // UMShareButton *shareButton = new UMShareButton("share.png","CloseSelected.png") ;
-
     UMShareButton *shareButton = UMShareButton::create("share.png","CloseSelected.png") ;
     shareButton->setUmengAppkey("507fcab25270157b37000010") ;
     shareButton->setShareContent("umeng social cocos2d-x sdk.") ;
     shareButton->setShareImage("/sdcard/header.jpeg") ;
     // 设置回调
-    // shareButton->setShareCallback(share_selector(shareCallback)) ;
+    shareButton->setShareCallback(share_selector(shareCallback)) ;
     shareButton->setPosition(ccp(150, 180));
 
 
@@ -167,7 +165,7 @@ bool HelloWorld::init()
 void HelloWorld::menuShareCallback(CCObject* pSender)
 {
     CCUMSocialSDK *sdk = CCUMSocialSDK::create();
-    sdk->setAppKey("4eaee02c527015373b000003");
+    sdk->setAppKey("507fcab25270157b37000010");
     vector<int>* platforms = new vector<int>();
     platforms->push_back(SINA);
     platforms->push_back(RENREN) ;
