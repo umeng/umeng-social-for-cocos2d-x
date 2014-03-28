@@ -5,6 +5,7 @@
 #include "UmengSocial/UMShareButton.h"
 #include <iostream>
 #include <vector>
+#include <map>
  
 // #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 // #include "UmengSocial/Android/CCUMSocialController.h"
@@ -49,19 +50,56 @@ CCScene* HelloWorld::scene()
 
 
 /*
- *授权回调, 还需要传递一个State
+ *授权回调
+ * @param platform 要授权的平台
+ * @param stCode 返回码, 200代表授权成功, 100代表开始授权, 0代表授权出错, -1代表取消授权
+ * @param data 授权时返回的数据
  */
-void authCallback(int platform, int stCode)
+void authCallback(int platform, int stCode, map<string, string>& data)
 {
-    CCLog("#### authCallback");
+    if ( stCode == 100 ) 
+    {
+        CCLog("#### 授权开始");
+    }
+    else if ( stCode == 200 ) 
+    {
+        CCLog("#### 授权完成");
+    } else if ( stCode == 0 ) 
+    {
+        CCLog("#### 授权出错");
+    } else if ( stCode == -1 ) 
+    {
+        CCLog("#### 取消授权");
+    }
+ 
+    // 输入授权数据, 如果授权失败,则会输出错误信息
+    map<string,string>::iterator it = data.begin();
+    for (; it != data.end(); ++it) {
+        CCLog("#### data  %s -> %s." , it->first.c_str(), it->second.c_str());
+    }
 }
 
 /*
  * 分享回调
+* @param platform 要分享到的目标平台
+ * @param stCode 返回码, 200代表分享成功, 100代表开始分享
+ * @param errorMsg 分享失败时的错误信息,android平台没有错误信息
  */
-void shareCallback(int platform, int stCode)
+void shareCallback(int platform, int stCode, string& errorMsg)
 {
-    CCLog("#### shareCallback");
+    if ( stCode == 100 ) 
+    {
+        CCLog("#### HelloWorld 开始分享");
+    }
+    else if ( stCode == 200 ) 
+    {
+        CCLog("#### HelloWorld 分享成功");
+    }
+    else 
+    {
+        CCLog("#### HelloWorld 分享出错");
+    }
+
     CCLog("platform num is : %d.", platform);
 }
 
@@ -173,8 +211,10 @@ void HelloWorld::menuShareCallback(CCObject* pSender)
     platforms->push_back(QZONE) ;
     platforms->push_back(QQ) ;
     CCLog("COCOS2D-X openshare");
+
+    sdk->authorize(SINA, auth_selector(authCallback));
     // 打开分享面板, 注册分享回调
-    sdk->openShare(platforms, "COCOS2D-X HACKATHON -->  openShare","/sdcard/image.png", share_selector(shareCallback));
+    // sdk->openShare(platforms, "COCOS2D-X HACKATHON -->  openShare","/sdcard/image.png", share_selector(shareCallback));
 
 }
 

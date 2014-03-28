@@ -6,6 +6,7 @@
 #include "UmengSocial/CCUMTypeDef.h"
 #include <string>
 #include <vector>
+#include <map>
 
 /* Header for class com_umeng_social_CCUMSocialController */
 USING_NS_CC;
@@ -125,6 +126,9 @@ void setShareImageName(const char* pathOrUrl);
  * @param platforms SDK支持的平台， 参考CCUMTypeDef.h中的Platform枚举定义
  */
 void setSocialPlatforms(vector<int>* platforms);
+
+
+void getData(JNIEnv *env, jobjectArray data, map<string, string>& outputMap) ;
 
     
 #ifdef __cplusplus
