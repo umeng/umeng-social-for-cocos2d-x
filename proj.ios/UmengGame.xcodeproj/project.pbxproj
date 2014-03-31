@@ -55,6 +55,7 @@
 		D4EF949C15BD2D8E00D803EB /* Icon-114.png in Resources */ = {isa = PBXBuildFile; fileRef = D4EF949B15BD2D8E00D803EB /* Icon-114.png */; };
 		D4EF949E15BD2D9600D803EB /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = D4EF949D15BD2D9600D803EB /* Icon-72.png */; };
 		D4EF94A015BD2D9800D803EB /* Icon-144.png in Resources */ = {isa = PBXBuildFile; fileRef = D4EF949F15BD2D9800D803EB /* Icon-144.png */; };
+		D5A44A5518E555CD00B95D22 /* UMSocialUIObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = D5A44A5418E555CD00B95D22 /* UMSocialUIObject.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,6 +158,8 @@
 		D4EF949D15BD2D9600D803EB /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "../proj.ios/Icon-72.png"; sourceTree = "<group>"; };
 		D4EF949F15BD2D9800D803EB /* Icon-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-144.png"; path = "../proj.ios/Icon-144.png"; sourceTree = "<group>"; };
 		D4F9F37B12E54555005CA6D2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
+		D5A44A5318E555CD00B95D22 /* UMSocialUIObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMSocialUIObject.h; path = ../Ios/UMSocialUIObject.h; sourceTree = "<group>"; };
+		D5A44A5418E555CD00B95D22 /* UMSocialUIObject.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = UMSocialUIObject.mm; path = ../Ios/UMSocialUIObject.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -421,6 +424,8 @@
 			children = (
 				5EC27BB918D5700E00617DB1 /* UmSocialControllerIOS.h */,
 				5EC27BBA18D5700E00617DB1 /* UmSocialControllerIOS.mm */,
+				D5A44A5318E555CD00B95D22 /* UMSocialUIObject.h */,
+				D5A44A5418E555CD00B95D22 /* UMSocialUIObject.mm */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -551,6 +556,7 @@
 				15A3DAEB1682F8A6002FB0C5 /* CDAudioManager.m in Sources */,
 				15A3DAEC1682F8A6002FB0C5 /* CDOpenALSupport.m in Sources */,
 				15A3DAED1682F8A6002FB0C5 /* CocosDenshion.m in Sources */,
+				D5A44A5518E555CD00B95D22 /* UMSocialUIObject.mm in Sources */,
 				15A3DAEE1682F8A6002FB0C5 /* SimpleAudioEngine.mm in Sources */,
 				15A3DAEF1682F8A6002FB0C5 /* SimpleAudioEngine_objc.m in Sources */,
 				5EF981E418D9682A004C8FFB /* UMShareButton.cpp in Sources */,
@@ -623,10 +629,10 @@
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
-					"\\\"$(SRCROOT)/../../../cocos2dx/platform/third_party/ios/libraries\\\"",
-					"\\\"$(SRCROOT)/../../../external/libwebsockets/ios/lib\\\"",
-					"/Users/mrsimple/dev/cocos2d-x-2.2.1/projects/UmengGame/classes/umeng_ios_social_sdk_3.3.5_custom/UMSocial_Sdk_3.3.5",
-					"/Users/mrsimple/dev/cocos2d-x-2.2.1/projects/UmengGame/classes/umeng_ios_social_sdk_3.3.5_custom/UMSocial_Sdk_Extra_Frameworks/Wechat",
+					"\"$(SRCROOT)/../../../cocos2dx/platform/third_party/ios/libraries\"",
+					"\"$(SRCROOT)/../../../external/libwebsockets/ios/lib\"",
+					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.5_custom/UMSocial_Sdk_3.3.5\"",
+					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.5_custom/UMSocial_Sdk_Extra_Frameworks/Wechat\"",
 				);
 				OTHER_CFLAGS = "-O2";
 				PRODUCT_NAME = UmengGame;
@@ -673,10 +679,10 @@
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
-					"\\\"$(SRCROOT)/../../../cocos2dx/platform/third_party/ios/libraries\\\"",
-					"\\\"$(SRCROOT)/../../../external/libwebsockets/ios/lib\\\"",
-					"/Users/mrsimple/dev/cocos2d-x-2.2.1/projects/UmengGame/classes/umeng_ios_social_sdk_3.3.5_custom/UMSocial_Sdk_3.3.5",
-					"/Users/mrsimple/dev/cocos2d-x-2.2.1/projects/UmengGame/classes/umeng_ios_social_sdk_3.3.5_custom/UMSocial_Sdk_Extra_Frameworks/Wechat",
+					"\"$(SRCROOT)/../../../cocos2dx/platform/third_party/ios/libraries\"",
+					"\"$(SRCROOT)/../../../external/libwebsockets/ios/lib\"",
+					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.5_custom/UMSocial_Sdk_3.3.5\"",
+					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.5_custom/UMSocial_Sdk_Extra_Frameworks/Wechat\"",
 				);
 				PRODUCT_NAME = UmengGame;
 				PROVISIONING_PROFILE = "";
