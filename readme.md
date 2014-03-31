@@ -87,8 +87,8 @@ UMSocial_Shake_Sdk|摇一摇 SDK
 > * 针对Cocos2d-x封装的分享按钮,点击按钮即可打开分享面板  ( UMShareButton )；    
 > * 平台以及分享、授权回调函数的定义   ( CCUMTypeDef.h ) 。
 
-   然后添加用于分享的代码, 友盟提供了两种方式来方便开发者使用分享功能， 示例如下 : 
-   ***方式一 :***  
+   然后添加用于分享的代码, 友盟提供了两种方式来方便开发者使用分享功能， 示例如下 :    
+   ***方式一 :***     
    开发者可以通过UMShareButton类来快速的实现分享功能，UMShareButton是CCMenuItemImage的子类，当用户点击该按钮时将会打开友盟的分享面板。
    集成代码如下 :
 ```cpp
@@ -126,7 +126,7 @@ bool HelloWorld::init()
 }
 ```     
 
-***方式二 :***
+***方式二 :***    
     开发者可以使用CCUMSocialSDK类来完成分享、授权、删除授权等操作， 实际上UMShareButton就是包装了CCUMSocialSDK以实现相关的功能。具体功能请参考CCUMSocialSDK中的注释。
     开发者可以自行定义某个按钮，然后在该按钮的点击事件中通过CCUMSocialSDK来进行相应的操作，示例代码如下 :   
 ```cpp
