@@ -322,6 +322,8 @@ public class CCUMSocialController {
 		} else if (target == SHARE_MEDIA.WEIXIN_CIRCLE) {
 			mConfig.supportWXCirclePlatform(mActivity, WEIXIN_APPKEY,
 					TARGET_URL);
+		} else if (target == SHARE_MEDIA.YIXIN) {
+			// handler add to social sdk.
 		} else {
 			Log.e(TAG,
 					target
