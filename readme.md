@@ -40,7 +40,7 @@ CCUMSocialController.initSocialSDK(this, "com.umeng.social.share");
 
 <b id=cocos2dx_integration_ios></b>  
 ### 2.2 iOS平台集成   
-### 加入iOS SDK
+#### 2.2.1 加入iOS SDK
    解压SDK压缩包，将UmengGame/Classes目录下的形如umeng_ios_social_sdk_xxx的文件夹拖入工程目录：
 
 ![alt text](http://dev.umeng.com/images/ios/social_drag_sdk.png "drag_sdk") 
@@ -239,7 +239,8 @@ void authCallback(int platform, int stCode, map<string, string>& data)
 ```   
 
 <b id=cocos2dx_integration_more_platforms></b>
-## 4 添加更多平台  
+## 4 添加更多平台 
+   待定。 
 
 
 ## 5. Android混淆    <b id=proguard></b>     
