@@ -133,13 +133,13 @@ bool HelloWorld::init()
      CCAction* action = CCMoveTo::create(2.0f, ccp(300, 50));
      pShareItem->runAction(action);
 
-//        // 授权按钮
-//    CCMenuItemImage *pAuthItem = CCMenuItemImage::create(
-//                                                          "login.png",
-//                                                          "login.png",
-//                                                          this,
-//                                                          menu_selector(HelloWorld::doAuthorize));
-//    pAuthItem->setPosition(ccp(100,250));
+        // 授权按钮
+    CCMenuItemImage *pAuthItem = CCMenuItemImage::create(
+                                                          "login.png",
+                                                          "login.png",
+                                                          this,
+                                                          menu_selector(HelloWorld::doAuthorize));
+    pAuthItem->setPosition(ccp(100,100));
 
     // 关闭按钮
     CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
@@ -167,7 +167,7 @@ bool HelloWorld::init()
     pMenu->addChild(pShareItem , 1);
     pMenu->addChild(pCloseItem , 1);
     pMenu->addChild(shareButton, 1) ;
-//    pMenu->addChild(pAuthItem, 1);
+    pMenu->addChild(pAuthItem, 1);
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu, 1);
 
@@ -227,14 +227,14 @@ void HelloWorld::doAuthorize(CCObject* pSender)
     int num = count % 3 ;
     if (  num == 0 ) {
         CCLog("授权");
-        sdk->authorize(RENREN, auth_selector(authCallback));
+        sdk->authorize(TENCENT_WEIBO, auth_selector(authCallback));
     }
     else if ( num == 1 ) {
-               CCLog("判断人人网是否授权");
-        sdk->isAuthorized(RENREN);
+               CCLog("判断腾讯微博是否授权");
+        sdk->isAuthorized(TENCENT_WEIBO);
     } else {
-           CCLog("删除人人网授权");
-        sdk->deleteAuthorization(RENREN, auth_selector(authCallback));
+           CCLog("删除腾讯微博授权");
+        sdk->deleteAuthorization(TENCENT_WEIBO, auth_selector(authCallback));
     }
     ++count;
 }

@@ -74,11 +74,23 @@ void UmSocialControllerIOS::authorize(int platform, AuthEventHandler callback){
     
     
     auto ctrol = getViewController();
-    
+    [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskLandscape];
     snsPlatform.loginClickHandler(ctrol,[UMSocialControllerService defaultControllerService],YES,^(UMSocialResponseEntity *response)
                                   {
                                       if (callback) {
-                                          callback(platform, (int)response.responseCode);
+                                          map<string,string> loginData;
+                                          if (response.responseCode == UMSResponseCodeSuccess) {
+                                              
+                                              UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary] valueForKey:snsPlatform.platformName];
+                                              string *tokenValue = new string([snsAccount.accessToken UTF8String]);
+                                              string *uid = new string([snsAccount.usid UTF8String]);
+                                              loginData.insert(pair<string, string>("token",*tokenValue));
+                                              loginData.insert(pair<string, string>("uid",*uid));
+                                              callback(platform, (int)response.responseCode,loginData);
+                                          } else {
+                                              loginData.insert(pair<string, string>("msg","fail"));
+                                              callback(platform, (int)response.responseCode,loginData);
+                                          }
                                       }
                                   });
 }
@@ -86,9 +98,10 @@ void UmSocialControllerIOS::authorize(int platform, AuthEventHandler callback){
 void UmSocialControllerIOS::deleteAuthorization(int platform, AuthEventHandler callback){
     [[UMSocialDataService defaultDataService] requestUnOauthWithType:getPlatformString(platform)  completion:^(UMSocialResponseEntity *response){
         if (callback) {
-            callback(platform, (int)response.responseCode);
+            map<string,string> loginData;
+            loginData.insert(pair<string,string>("msg","deleteOauth"));
+            callback(platform, (int)response.responseCode,loginData);
         }
-        
     }];
 }
 
@@ -130,7 +143,7 @@ void UmSocialControllerIOS::directShare(const char* text, const char* imagePath,
     }
     [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[getPlatformString(platform)] content:[NSString stringWithUTF8String:text] image:image location:nil urlResource:nil presentedController:getViewController() completion:^(UMSocialResponseEntity *response){
         if (callback) {
-            callback(platform, (int)response.responseCode);
+            callback(platform, (int)response.responseCode,string([response.message UTF8String]));
         }
     }];
 }
