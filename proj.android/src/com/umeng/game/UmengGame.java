@@ -53,12 +53,7 @@ public class UmengGame extends Cocos2dxActivity {
 		super.onCreate(savedInstanceState);
 
 		mActivity = this;
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
+		
 		CCUMSocialController.initSocialSDK(mActivity, "com.umeng.social");
 	}
 
