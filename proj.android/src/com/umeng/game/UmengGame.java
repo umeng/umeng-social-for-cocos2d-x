@@ -53,7 +53,7 @@ public class UmengGame extends Cocos2dxActivity {
 		super.onCreate(savedInstanceState);
 
 		mActivity = this;
-		
+
 		CCUMSocialController.initSocialSDK(mActivity, "com.umeng.social");
 	}
 
@@ -70,14 +70,18 @@ public class UmengGame extends Cocos2dxActivity {
 		return glSurfaceView;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onActivityResult(int, int,
+	 * android.content.Intent)
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		UMSsoHandler ssoHandler = CCUMSocialController.mController.getConfig()
-				.getSsoHandler(requestCode);
-		if (ssoHandler != null) {
-			ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-		}
+		// 授权回调
+		CCUMSocialController.onActivityResult(requestCode, resultCode, data);
+
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 

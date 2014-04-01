@@ -1,6 +1,5 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
-#include "CCUMSocialSDK.h"
 
 USING_NS_CC;
 
@@ -18,9 +17,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
     CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
 
     pDirector->setOpenGLView(pEGLView);
-    
-    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
-    sdk->setAppKey("507fcab25270157b37000010");
 	
     // turn on display FPS
     //pDirector->setDisplayStats(true);

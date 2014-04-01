@@ -7,6 +7,7 @@ import java.util.List;
 import org.cocos2dx.lib.Cocos2dxActivity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -28,6 +29,7 @@ import com.umeng.socialize.controller.listener.SocializeListeners.UMAuthListener
 import com.umeng.socialize.db.OauthHelper;
 import com.umeng.socialize.exception.SocializeException;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.sso.UMSsoHandler;
 
 /**
  * 
@@ -37,10 +39,10 @@ import com.umeng.socialize.media.UMImage;
 public class CCUMSocialController {
 
 	/**
-	 * 
+	 * 友盟社会化组件控制器
 	 */
-	public static UMSocialService mController;
-	// private static UMShakeService mShakeController;
+	private static UMSocialService mController;
+	// Cocos2dxActivity对象
 	private static Cocos2dxActivity mActivity;
 	private static final String TAG = CCUMSocialController.class
 			.getSimpleName();
@@ -90,6 +92,22 @@ public class CCUMSocialController {
 			throw new NullPointerException("initSocialSDK的activity不能为空");
 		}
 		checkActivity();
+	}
+
+	/**
+	 * 授权回调
+	 * 
+	 * @param requestCode
+	 * @param resultCode
+	 * @param data
+	 */
+	public static void onActivityResult(int requestCode, int resultCode,
+			Intent data) {
+		UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(
+				requestCode);
+		if (ssoHandler != null) {
+			ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+		}
 	}
 
 	/**
