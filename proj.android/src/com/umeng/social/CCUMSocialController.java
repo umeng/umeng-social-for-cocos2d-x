@@ -29,6 +29,7 @@ import com.umeng.socialize.controller.listener.SocializeListeners.UMAuthListener
 import com.umeng.socialize.db.OauthHelper;
 import com.umeng.socialize.exception.SocializeException;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.UMSsoHandler;
 
 /**
@@ -42,6 +43,11 @@ public class CCUMSocialController {
 	 * 友盟社会化组件控制器
 	 */
 	private static UMSocialService mController;
+	/**
+	 * Social SDK 配置类, 单例
+	 */
+	private static SocializeConfig mSocializeConfig = SocializeConfig
+			.getSocializeConfig();
 	// Cocos2dxActivity对象
 	private static Cocos2dxActivity mActivity;
 	private static final String TAG = CCUMSocialController.class
@@ -52,13 +58,15 @@ public class CCUMSocialController {
 	private static String DESCRIPTOR;
 
 	// ******* 以下字段的调用都在supportPlatfrom函数中 *********
-	// QQ app id
-	private static final String QQ_APPKEY = "";
+	// QQ 和QQ空间共用一个app id
+	private static final String QQ_QZONE_APPKEY = "";
 	// 微信或者微信朋友圈 app id
 	private static final String WEIXIN_APPKEY = "";
 	// 易信或者易信朋友圈app id, 需要添加易信或者易信朋友圈平台的支持, 请参考线上文档
 	private static final String YIXIN_APPKEY = "";
 	// 来往和来往动态的app id, 需要添加来往或者来往动态平台的支持, 请参考线上文档
+	private static final String LAIWANG_APPID = "";
+	// 来往和来往动态的app key, 需要添加来往或者来往动态平台的支持, 请参考线上文档
 	private static final String LAIWANG_APPKEY = "";
 	// 在某些平台的分享中， 希望用户点击该分享内容跳转到的目标平台, 一般为app的官网或者下载地址
 	private static final String TARGET_URL = "http://www.umeng.com/social";
@@ -78,6 +86,7 @@ public class CCUMSocialController {
 				DESCRIPTOR = descriptor;
 				mController = UMServiceFactory.getUMSocialService(DESCRIPTOR,
 						RequestType.SOCIAL);
+				mSocializeConfig = mController.getConfig();
 			}
 		}
 		if (activity instanceof Cocos2dxActivity) {
@@ -103,8 +112,7 @@ public class CCUMSocialController {
 	 */
 	public static void onActivityResult(int requestCode, int resultCode,
 			Intent data) {
-		UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(
-				requestCode);
+		UMSsoHandler ssoHandler = mSocializeConfig.getSsoHandler(requestCode);
 		if (ssoHandler != null) {
 			ssoHandler.authorizeCallBack(requestCode, resultCode, data);
 		}
@@ -331,17 +339,66 @@ public class CCUMSocialController {
 			return;
 		}
 		checkActivity();
-		SocializeConfig mConfig = mController.getConfig();
 		if (target == SHARE_MEDIA.QQ) {
 			// 添加QQ平台支持
-			mConfig.supportQQPlatform(mActivity, QQ_APPKEY, TARGET_URL);
+			mSocializeConfig.supportQQPlatform(mActivity, QQ_QZONE_APPKEY,
+					TARGET_URL);
+		} else if (target == SHARE_MEDIA.QZONE) {
+			// 添加QQ空间的支持
+			mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity,
+					QQ_QZONE_APPKEY));
 		} else if (target == SHARE_MEDIA.WEIXIN) {
-			mConfig.supportWXPlatform(mActivity, WEIXIN_APPKEY, TARGET_URL);
+			// 微信平台
+			mSocializeConfig.supportWXPlatform(mActivity, WEIXIN_APPKEY,
+					TARGET_URL);
 		} else if (target == SHARE_MEDIA.WEIXIN_CIRCLE) {
-			mConfig.supportWXCirclePlatform(mActivity, WEIXIN_APPKEY,
+			// 微信朋友圈平台
+			mSocializeConfig.supportWXCirclePlatform(mActivity, WEIXIN_APPKEY,
 					TARGET_URL);
 		} else if (target == SHARE_MEDIA.YIXIN) {
-			// handler add to social sdk.
+			// 创建易信的handler, 参数2为你的app id, 参数3为是否是易信朋友圈平台, false为易信, true为易信朋友圈,
+			// UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
+			// false);
+			// 添加易信到SDK
+			// yxHandler.addToSicalSDK();
+		} else if (target == SHARE_MEDIA.YIXIN_CIRCLE) {
+			// 创建易信的handler, 参数2为你的app id, 参数3为是否是易信朋友圈平台, false为易信, true为易信朋友圈,
+			// UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
+			// true);
+			// 添加易信朋友圈到SDK
+			// yxHandler.addToSicalSDK();
+		} else if (target == SHARE_MEDIA.LAIWANG) {
+			// 添加来往的支持
+			// UMLWHandler umlwDynamicHandler = UMLWService.supportLWPlatform(
+			// mActivity, LAIWANG_APPID,
+			// LAIWANG_APPKEY, TARGET_URL);
+			// umlwDynamicHandler.setTitle("友盟社会化分享组件-来往动态");
+			// umlwDynamicHandler.setMessageFrom("友盟分享组件");
+
+		} else if (target == SHARE_MEDIA.LAIWANG_DYNAMIC) {
+			// 添加来往动态的支持
+			// UMLWHandler umlwHandler = UMLWService.supportLWDynamicPlatform(
+			// mActivity, LAIWANG_APPID,
+			// LAIWANG_APPKEY, TARGET_URL);
+			// umlwHandler.setTitle("友盟社会化分享组件-来往");
+			// // 设置消息来源
+			// umlwHandler.setMessageFrom("友盟分享组件");
+		} else if (target == SHARE_MEDIA.FACEBOOK) {
+			// facebook的支持
+			// UMFacebookHandler mFacebookHandler = new UMFacebookHandler(
+			// mActivity, PostType.FEED);
+			// mFacebookHandler.addToSocialSDK();
+		} else if (target == SHARE_MEDIA.INSTAGRAM) {
+			// 构建Instagram的Handler
+			// UMInstagramHandler instagramHandler = new UMInstagramHandler(
+			// mActivity);
+			// instagramHandler.addToSocialSDK();
+		} else if (target == SHARE_MEDIA.TWITTER) {
+			mSocializeConfig.supportAppPlatform(mActivity, target, DESCRIPTOR,
+					true);
+		} else if (target == SHARE_MEDIA.GOOGLEPLUS) {
+			mSocializeConfig.supportAppPlatform(mActivity, target, DESCRIPTOR,
+					true);
 		} else {
 			Log.e(TAG,
 					target
@@ -369,7 +426,9 @@ public class CCUMSocialController {
 				Log.d(TAG, "### 平台 " + target);
 				if (target != null && target != SHARE_MEDIA.GENERIC) {
 					// 如果没有添加到SDK则添加到里面, 支持的平台有QQ,微信,微信朋友圈
-					if (!isPlatformConfiged(target)) {
+					// QQ空间为内置平台, 但是它必须使用客户端进行授权.
+					if (!isPlatformConfiged(target)
+							|| target == SHARE_MEDIA.QZONE) {
 						supportPlatfrom(index);
 					}
 					// 先将有效的平台缓存到列表中, 最后再转换为数组
@@ -381,9 +440,9 @@ public class CCUMSocialController {
 			cacheList.toArray(platformsMedias);
 
 			// 设置平台
-			mController.getConfig().setPlatforms(platformsMedias);
+			mSocializeConfig.setPlatforms(platformsMedias);
 			// 设置显示顺序
-			mController.getConfig().setPlatformOrder(platformsMedias);
+			mSocializeConfig.setPlatformOrder(platformsMedias);
 
 			for (SHARE_MEDIA share_MEDIA : cacheList) {
 				Log.d(TAG, "#### 平台 : " + share_MEDIA);
@@ -399,14 +458,14 @@ public class CCUMSocialController {
 	 */
 	private static boolean isPlatformConfiged(SHARE_MEDIA target) {
 		// 内置平台
-		List<SHARE_MEDIA> internalList = mController.getConfig().getPlatforms();
+		List<SHARE_MEDIA> internalList = mSocializeConfig.getPlatforms();
 		// 如果是内置平台, 找到以后直接返回
 		if (internalList.contains(target)) {
 			return true;
 		}
 
 		// 自定义平台
-		List<CustomPlatform> customPlatforms = mController.getConfig()
+		List<CustomPlatform> customPlatforms = mSocializeConfig
 				.getCustomPlatforms();
 		// 在自定义平台查找
 		boolean isfind = false;

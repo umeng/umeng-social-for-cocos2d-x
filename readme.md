@@ -6,6 +6,10 @@
     * 2.2 [iOS平台集成](#cocos2dx_integration_ios)
 * 3.[授权接口说明](#cocos2dx_integration_auth)
 * 4.[添加更多平台](#cocos2dx_integration_more_platforms)
+	* 4.1 [集成来往和来往动态](#laiwang_platforms)
+	* 4.2 [集成易信和易信朋友圈](#yixin_platforms)
+	* 4.3 [集成facebook](#facebook_platforms)
+	* 4.4 [集成instagram](#instagram_platforms)
 * 5.[Android混淆问题](#proguard)
 * 6.[技术支持](#support)  
 
@@ -13,7 +17,8 @@
      
 ## 概述
    友盟社会化组件，可以让移动应用快速具备社会化分享、登录、评论、喜欢等功能，并提供实时、全面的社会化数据统计分析服务。   
-   本指南将会手把手教你使用友盟社会化组件Cocos2d-x SDK，用5分钟为APP增加新浪微博、微信、QQ空间等国内外十几个主流平台的分享功能，该Cocos2d-x SDK目前支持ios和android平台。
+   本指南将会手把手教你使用友盟社会化组件Cocos2d-x SDK，用5分钟为APP增加新浪微博、微信、QQ空间等国内外十几个主流平台的分享功能。
+   该Cocos2d-x SDK目前支持ios和android平台。
  
 <b id=social_cocos2dx></b>
 ## 1 下载和拷贝Cocos2d-x所需文件 
@@ -37,6 +42,12 @@
 // this为Cocos2dxActivity类型, 参数2为描述符,可随意修改.
 CCUMSocialController.initSocialSDK(this, "com.umeng.social.share");
 ```   
+#### 覆写Cocos2dxActivity子类的onActivityResult方法
+   在onActivityResult添加如下代码 : 
+```java
+// 授权回调		CCUMSocialController.onActivityResult(requestCode, resultCode, data);
+super.onActivityResult(requestCode, resultCode, data);
+``` 
 
 <b id=cocos2dx_integration_ios></b>  
 ### 2.2 iOS平台集成   
@@ -157,7 +168,7 @@ void HelloWorld::shareButtonClick()
    sdk->openShare(platforms, "要分享的文字内容","/sdcard/image.png", share_selector(shareCallback));
 ```    
     
-   **分享回调的为如下形式 :** 
+   **分享回调的为如下形式 :**    
 ```cpp
 /*
  * 分享回调, 该回调不是某个类的成员函数， 而是一个普通的函数, 具体使用参考HelloWorldScene的例子
@@ -205,7 +216,7 @@ sdk->authorize(RENREN, auth_selector(authCallback));
 #### 3.2 授权回调说明
    授权回调类型定义在CCUMTypeDef.h中，当授权成功时, 会将授权信息返回给开发者, 开发者可以通过遍历map来获取数据；   
 当授权失败, 会返回一个字段的数据, key为"msg", 值为错误的信息。如果是删除授权, 也是返回一个字段的数据, key为"msg", 值为"deleteOauth"。开发者可以通过判断返回码和map中的数据来进行相应的处理。
-   授权回调函数示例如下 :
+   授权回调函数示例如下 :   
 ```cpp
 /*
  *授权回调
@@ -239,11 +250,55 @@ void authCallback(int platform, int stCode, map<string, string>& data)
 ```   
 
 <b id=cocos2dx_integration_more_platforms></b>
-## 4 添加更多平台 
-   待定。 
+## 4 添加更多平台
+<b id=laiwang_platforms></b> 
+### 4.1 集成来往和来往动态
+#### 4.1.1 Android平台 
+   ***添加来往平台***   
+   
+   
+   ***添加来往动态平台***    
+   
+#### 4.1.2 IOS平台
+   ***添加来往平台***   
+   
+   
+   ***添加来往动态平台***   
 
+<b id=yixin_platforms></b>
+### 4.2 集成易信和易信朋友圈
+#### 4.2.1 Android平台 
+   ***添加易信平台***   
+   
+   
+   ***添加易信朋友圈平台***    
+   
+#### 4.2.2 IOS平台
+   ***添加易信平台***   
+   
+   
+   ***添加易信朋友圈平台***  
+   
+ <b id=facebook_platforms></b>
+### 4.3 集成Facebook
+#### 4.3.1 Android平台 
+   ***添加Facebook平台***   
+     
+   
+#### 4.3.2 IOS平台
+   ***添加Facebook平台***
+   
+<b id=instagram_platforms></b>
+### 4.4 集成Instagram
+#### 4.4.1 Android平台 
+   ***添加Instagram平台***   
+     
+   
+#### 4.4.2 IOS平台
+   ***添加Instagram平台***
 
-## 5. Android混淆    <b id=proguard></b>     
+<b id=proguard></b>
+## 5. Android混淆         
   为了保证引用友盟Social SDK jar文件以及腾讯jar文件被混淆，请在proguard.cfg文件中添加以下代码避免被混淆.。   
 ```text
 -dontwarn com.google.android.maps.**
@@ -288,7 +343,7 @@ void authCallback(int platform, int stCode, map<string, string>& data)
 
 混淆过程中遇到的问题,请联系我们.
 
-
-## 6 技术支持   <b id=support></b>     
+<b id=support></b>
+## 6 技术支持        
 
 请发邮件至social-support@umeng.com。如果您出现的问题和SDK相关，请说明您使用的是Android的SDK，我们会尽快回复您。
