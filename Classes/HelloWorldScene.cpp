@@ -32,6 +32,8 @@
 
 USING_NS_CC;
 using namespace std;
+// 使用友盟命令空间 
+USING_NS_UM_SOCIAL;
 
 CCScene* HelloWorld::scene()
 {

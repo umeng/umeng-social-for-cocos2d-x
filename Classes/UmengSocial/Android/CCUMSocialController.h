@@ -11,6 +11,7 @@
 /* Header for class com_umeng_social_CCUMSocialController */
 USING_NS_CC;
 using namespace std;
+USING_NS_UM_SOCIAL;
 
 #ifndef _Included_com_umeng_social_CCUMSocialController
 #define _Included_com_umeng_social_CCUMSocialController
