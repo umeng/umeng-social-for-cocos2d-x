@@ -44,9 +44,10 @@ UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
  * @param  normalImage  按钮正常情况下显示的图片
  * @param  selectedImage 按钮选中情况下显示的图片
  */
-UMShareButton* UMShareButton::create(const char *normalImage, const char *selectedImage)
+UMShareButton* UMShareButton::create(const char *normalImage, const char *selectedImage, ShareEventHandler callback)
 {
     UMShareButton* shareButton = new UMShareButton(normalImage, selectedImage) ;
+    shareButton->setShareCallback(callback);
     return shareButton ;
 }
 
@@ -55,9 +56,6 @@ UMShareButton* UMShareButton::create(const char *normalImage, const char *select
  */
 UMShareButton::~UMShareButton()
 {
-    // delete mAppKey;
-    // delete mImageName;
-    // delete mShareText;
     delete mSocialSDK;
     delete mPlatforms;
 }
@@ -68,7 +66,6 @@ UMShareButton::~UMShareButton()
  */
 void UMShareButton::setUmengAppkey(const char* appkey)
 {
-    // this->mAppKey = copyChars(appkey);
     this->mAppKey = appkey;
 }
 
@@ -79,7 +76,6 @@ void UMShareButton::setUmengAppkey(const char* appkey)
  */
 void UMShareButton::setShareContent(const char* text)
 {
-    // this->mShareText = copyChars(text);
     this->mShareText = text ;
 }
 
@@ -90,31 +86,7 @@ void UMShareButton::setShareContent(const char* text)
  */
 void UMShareButton::setShareImage(const char* imgName)
 {
-    // this->mImageName = copyChars(imgName);
     this->mImageName = imgName ;
-}
-
-
-/*
- * 申请内存, 拷贝字符串到目标字符指针, 返回该指针.
- * @param source 要拷贝的字符指针
- */
-char* UMShareButton::copyChars(const char* source)
-{
-
-    if ( source == NULL )
-    {
-        CCLog("UMShareButton::copyChars, the source chars is NULL.");
-        return NULL;
-    }
-
-    size_t length = strlen(source);
-    // 分配内存
-    char* dest = (char*)malloc(sizeof(char) * length + 1);
-    // 清内存
-    memset(dest, 0, sizeof(char) * length + 1);
-    strcpy(dest, source);
-    return dest ;
 }
 
 

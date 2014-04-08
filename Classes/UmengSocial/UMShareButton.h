@@ -28,7 +28,7 @@ namespace umeng
             virtual  ~UMShareButton() ;
 
             /** creates a menu item with a normal and selected image*/
-            static UMShareButton* create(const char *normalImage, const char *selectedImage);
+            static UMShareButton* create(const char *normalImage, const char *selectedImage, ShareEventHandler callback);
             
             // // 设置友盟app key
             void setUmengAppkey(const char* appkey);
@@ -47,8 +47,6 @@ namespace umeng
             UMShareButton(const char *normalImage, const char *selectedImage);
             // 分享按钮回调, 打开友盟分享面板
             void shareCallback(CCNode* pSender);
-            // 拷贝字符
-            char* copyChars(const char* source);
         private:
             // 友盟分享组件SDK
             CCUMSocialSDK* mSocialSDK;

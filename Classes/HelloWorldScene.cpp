@@ -162,13 +162,14 @@ bool HelloWorld::init()
     
 
     // 友盟share button.
-    UMShareButton *shareButton = UMShareButton::create("share.png","CloseSelected.png") ;
+    UMShareButton *shareButton = UMShareButton::create("share.png","CloseSelected.png", share_selector(shareCallback)) ;
     shareButton->setUmengAppkey("507fcab25270157b37000010") ;
     shareButton->setShareContent("umeng social cocos2d-x sdk.") ;
     shareButton->setShareImage("/sdcard/header.jpeg") ;
-    // 设置回调
-    shareButton->setShareCallback(share_selector(shareCallback)) ;
+    // 设置分享回调
+    // shareButton->setShareCallback(share_selector(shareCallback));
     shareButton->setPosition(ccp(480, 150));
+
 
     CCMenuItemFont *umshareTextButton = CCMenuItemFont::create("友盟ShareButton");
     umshareTextButton->setPosition(ccp(480,60));
