@@ -69,6 +69,9 @@ namespace umeng
              *@param    platform 要分享到的目标平台
              */
             void directShare(int platform, const char* text, const char* imgName, ShareEventHandler callback);
+
+
+            void setTargetUrl(const char* targetUrl);
             
             
         };

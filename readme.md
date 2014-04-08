@@ -255,10 +255,31 @@ void authCallback(int platform, int stCode, map<string, string>& data)
 <b id=laiwang_platforms></b> 
 ### 4.1 集成来往和来往动态
 #### 4.1.1 Android平台 
-   ***添加来往平台***   
-   
+   添加所需jar和资源，将sdk包中laiwang文件夹下的libs、res目录下的文件拷贝到工程中对应的文件夹中。        
+   	在com.umeng.social.CCUMSocialController中修改LAIWANG_APPID和LAIWANG_APPKEY为您再来往开放平台申请到的app id和app key，然后在该类的supportPlatfrom函数中找到添加来往或者来往动态平台的代码段，将相应的注释去掉，示例如下 :    
+   ***添加来往平台***       
+```java
+UMLWHandler umLWHandler = UMLWService.supportLWPlatform(
+			mActivity, LAIWANG_APPID,
+LAIWANG_APPKEY, TARGET_URL);
+umLWHandler.setTitle("友盟社会化分享组件-来往动态");
+umLWHandler.setMessageFrom("友盟分享组件");
+// 添加来往平台到sdk中
+umLWHandler.addToSicalSDK();
+```
    
    ***添加来往动态平台***    
+```java
+UMLWHandler umlwDynamicHandler =
+UMLWService.supportLWDynamicPlatform(
+		mActivity, LAIWANG_APPID,
+LAIWANG_APPKEY, TARGET_URL);
+umlwDynamicHandler.setTitle("友盟社会化分享组件-来往");
+// 设置消息来源
+umlwDynamicHandler.setMessageFrom("友盟分享组件");
+// 添加来往动态到sdk中
+umlwDynamicHandler.addToSicalSDK();
+```   
    
 #### 4.1.2 IOS平台
    ***添加来往平台***   
@@ -268,11 +289,29 @@ void authCallback(int platform, int stCode, map<string, string>& data)
 
 <b id=yixin_platforms></b>
 ### 4.2 集成易信和易信朋友圈
-#### 4.2.1 Android平台 
-   ***添加易信平台***   
-   
-   
+#### 4.2.1 Android平台   
+   添加所需jar和资源，将sdk包中yixin文件夹下的libs、res目录下的文件拷贝到工程中对应的文件夹中。         
+   在com.umeng.social.CCUMSocialController中修改YIXIN_APPKEY为您在易信开放平台申请到的app id，然后在该类的supportPlatfrom函数中找到添加易信或者易信朋友圈平台的代码段，将相应的注释去掉，示例如下 :        
+   ***添加易信平台***  
+```java
+UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
+			 false);
+// 添加易信平台到SDK
+// yxHandler.addToSicalSDK();
+```    
+
    ***添加易信朋友圈平台***    
+```java
+UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
+			 true);
+// 添加易信朋友圈平台到SDK
+yxHandler.addToSicalSDK();
+```   
+
+**易信精确回调使用说明**
+> * 将SDK包中yixin目录下的yxapi文件夹拷贝到您的工程的包目录下，然后修改YXEntryActivity的完整路径即可。例如social_sdk_example的包名为com.umeng.soexample,
+因此将yxapi文件夹拷贝到com.umeng.soexample下即可。最终YXEntryActivity的完整路径为com.umeng.soexample.yxapi.YXEntryActivity。     
+* 其中分享回调接口SnsPostListener中的onComplete方法的第二个参数代表分享的状态码，当值为200时表示分享成功;其余的值则为分享失败。
    
 #### 4.2.2 IOS平台
    ***添加易信平台***   
@@ -282,18 +321,32 @@ void authCallback(int platform, int stCode, map<string, string>& data)
    
  <b id=facebook_platforms></b>
 ### 4.3 集成Facebook
-#### 4.3.1 Android平台 
+#### 4.3.1 Android平台    
+   添加所需jar和资源，将sdk包中facebook文件夹下的libs、res目录下的文件拷贝到工程中对应的文件夹中。         
+   在com.umeng.social.CCUMSocialController中的supportPlatfrom函数中找到添加facebook平台的代码段，将相应的注释去掉，示例如下 :     
    ***添加Facebook平台***   
-     
+```java
+UMFacebookHandler mFacebookHandler = new UMFacebookHandler(
+			 mActivity, PostType.FEED);
+// 添加facebook平台 
+mFacebookHandler.addToSocialSDK();
+```     
    
 #### 4.3.2 IOS平台
    ***添加Facebook平台***
    
 <b id=instagram_platforms></b>
 ### 4.4 集成Instagram
-#### 4.4.1 Android平台 
+#### 4.4.1 Android平台    
+   添加所需jar和资源，将sdk包中instagram文件夹下的libs、res目录下的文件拷贝到工程中对应的文件夹中。         
+   在com.umeng.social.CCUMSocialController中的supportPlatfrom函数中找到添加instagram平台的代码段，将相应的注释去掉，示例如下 :     
    ***添加Instagram平台***   
-     
+```java
+UMInstagramHandler instagramHandler = new UMInstagramHandler(
+			 mActivity);
+// 添加instagram平台 
+instagramHandler.addToSocialSDK();
+```      
    
 #### 4.4.2 IOS平台
    ***添加Instagram平台***

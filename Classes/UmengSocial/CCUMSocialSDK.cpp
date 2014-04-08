@@ -172,3 +172,21 @@ void CCUMSocialSDK::directShare(int platform,const char* text, const char* imgNa
 #endif
 }
 
+
+/*
+* 设置SDK的target url, 即用户点击某条分享时跳转到的目标页面
+* @param url 用户点击某条分享时跳转到的目标页面通常为app的主页或者下载链接等
+*/
+void CCUMSocialSDK::setTargetUrl(const char* targetUrl)
+{
+    #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
+    setShareTargetUrl(targetUrl);
+
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+ 
+    //TODO: iOS
+    
+#endif
+}
+

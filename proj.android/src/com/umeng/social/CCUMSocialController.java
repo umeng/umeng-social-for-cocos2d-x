@@ -29,6 +29,7 @@ import com.umeng.socialize.controller.listener.SocializeListeners.UMAuthListener
 import com.umeng.socialize.db.OauthHelper;
 import com.umeng.socialize.exception.SocializeException;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.net.utils.SocializeNetUtils;
 import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.UMSsoHandler;
 
@@ -90,7 +91,7 @@ public class CCUMSocialController {
 	/**
 	 * 在某些平台的分享中， 希望用户点击该分享内容跳转到的目标平台, 一般为app的官网或者下载地址
 	 */
-	private static final String TARGET_URL = "http://www.umeng.com/social";
+	private static String TARGET_URL = "http://www.umeng.com/social";
 
 	/**
 	 * 初始化SDK
@@ -335,6 +336,19 @@ public class CCUMSocialController {
 	}
 
 	/**
+	 * 设置用户点击某条分享时跳转到的目标页面
+	 * 
+	 * @param targetUrl
+	 */
+	public static void setTargetUrl(String targetUrl) {
+		if (TextUtils.isEmpty(targetUrl)
+				&& SocializeNetUtils.startWithHttp(targetUrl)) {
+			TARGET_URL = targetUrl;
+		}
+		Log.d(TAG, "### target url : " + TARGET_URL);
+	}
+
+	/**
 	 * 要支持的新平台, 可以添加的平台主要有微信,微信朋友圈,QQ,易信,来往等. 具体参考线上文档
 	 * http://dev.umeng.com/social/android /share/specific-integration
 	 * 
@@ -358,10 +372,11 @@ public class CCUMSocialController {
 					TARGET_URL);
 		} else if (target == SHARE_MEDIA.QZONE) {
 			// Social Android sdk 3.3.6 及其以后的版本, 添加QQ空间的支持方式
+			QZoneSsoHandler.setTargetUrl(TARGET_URL);
 			mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity,
 					QQ_QZONE_APPKEY));
 			// Social Android sdk 3.3.6之前的版本添加QQ空间的支持方式
-//			mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity));
+			// mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity));
 		} else if (target == SHARE_MEDIA.WEIXIN) {
 			// 微信平台
 			mSocializeConfig.supportWXPlatform(mActivity, WEIXIN_APPKEY,
@@ -374,35 +389,38 @@ public class CCUMSocialController {
 			// 创建易信的handler, 参数2为你的app id, 参数3为是否是易信朋友圈平台, false为易信, true为易信朋友圈,
 			// UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
 			// false);
-			// 添加易信到SDK
+			// 添加易信平台到SDK
 			// yxHandler.addToSicalSDK();
 		} else if (target == SHARE_MEDIA.YIXIN_CIRCLE) {
 			// 创建易信的handler, 参数2为你的app id, 参数3为是否是易信朋友圈平台, false为易信, true为易信朋友圈,
 			// UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
 			// true);
-			// 添加易信朋友圈到SDK
+			// 添加易信朋友圈平台到SDK
 			// yxHandler.addToSicalSDK();
 		} else if (target == SHARE_MEDIA.LAIWANG) {
-			// 添加来往的支持
-			// UMLWHandler umlwDynamicHandler = UMLWService.supportLWPlatform(
+			// 添加来往平台的支持
+			// UMLWHandler umLWHandler = UMLWService.supportLWPlatform(
 			// mActivity, LAIWANG_APPID,
 			// LAIWANG_APPKEY, TARGET_URL);
-			// umlwDynamicHandler.setTitle("友盟社会化分享组件-来往动态");
-			// umlwDynamicHandler.setMessageFrom("友盟分享组件");
-
+			// umLWHandler.setTitle("友盟社会化分享组件-来往动态");
+			// umLWHandler.setMessageFrom("友盟分享组件");
+			// umLWHandler.addToSicalSDK();
 		} else if (target == SHARE_MEDIA.LAIWANG_DYNAMIC) {
-			// 添加来往动态的支持
-			// UMLWHandler umlwHandler = UMLWService.supportLWDynamicPlatform(
+			// 添加来往动态平台的支持
+			// UMLWHandler umlwDynamicHandler =
+			// UMLWService.supportLWDynamicPlatform(
 			// mActivity, LAIWANG_APPID,
 			// LAIWANG_APPKEY, TARGET_URL);
-			// umlwHandler.setTitle("友盟社会化分享组件-来往");
+			// umlwDynamicHandler.setTitle("友盟社会化分享组件-来往");
 			// // 设置消息来源
-			// umlwHandler.setMessageFrom("友盟分享组件");
+			// umlwDynamicHandler.setMessageFrom("友盟分享组件");
+			// umlwDynamicHandler.addToSicalSDK();
 		} else if (target == SHARE_MEDIA.FACEBOOK) {
 			// facebook的支持
 			// UMFacebookHandler mFacebookHandler = new UMFacebookHandler(
 			// mActivity, PostType.FEED);
 			// mFacebookHandler.addToSocialSDK();
+			// mFacebookHandler.setTargetUrl(TARGET_URL);
 		} else if (target == SHARE_MEDIA.INSTAGRAM) {
 			// 构建Instagram的Handler
 			// UMInstagramHandler instagramHandler = new UMInstagramHandler(

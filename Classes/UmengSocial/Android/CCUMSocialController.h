@@ -128,6 +128,12 @@ void setShareImageName(const char* pathOrUrl);
  */
 void setSocialPlatforms(vector<int>* platforms);
 
+/*
+ * 设置SDK的target url, 即用户点击某条分享时跳转到的目标页面
+ * @param url 用户点击某条分享时跳转到的目标页面通常为app的主页或者下载链接等
+ */
+void setShareTargetUrl(const char* url) ;
+
 
 void getData(JNIEnv *env, jobjectArray data, map<string, string>& outputMap) ;
 

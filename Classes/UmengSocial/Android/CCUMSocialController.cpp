@@ -296,6 +296,24 @@ void setSocialPlatforms(vector<int>* platforms)
    }
 }
 
+/*
+ * 设置SDK的target url
+ * @param url 用户点击某条分享时跳转到的目标页面通常为app的主页或者下载链接等
+ */
+void setShareTargetUrl(const char* url)
+{
+    JniMethodInfo mi;
+    bool isHave = getMethod(mi, "setTargetUrl", "(Ljava/lang/String;)V");
+    if ( isHave )
+    {
+        jstring targetUrl = mi.env->NewStringUTF(url);
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, targetUrl);
+        mi.env->DeleteLocalRef(targetUrl);
+        releaseMethod(mi);
+    }
+    CCLog("#### setShareTargetUrl");
+}
+
 
 /*
  * 获取某个方法的对象
