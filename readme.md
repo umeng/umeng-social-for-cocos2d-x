@@ -46,8 +46,8 @@ CCUMSocialController.initSocialSDK(this, "com.umeng.social.share");
    在onActivityResult添加如下代码 : 
 ```java
 // 授权回调    	  
-CCUMSocialController.onActivityResult(requestCode, resultCode, data);
 super.onActivityResult(requestCode, resultCode, data);
+CCUMSocialController.onActivityResult(requestCode, resultCode, data);
 ``` 
 
 <b id=cocos2dx_integration_ios></b>  
