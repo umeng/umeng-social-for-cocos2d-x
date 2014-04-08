@@ -119,16 +119,14 @@ bool HelloWorld::init()
         return false;
     }
     
-	// 创建分享按钮, 参数1为按钮正常情况下的图片, 参数2为按钮选中时的图片
-	UMShareButton *shareButton = UMShareButton::create("shareNormal.png","shareSelected.png") ;
+	// 创建分享按钮, 参数1为按钮正常情况下的图片, 参数2为按钮选中时的图片,参数3为分享回调
+	UMShareButton *shareButton = UMShareButton::create("shareNormal.png","shareSelected.png", share_selector(shareCallback)) ;
 	// 设置您的友盟appkey
 	shareButton->setUmengAppkey("507fcab25270157b37000010") ;
 	// 设置文本分享内容
 	shareButton->setShareContent("umeng social cocos2d-x sdk.") ;
 	// 设置要分享的图片, 图片支持本地图片和url图片, 但是url图片必须以http://或者https://开头
 	shareButton->setShareImage("/sdcard/header.jpeg") ;
-	// 设置回调
-	shareButton->setShareCallback(share_selector(shareCallback)) ;
 	// 设置按钮的位置
 	shareButton->setPosition(ccp(150, 180));
 	// 然后开发者需要将该按钮添加到游戏场景中
