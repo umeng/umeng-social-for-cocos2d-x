@@ -230,7 +230,7 @@ void HelloWorld::authorizeCallback(CCObject* pSender)
 {
    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
    CCLog("授权");
-   sdk->authorize(TENCENT_WEIBO, auth_selector(authCallback));
+   sdk->authorize(SINA, auth_selector(authCallback));
 
 }
 
@@ -239,15 +239,23 @@ void HelloWorld::deleteAuthorizeCallback(CCObject* pSender)
 {
     CCUMSocialSDK *sdk = CCUMSocialSDK::create();
     CCLog("删除腾讯微博授权");
-    sdk->deleteAuthorization(TENCENT_WEIBO, auth_selector(authCallback));
+    sdk->deleteAuthorization(SINA, auth_selector(authCallback));
 }
 
 // 判断某个平台的按钮回调
 void HelloWorld::isAuthorizedShareCallback(CCObject* pSender)
 {
     CCUMSocialSDK *sdk = CCUMSocialSDK::create();
-    CCLog("判断腾讯微博是否授权");
-    sdk->isAuthorized(TENCENT_WEIBO);
+    CCLog("@@@@ 判断新浪微博是否授权");
+    bool isAuthorized = sdk->isAuthorized(SINA);
+    if ( isAuthorized ) 
+    {
+        CCLog("@@ 新浪微博已经授权");
+    } 
+    else 
+    {
+        CCLog("@@ 新浪微博还没有授权");
+    }
 }
 
 

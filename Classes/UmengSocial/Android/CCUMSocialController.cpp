@@ -178,11 +178,13 @@ bool isPlatformAuthorized(int platform)
 {
     JniMethodInfo mi;
     bool isHave = getMethod(mi, "isAuthorized", "(I)Z");
+    jboolean isAuthorized = false ;
     if ( isHave )
     {
-        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platform);
+        isAuthorized = mi.env->CallStaticBooleanMethod(mi.classID, mi.methodID, platform);
         releaseMethod(mi);
     }
+    return isAuthorized ;
 }
 
 /*
