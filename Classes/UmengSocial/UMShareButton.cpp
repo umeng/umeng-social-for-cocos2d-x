@@ -30,7 +30,7 @@ UMShareButton::UMShareButton()
  * @param  selectedImage 按钮选中情况下显示的图片
  */
 UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
-:mPlatforms(NULL), mAppKey(NULL),mShareText(NULL),mImageName(NULL),mSocialSDK(NULL),mCallback(NULL)
+:mPlatforms(NULL), mAppKey(""),mShareText(""),mImageName(""),mSocialSDK(NULL),mCallback(NULL)
 {
     CCLog("UMShareButton图片: normalImage = %s, selectedImage = %s.", normalImage, selectedImage);
 
@@ -55,9 +55,9 @@ UMShareButton* UMShareButton::create(const char *normalImage, const char *select
  */
 UMShareButton::~UMShareButton()
 {
-    delete mAppKey;
-    delete mImageName;
-    delete mShareText;
+    // delete mAppKey;
+    // delete mImageName;
+    // delete mShareText;
     delete mSocialSDK;
     delete mPlatforms;
 }
@@ -68,7 +68,8 @@ UMShareButton::~UMShareButton()
  */
 void UMShareButton::setUmengAppkey(const char* appkey)
 {
-     this->mAppKey = copyChars(appkey);
+    // this->mAppKey = copyChars(appkey);
+    this->mAppKey = appkey;
 }
 
 
@@ -78,7 +79,8 @@ void UMShareButton::setUmengAppkey(const char* appkey)
  */
 void UMShareButton::setShareContent(const char* text)
 {
-    this->mShareText = copyChars(text);
+    // this->mShareText = copyChars(text);
+    this->mShareText = text ;
 }
 
 
@@ -88,7 +90,8 @@ void UMShareButton::setShareContent(const char* text)
  */
 void UMShareButton::setShareImage(const char* imgName)
 {
-      this->mImageName = copyChars(imgName);
+    // this->mImageName = copyChars(imgName);
+    this->mImageName = imgName ;
 }
 
 
@@ -150,8 +153,8 @@ void UMShareButton::shareCallback(CCNode* pSender)
         mPlatforms->push_back(DOUBAN) ;
         mPlatforms->push_back(TENCENT_WEIBO);
     }
-    if ( mSocialSDK != NULL) {
-        mSocialSDK->setAppKey(this->mAppKey);
-        mSocialSDK->openShare(mPlatforms, mShareText, mImageName, mCallback) ;
+    if ( mSocialSDK != NULL && !mAppKey.empty() ) {
+        mSocialSDK->setAppKey(this->mAppKey.c_str());
+        mSocialSDK->openShare(mPlatforms, mShareText.c_str(), mImageName.c_str(), mCallback) ;
     }
 }

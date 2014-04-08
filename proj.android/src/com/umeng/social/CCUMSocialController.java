@@ -628,15 +628,10 @@ public class CCUMSocialController {
 				} else {
 					authData[0] = data.getString("access_token");
 				}
-				if (data.containsKey("expires_in")) {
-					authData[1] = data.getString("expires_in");
-				} else {
-					authData[1] = "没有过期时间";
-				}
 				if (data.containsKey("uid")) {
-					authData[2] = data.getString("uid");
+					authData[1] = data.getString("uid");
 				} else {
-					authData[2] = "";
+					authData[1] = "";
 				}
 
 				return authData;

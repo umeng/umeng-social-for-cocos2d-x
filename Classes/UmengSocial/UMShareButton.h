@@ -55,11 +55,11 @@ namespace umeng
             // 要添加支持的平台
             vector<int>* mPlatforms;
             // 要分享的文本内容
-            char* mShareText;
+            string mShareText;
             // 要分享的图片本地路径或者url
-            char* mImageName;
+            string mImageName;
             // 友盟的appkey
-            char* mAppKey;
+            string mAppKey;
             // 分享回调
             ShareEventHandler mCallback ;
         };

@@ -63,19 +63,15 @@ void getData(JNIEnv *env, jobjectArray data, map<string, string>& outputMap)
 {
     jsize count = env->GetArrayLength(data);
 
-    if ( count > 2 ) 
+    if ( count > 1 ) 
     {
         // token
         jstring token = (jstring) env->GetObjectArrayElement(data, 0);
-        // 过期时间
-        jstring expires_in = (jstring) env->GetObjectArrayElement(data, 1);
-
-        jstring uid = (jstring) env->GetObjectArrayElement(data, 2);
+        // uid
+        jstring uid = (jstring) env->GetObjectArrayElement(data, 1);
         const char* pToken = env->GetStringUTFChars(token, NULL);
-        const char* pExpires = env->GetStringUTFChars(expires_in, NULL);
         const char* pUid = env->GetStringUTFChars(uid, NULL);
         outputMap.insert(pair<string,string>("token", pToken));
-        outputMap.insert(pair<string,string>("expires_in", pExpires));
         outputMap.insert(pair<string,string>("uid", pUid));
     }
     else if ( count == 1 )
