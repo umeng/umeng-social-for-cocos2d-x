@@ -1,6 +1,6 @@
 //
 //  UMShareButton.cpp
-//  crossdemo
+//  Umeng Social SDK ShareButton
 //
 //  Created by mrsimple on 3/18/14.
 //
@@ -11,12 +11,12 @@
 #include <iostream>
 USING_NS_CC;
 using namespace std;
-
+// 使用友盟命令空间 
+USING_NS_UM_SOCIAL;
 
 
 /*
- * 设置文本内容
- * @param
+ * 构造函数
  */
 UMShareButton::UMShareButton()
 {
@@ -26,7 +26,8 @@ UMShareButton::UMShareButton()
 
 /*
  * 设置文本内容
- * @param
+ * @param  normalImage  按钮正常情况下显示的图片
+ * @param  selectedImage 按钮选中情况下显示的图片
  */
 UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
 :mPlatforms(NULL), mAppKey(NULL),mShareText(NULL),mImageName(NULL),mSocialSDK(NULL),mCallback(NULL)
@@ -38,13 +39,25 @@ UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
     mSocialSDK = CCUMSocialSDK::create() ;
 }
 
+/*
+ * 创建一个UMShareButton对象
+ * @param  normalImage  按钮正常情况下显示的图片
+ * @param  selectedImage 按钮选中情况下显示的图片
+ */
+UMShareButton* UMShareButton::create(const char *normalImage, const char *selectedImage)
+{
+    UMShareButton* shareButton = new UMShareButton(normalImage, selectedImage) ;
+    return shareButton ;
+}
 
 /*
- * 设置文本内容
- * @param
+ * 析构函数,释放内存
  */
 UMShareButton::~UMShareButton()
 {
+    delete mAppKey;
+    delete mImageName;
+    delete mShareText;
     delete mSocialSDK;
     delete mPlatforms;
 }
@@ -55,16 +68,7 @@ UMShareButton::~UMShareButton()
  */
 void UMShareButton::setUmengAppkey(const char* appkey)
 {
-    // size_t length = strlen(appkey);
-    // if ( this->mAppKey == NULL ) {
-    //     this->mAppKey = (char*)malloc(sizeof(char) * length + 1);
-    // }
-    // memset(this->mAppKey, 0, sizeof(char) * length + 1);
-    // strcpy(this->mAppKey, appkey);
-
      this->mAppKey = copyChars(appkey);
-
-    CCLog("设置app key : %s .", this->mAppKey);
 }
 
 
@@ -74,38 +78,23 @@ void UMShareButton::setUmengAppkey(const char* appkey)
  */
 void UMShareButton::setShareContent(const char* text)
 {
-    // size_t length = strlen(text);
-    // if ( mShareText == NULL ) {
-    //     this->mShareText = (char*)malloc(sizeof(char) * length + 1);
-    // }
-
-    // memset(mShareText, 0, sizeof(char) * length + 1);
-    // strcpy(mShareText, text);
     this->mShareText = copyChars(text);
 }
 
 
 /*
- * 设置本地图片和url图片, url图片必须以http://开头
+ * 设置本地图片和url图片, url图片必须以http://或者https://开头
  * @param 图片的本地路径或者url地址.
  */
 void UMShareButton::setShareImage(const char* imgName)
 {
-    // size_t length = strlen(imgName);
-    //     if ( mImageName == NULL ) {
-    //     this->mImageName = (char*)malloc(sizeof(char) * length + 1);
-    // }
-    // memset(mImageName, 0, sizeof(char) * length + 1);
-    // strcpy(mImageName, imgName);
-
       this->mImageName = copyChars(imgName);
-
 }
 
 
 /*
- *
- *
+ * 申请内存, 拷贝字符串到目标字符指针, 返回该指针.
+ * @param source 要拷贝的字符指针
  */
 char* UMShareButton::copyChars(const char* source)
 {
@@ -127,8 +116,8 @@ char* UMShareButton::copyChars(const char* source)
 
 
 /*
- * 设置回调
- * @param
+ * 设置分享回调回调
+ * @param callback 分享回调
  */
 void UMShareButton::setShareCallback(ShareEventHandler callback)
 {
@@ -137,8 +126,8 @@ void UMShareButton::setShareCallback(ShareEventHandler callback)
 
 
 /*
- *
- * @param
+ * 设置友盟SDK支持的平台， 平台的申明参考CCUMTypeDef.h中的Platform枚举
+ * @param platforms 友盟SDK支持的平台
  */
 void UMShareButton::setPlatforms(vector<int>* platforms)
 {
@@ -147,8 +136,8 @@ void UMShareButton::setPlatforms(vector<int>* platforms)
 
 
 /*
- *
- * @param
+ * 点击该按钮时的回调, 这里实现为调用打开分享面板
+ * @param pSender 
  */
 void UMShareButton::shareCallback(CCNode* pSender)
 {
@@ -159,7 +148,7 @@ void UMShareButton::shareCallback(CCNode* pSender)
         mPlatforms->push_back(QZONE) ;
         mPlatforms->push_back(RENREN) ;
         mPlatforms->push_back(DOUBAN) ;
-        mPlatforms->push_back(SMS);
+        mPlatforms->push_back(TENCENT_WEIBO);
     }
     if ( mSocialSDK != NULL) {
         mSocialSDK->setAppKey(this->mAppKey);

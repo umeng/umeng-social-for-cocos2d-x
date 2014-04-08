@@ -12,6 +12,7 @@
 #include "CCUMTypeDef.h"
 #include <string>
 #include <vector>
+
 using namespace std;
 
 class UmSocialControllerIOS {
@@ -25,7 +26,6 @@ public:
     
 private:
     static string m_appKey;
-
 };
 
 #endif /* defined(__UmengGame__UmSocialControllerIOS__) */

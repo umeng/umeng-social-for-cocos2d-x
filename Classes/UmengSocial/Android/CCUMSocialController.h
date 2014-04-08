@@ -6,10 +6,12 @@
 #include "UmengSocial/CCUMTypeDef.h"
 #include <string>
 #include <vector>
+#include <map>
 
 /* Header for class com_umeng_social_CCUMSocialController */
 USING_NS_CC;
 using namespace std;
+USING_NS_UM_SOCIAL;
 
 #ifndef _Included_com_umeng_social_CCUMSocialController
 #define _Included_com_umeng_social_CCUMSocialController
@@ -19,6 +21,7 @@ extern "C" {
 /*
  * Class:     com_umeng_social_CCUMSocialController
  * Method:    OnAuthorizeStart
+ * Function : 授权开始的回调函数, jint参数为要授权的平台
  * Signature: (I)V
  */
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeStart
@@ -28,6 +31,9 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeSta
 /*
  * Class:     com_umeng_social_CCUMSocialController
  * Method:    OnAuthorizeComplete
+ * Function : 授权结束的回调函数, 参数二的jint为要授权的平台, 参数三的jint为返回码,其中200为授权成功, 
+ 				jobjectArray为授权成功时返回的数据,长度为2, 第一个数据为token, 第二个数据为过期时间。
+ 				如果授权失败则返回的长度为1,包含了错误信息.
  * Signature: ([Ljava/lang/String;I)V
  */
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeComplete
@@ -36,6 +42,7 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnAuthorizeCom
 /*
  * Class:     com_umeng_social_CCUMSocialController
  * Method:    OnShareStart
+ * Function : 开始分享的回调函数
  * Signature: ()V
  */
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareStart
@@ -44,113 +51,85 @@ JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareStart
 /*
  * Class:     com_umeng_social_CCUMSocialController
  * Method:    OnShareComplete
+ * Function : 分享结束的回调函数, 参数2为分享的平台; 参数3为返回码, 200为分享成功.
  * Signature: (IILjava/lang/String;)V
  */
 JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_OnShareComplete
   (JNIEnv *, jclass, jint, jint, jstring);
 
-// /*
-//  * Class:     com_umeng_social_CCUMSocialController
-//  * Method:    getCocos2dxScrShot
-//  * Signature: ()Ljava/lang/String;
-//  */
-// JNIEXPORT jstring JNICALL Java_com_umeng_social_CCUMSocialController_getCocos2dxScrShot
-//   (JNIEnv *, jclass);
-
-// /*
-//  * Class:     com_umeng_social_CCUMSocialController
-//  * Method:    onShakeComplete
-//  * Signature: ()V
-//  */
-// JNIEXPORT void JNICALL Java_com_umeng_social_CCUMSocialController_onShakeComplete
-//   (JNIEnv *, jclass);
-    
-
 
 /*
-*
-*/
-bool getMethod(JniMethodInfo &mi, const char *methodName, const char *paramCode);
+ * 获取某个方法的对象
+ * @param mi 方法对象， 传递的是引用
+ * @param methodName 方法名
+ * @param sig 		方法签名
+ */
+bool getMethod(JniMethodInfo &mi, const char *methodName, const char *sig);
+
+/*
+ * 释放方法对象
+ * @param mi 要释放的方法对象
+ */
+void releaseMethod(JniMethodInfo &mi);
 
 /*
  * 设置友盟app key
+ * @param appKey 友盟app key
  */
 void setUmengAppkey(const char* appkey);
         
 /*
-* 对某平台进行授权
-*
-*/
+ * 对某平台进行授权
+ * @param platfrom 要授权的平台, 参考CCUMTypeDef.h中的Platform枚举定义
+ * @param  callback 授权回调, 具体参考CCUMTypeDef.h中的定义
+ */
 void doAuthorize(int platform, AuthEventHandler callback);
 /*
-* 删除某平台的授权信息
-*
-*/
+ * 删除某平台的授权信息
+ * @param  	callback 删除授权的回调, 具体参考CCUMTypeDef.h中的定义
+ */
 void deletePlatformAuthorization(int platform, AuthEventHandler callback);
     
 /*
-* 判断某平台是否已经授权
-*
-*/
+ * 判断某平台是否已经授权
+ * @param platform 要判定的平台, 参考CCUMTypeDef.h中的Platform枚举定义
+ */
 bool isPlatformAuthorized(int platform);
     
 /*
-* 打开分享面板
-*
-*/
-void doOpenShare(bool registerListener, ShareEventHandler callback);
+ * 打开分享面板
+ * @param callback 分享回调,具体参考CCUMTypeDef.h中的定义
+ */
+void doOpenShare(ShareEventHandler callback);
     
 /*
-* 底层分享
-*
-*/
+ * 直接分享到某个平台，不打开分享面板和内容编辑页面
+ * @param platform 要分享到的目标平台， 参考CCUMTypeDef.h中的Platform枚举定义
+ * @param callback 分享回调，具体参考CCUMTypeDef.h中的定义
+ */
 void doDirectShare(int platform, ShareEventHandler callback);
 
-/*
-*
-*/
-void releaseMethod(JniMethodInfo &mi);
 
 /*
-* 设置要分享的文字内容
-*
-*/
+ * 设置要分享的文字内容
+ * @param text 要分享的文字内容
+ */
 void setShareTextContent(const char* text);
+
 /*
-*设置要分享的图片的本地路径
-*
-*/
+ * 设置要分享的图片的本地路径或者url
+ * @param pathOrUrl 图片的本地路径或者url, 如果是url必须则必须以http://或者https://开头
+ */
 void setShareImageName(const char* pathOrUrl);
-/*
-* 设置要分享的图片的url
-*
-*/
-// void setShareImagesUrl(const char* url);
 
-    
-    
-// /*
-// * 添加平台支持
-// *
-// */
-// void doSupportPlatform(int platform, const char* appkey, const char* targetUrl);
-    
 /*
-* 设置平台顺序呢
-*
-*/
-void setPlatformsOrder(vector<int>* platforms);
-// /*
-// * 移除某些平台
-// *
-// */
-// void removePlatforms(int platforms[]);
-// /*
-// * 清空sdk
-// */
-// void cleanupSDK();
+ * 设置SDK支持的平台
+ * @param platforms SDK支持的平台， 参考CCUMTypeDef.h中的Platform枚举定义
+ */
+void setSocialPlatforms(vector<int>* platforms);
 
-jstring charToJstring(JNIEnv* env,const char* text) ;
+
+void getData(JNIEnv *env, jobjectArray data, map<string, string>& outputMap) ;
 
     
 #ifdef __cplusplus

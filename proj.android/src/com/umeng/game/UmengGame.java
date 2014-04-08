@@ -36,10 +36,6 @@ import com.umeng.socialize.sso.UMSsoHandler;
 public class UmengGame extends Cocos2dxActivity {
 
 	/**
-	 * Handler, 用于包装友盟的openShare方法，保证openShare方法在UI线程执行
-	 */
-	// public static Handler mHandler = null;
-	/**
 	 * 保存当前Activity实例， 静态变量
 	 */
 	private Activity mActivity = null;
@@ -53,11 +49,6 @@ public class UmengGame extends Cocos2dxActivity {
 		super.onCreate(savedInstanceState);
 
 		mActivity = this;
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
 
 		CCUMSocialController.initSocialSDK(mActivity, "com.umeng.social");
 	}
@@ -75,15 +66,30 @@ public class UmengGame extends Cocos2dxActivity {
 		return glSurfaceView;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onActivityResult(int, int,
+	 * android.content.Intent)
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		UMSsoHandler ssoHandler = CCUMSocialController.mController.getConfig()
-				.getSsoHandler(requestCode);
-		if (ssoHandler != null) {
-			ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-		}
+		// 授权回调
+		CCUMSocialController.onActivityResult(requestCode, resultCode, data);
+
 		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onDestroy()
+	 */
+	@Override
+	protected void onDestroy() {
+		CCUMSocialController.cleanup();
+		super.onDestroy();
 	}
 
 	/**
