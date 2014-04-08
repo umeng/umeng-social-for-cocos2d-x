@@ -33,6 +33,9 @@ import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.UMSsoHandler;
 
 /**
+ * 友盟Social Android SDK的控制器, cocos2d-x sdk 通过jni代码调用相关的静态函数实现对应的功能.
+ * 该sdk目前提供的功能有授权、分享(打开分享面板来分享、底层api分享)、删除授权、判断某个平台是否授权、设置文字分享内容、设置图片分享内容的功能,
+ * 并且将结果回调给cocos2d-x sdk.
  * 
  * @author mrsimple
  * 
@@ -50,25 +53,43 @@ public class CCUMSocialController {
 			.getSocializeConfig();
 	// Cocos2dxActivity对象
 	private static Cocos2dxActivity mActivity;
+	/**
+	 * log tag
+	 */
 	private static final String TAG = CCUMSocialController.class
 			.getSimpleName();
 
+	/**
+	 * 主线程的消息Handler
+	 */
 	private static Handler mSDKHandler = new Handler(Looper.getMainLooper());;
-	private static final int DELAY_MS = 100;
+	private static final int DELAY_MS = 50;
 	private static String DESCRIPTOR;
 
 	// ******* 以下字段的调用都在supportPlatfrom函数中 *********
-	// QQ 和QQ空间共用一个app id
+	/**
+	 * QQ 和QQ空间共用一个app id
+	 */
 	private static final String QQ_QZONE_APPKEY = "";
-	// 微信或者微信朋友圈 app id
+	/**
+	 * 微信或者微信朋友圈 app id
+	 */
 	private static final String WEIXIN_APPKEY = "";
-	// 易信或者易信朋友圈app id, 需要添加易信或者易信朋友圈平台的支持, 请参考线上文档
+	/**
+	 * 易信或者易信朋友圈app id, 需要添加易信或者易信朋友圈平台的支持, 请参考线上文档
+	 */
 	private static final String YIXIN_APPKEY = "";
-	// 来往和来往动态的app id, 需要添加来往或者来往动态平台的支持, 请参考线上文档
+	/**
+	 * 来往和来往动态的app id, 需要添加来往或者来往动态平台的支持, 请参考线上文档
+	 */
 	private static final String LAIWANG_APPID = "";
-	// 来往和来往动态的app key, 需要添加来往或者来往动态平台的支持, 请参考线上文档
+	/**
+	 * 来往和来往动态的app key, 需要添加来往或者来往动态平台的支持, 请参考线上文档
+	 */
 	private static final String LAIWANG_APPKEY = "";
-	// 在某些平台的分享中， 希望用户点击该分享内容跳转到的目标平台, 一般为app的官网或者下载地址
+	/**
+	 * 在某些平台的分享中， 希望用户点击该分享内容跳转到的目标平台, 一般为app的官网或者下载地址
+	 */
 	private static final String TARGET_URL = "http://www.umeng.com/social";
 
 	/**
@@ -83,24 +104,22 @@ public class CCUMSocialController {
 
 		if (mController == null) {
 			synchronized (CCUMSocialController.class) {
-				DESCRIPTOR = descriptor;
-				mController = UMServiceFactory.getUMSocialService(DESCRIPTOR,
-						RequestType.SOCIAL);
-				mSocializeConfig = mController.getConfig();
+				if (mController == null) {
+					DESCRIPTOR = descriptor;
+					mController = UMServiceFactory.getUMSocialService(
+							DESCRIPTOR, RequestType.SOCIAL);
+					mSocializeConfig = mController.getConfig();
+				}
 			}
 		}
+
 		if (activity instanceof Cocos2dxActivity) {
 			mActivity = (Cocos2dxActivity) activity;
 		} else {
 			throw new IllegalArgumentException(
-					"initSocialSDK的activity参数必须设置为Cocos2dxActivity类型");
+					"initSocialSDK函数的activity参数必须设置为Cocos2dxActivity类型, 且不为null. ");
 		}
 
-		if (mActivity == null || mActivity.isFinishing()) {
-			Log.d(TAG, "#### mActivity == null || mActivity.isFinishing() ");
-			throw new NullPointerException("initSocialSDK的activity不能为空");
-		}
-		checkActivity();
 	}
 
 	/**
@@ -119,27 +138,53 @@ public class CCUMSocialController {
 	}
 
 	/**
+	 * 授权某个平台
+	 * 
+	 * @param platform
+	 *            授权平台的字符串表示
+	 */
+	public static void doAuthorize(final int platform) {
+		// 检测平台的有效性
+		if (!isPlatformValid(platform)) {
+			return;
+		}
+
+		checkActivity();
+
+		// 在UI线程执行授权操作
+		runOnMainThread(new Runnable() {
+
+			@Override
+			public void run() {
+				mController.doOauthVerify(mActivity, getPlatform(platform),
+						mAuthListener);
+			}
+		});
+
+	}
+
+	/**
 	 * 删除平台授权
 	 * 
 	 * @param platform
 	 *            授权平台的字符串表示
 	 */
 	public static void deleteAuthorization(final int platform) {
-		final SHARE_MEDIA target = getPlatform(platform);
-		if (target == null || target == SHARE_MEDIA.GENERIC) {
-			Log.e(TAG, "deleteOauth failed, platform is invalid.");
+
+		// 检测平台的有效性
+		if (!isPlatformValid(platform)) {
 			return;
 		}
 
-		Log.d(TAG, "@@@@ deleteAuthorization,  " + getPlatform(platform));
 		checkActivity();
+
 		// 在UI线程执行授权操作
-		mSDKHandler.postDelayed(new Runnable() {
+		runOnMainThread(new Runnable() {
 
 			@Override
 			public void run() {
 				// 删除授权
-				mController.deleteOauth(mActivity, target,
+				mController.deleteOauth(mActivity, getPlatform(platform),
 						new SocializeClientListener() {
 
 							@Override
@@ -151,7 +196,7 @@ public class CCUMSocialController {
 							public void onComplete(final int status,
 									SocializeEntity entity) {
 								// 运行在gl线程
-								runOnGLThread(new Runnable() {
+								runOnOpenGLThread(new Runnable() {
 
 									@Override
 									public void run() {
@@ -164,34 +209,9 @@ public class CCUMSocialController {
 							}
 						});
 			}
-		}, DELAY_MS);
+		});
 
 		Log.d(TAG, "@@@@ deleteAuthorization");
-
-	}
-
-	/**
-	 * 授权某个平台
-	 * 
-	 * @param platform
-	 *            授权平台的字符串表示
-	 */
-	public static void doAuthorize(int platform) {
-		final SHARE_MEDIA target = getPlatform(platform);
-		if (target == null || target == SHARE_MEDIA.GENERIC) {
-			Log.e(TAG, "doAuthorize failed, platform is invalid.");
-			return;
-		}
-		Log.d(TAG, "@@@@ doAuthorize,  " + getPlatform(platform));
-		checkActivity();
-		// 在UI线程执行授权操作
-		mSDKHandler.postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				mController.doOauthVerify(mActivity, target, mAuthListener);
-			}
-		}, DELAY_MS);
 
 	}
 
@@ -206,15 +226,16 @@ public class CCUMSocialController {
 		mController.registerListener(mSocialShareListener);
 
 		checkActivity();
+
 		// 在UI线程执行打开分享面板操作
-		mSDKHandler.postDelayed(new Runnable() {
+		runOnMainThread(new Runnable() {
 			@Override
 			public void run() {
-				Log.d(TAG, "#### open share in thread.");
 				// 打开分享面板
 				mController.openShare(mActivity, false);
 			}
-		}, DELAY_MS);
+		});
+
 		Log.d(TAG, "@@@@ openShare");
 
 	}
@@ -225,23 +246,24 @@ public class CCUMSocialController {
 	 * @param platform
 	 *            平台对应的字符串
 	 */
-	public static void directShare(int platform) {
-		final SHARE_MEDIA target = getPlatform(platform);
-		if (target == null || target == SHARE_MEDIA.GENERIC) {
-			Log.e(TAG, "directShare failed, platform is invalid.");
+	public static void directShare(final int platform) {
+
+		// 检测平台的有效性
+		if (!isPlatformValid(platform)) {
 			return;
 		}
-		Log.d(TAG, "#### 直接分享 : " + target);
+
 		checkActivity();
+
 		// 在UI线程执行底层分享操作
-		mSDKHandler.postDelayed(new Runnable() {
+		runOnMainThread(new Runnable() {
 
 			@Override
 			public void run() {
-				mController
-						.directShare(mActivity, target, mSocialShareListener);
+				mController.directShare(mActivity, getPlatform(platform),
+						mSocialShareListener);
 			}
-		}, DELAY_MS);
+		});
 
 		Log.d(TAG, "@@@@ directShare");
 	}
@@ -262,17 +284,6 @@ public class CCUMSocialController {
 		Log.d(TAG, "@@@@ isAuthorized");
 		return false;
 
-	}
-
-	/**
-	 * 使得runnable中的代码运行在opengl线程, 即cocos2d-x的opengl线程
-	 * 
-	 * @param runnable
-	 */
-	public static void runOnGLThread(Runnable runnable) {
-		if (mActivity != null) {
-			mActivity.runOnGLThread(runnable);
-		}
 	}
 
 	/**
@@ -317,6 +328,8 @@ public class CCUMSocialController {
 			File imgFile = new File(imgName);
 			if (imgFile.exists()) {
 				mController.setShareMedia(new UMImage(mActivity, imgFile));
+			} else {
+				Log.e(TAG, "### 要分享的本地图片不存在");
 			}
 		}
 	}
@@ -344,9 +357,11 @@ public class CCUMSocialController {
 			mSocializeConfig.supportQQPlatform(mActivity, QQ_QZONE_APPKEY,
 					TARGET_URL);
 		} else if (target == SHARE_MEDIA.QZONE) {
-			// 添加QQ空间的支持
+			// Social Android sdk 3.3.6 及其以后的版本, 添加QQ空间的支持方式
 			mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity,
 					QQ_QZONE_APPKEY));
+			// Social Android sdk 3.3.6之前的版本添加QQ空间的支持方式
+//			mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity));
 		} else if (target == SHARE_MEDIA.WEIXIN) {
 			// 微信平台
 			mSocializeConfig.supportWXPlatform(mActivity, WEIXIN_APPKEY,
@@ -414,40 +429,46 @@ public class CCUMSocialController {
 	 * @param platforms
 	 *            平台的顺序数组
 	 */
-	public static void setPlatforms(int[] platforms) {
-		if (platforms != null && platforms.length > 0) {
-			int length = platforms.length;
-			//
-			List<SHARE_MEDIA> cacheList = new ArrayList<SHARE_MEDIA>();
-			// 迭代
-			for (int i = 0; i < length; i++) {
-				int index = platforms[i];
-				SHARE_MEDIA target = getPlatform(index);
-				Log.d(TAG, "### 平台 " + target);
-				if (target != null && target != SHARE_MEDIA.GENERIC) {
-					// 如果没有添加到SDK则添加到里面, 支持的平台有QQ,微信,微信朋友圈
-					// QQ空间为内置平台, 但是它必须使用客户端进行授权.
-					if (!isPlatformConfiged(target)
-							|| target == SHARE_MEDIA.QZONE) {
-						supportPlatfrom(index);
+	public static void setPlatforms(final int[] platforms) {
+
+		// 运行在主线程
+		runOnMainThread(new Runnable() {
+
+			@Override
+			public void run() {
+				if (platforms != null && platforms.length > 0) {
+					int length = platforms.length;
+					//
+					List<SHARE_MEDIA> cacheList = new ArrayList<SHARE_MEDIA>();
+					// 迭代
+					for (int i = 0; i < length; i++) {
+						int index = platforms[i];
+						SHARE_MEDIA target = getPlatform(index);
+						Log.d(TAG, "### 平台 " + target);
+						if (target != null && target != SHARE_MEDIA.GENERIC) {
+							// 如果没有添加到SDK则添加到里面, 支持的平台有QQ,微信,微信朋友圈
+							// QQ空间为内置平台, 但是它必须使用客户端进行授权.
+							if (!isPlatformConfiged(target)
+									|| target == SHARE_MEDIA.QZONE) {
+								supportPlatfrom(index);
+							}
+							// 先将有效的平台缓存到列表中, 最后再转换为数组
+							cacheList.add(target);
+						}
 					}
-					// 先将有效的平台缓存到列表中, 最后再转换为数组
-					cacheList.add(target);
+
+					SHARE_MEDIA[] platformsMedias = new SHARE_MEDIA[cacheList
+							.size()];
+					cacheList.toArray(platformsMedias);
+
+					// 设置平台
+					mSocializeConfig.setPlatforms(platformsMedias);
+					// 设置显示顺序
+					mSocializeConfig.setPlatformOrder(platformsMedias);
 				}
 			}
+		});
 
-			SHARE_MEDIA[] platformsMedias = new SHARE_MEDIA[cacheList.size()];
-			cacheList.toArray(platformsMedias);
-
-			// 设置平台
-			mSocializeConfig.setPlatforms(platformsMedias);
-			// 设置显示顺序
-			mSocializeConfig.setPlatformOrder(platformsMedias);
-
-			for (SHARE_MEDIA share_MEDIA : cacheList) {
-				Log.d(TAG, "#### 平台 : " + share_MEDIA);
-			}
-		}
 	}
 
 	/**
@@ -468,30 +489,64 @@ public class CCUMSocialController {
 		List<CustomPlatform> customPlatforms = mSocializeConfig
 				.getCustomPlatforms();
 		// 在自定义平台查找
-		boolean isfind = false;
 		for (CustomPlatform cs : customPlatforms) {
 			if (cs != null && cs.mKeyword.equals(target.toString())) {
-				isfind = true;
+				return true;
 			}
 		}
-		return isfind;
+		return false;
+	}
+
+	/**
+	 * 使得runnable中的代码运行在opengl线程, 即cocos2d-x的opengl线程
+	 * 
+	 * @param runnable
+	 */
+	private static void runOnOpenGLThread(Runnable runnable) {
+		if (mActivity != null) {
+			mActivity.runOnGLThread(runnable);
+		}
+	}
+
+	/**
+	 * 将操作封装在Runnable中, 使之运行在Android主线程
+	 * 
+	 * @param runnable
+	 */
+	private static void runOnMainThread(Runnable runnable) {
+		mSDKHandler.postDelayed(runnable, DELAY_MS);
 	}
 
 	/**
 	 * 
+	 * @param platform
+	 *            要检测的平台
+	 * @return
 	 */
-	public static void cleanup() {
-		mController = null;
-		mActivity = null;
-		mSDKHandler = null;
-		Log.d(TAG, "@@@@ cleanup");
+	private static boolean isPlatformValid(int platform) {
+		final SHARE_MEDIA target = getPlatform(platform);
+		if (target == null || target == SHARE_MEDIA.GENERIC) {
+			Log.e(TAG, "### 设置的目标平台无效.   platform = " + target);
+			return false;
+		}
+		return true;
 	}
 
 	/**
 	 * 检查mActivity的合法性
 	 */
 	private static void checkActivity() {
-		assert mActivity != null : "in UMSocialController class, mActivity == null, can not continue.";
+		assert mActivity != null : "在CCUMSocialController类中, mActivity为null.";
+	}
+
+	/**
+	 * 清空SDK
+	 */
+	public static void cleanup() {
+		mController = null;
+		mSDKHandler = null;
+		mActivity = null;
+		Log.d(TAG, "@@@@ cleanup");
 	}
 
 	/*******************************************************************************
@@ -502,7 +557,7 @@ public class CCUMSocialController {
 		@Override
 		public void onStart(final SHARE_MEDIA platform) {
 			// 运行在gl线程
-			runOnGLThread(new Runnable() {
+			runOnOpenGLThread(new Runnable() {
 
 				@Override
 				public void run() {
@@ -517,7 +572,7 @@ public class CCUMSocialController {
 				final SHARE_MEDIA platform) {
 
 			// 运行在gl线程
-			runOnGLThread(new Runnable() {
+			runOnOpenGLThread(new Runnable() {
 
 				@Override
 				public void run() {
@@ -531,7 +586,7 @@ public class CCUMSocialController {
 		public void onComplete(final Bundle value, final SHARE_MEDIA platform) {
 
 			// 运行在gl线程
-			runOnGLThread(new Runnable() {
+			runOnOpenGLThread(new Runnable() {
 
 				@Override
 				public void run() {
@@ -545,7 +600,7 @@ public class CCUMSocialController {
 		@Override
 		public void onCancel(final SHARE_MEDIA platform) {
 			// 运行在gl线程
-			runOnGLThread(new Runnable() {
+			runOnOpenGLThread(new Runnable() {
 
 				@Override
 				public void run() {
@@ -620,7 +675,7 @@ public class CCUMSocialController {
 		 */
 		@Override
 		public void onStart() {
-			runOnGLThread(new Runnable() {
+			runOnOpenGLThread(new Runnable() {
 
 				@Override
 				public void run() {
@@ -640,7 +695,7 @@ public class CCUMSocialController {
 		@Override
 		public void onComplete(final SHARE_MEDIA platform, final int eCode,
 				final SocializeEntity entity) {
-			runOnGLThread(new Runnable() {
+			runOnOpenGLThread(new Runnable() {
 
 				@Override
 				public void run() {

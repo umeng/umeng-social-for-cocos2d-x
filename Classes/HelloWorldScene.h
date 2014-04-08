@@ -14,15 +14,22 @@ public:
     
     // a selector callback
     void menuCloseCallback(CCObject* pSender);
-    // a selector callback to share button
+    // 打开分享面板的按钮回调
     void menuShareCallback(CCObject* pSender);
-        void doAuthorize(CCObject* pSender);
+    // 直接分享的按钮回调
+    void directShareCallback(CCObject* pSender);
+    // 授权某个平台的按钮回调
+    void authorizeCallback(CCObject* pSender);
+    // 删除某个平台的按钮回调
+    void deleteAuthorizeCallback(CCObject* pSender);
+    // 判断某个平台的按钮回调
+    void isAuthorizedShareCallback(CCObject* pSender);
     
     // implement the "static node()" method manually
     CREATE_FUNC(HelloWorld);
 
 private:
-	void openUmengShare();
+	// void openUmengShare();
     void saveScreenshot();
 
 };

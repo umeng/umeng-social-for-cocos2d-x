@@ -120,28 +120,33 @@ bool HelloWorld::init()
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
     CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
-    
-    
-    // 分享按钮
-     CCMenuItemImage *pShareItem = CCMenuItemImage::create(
-                                                           "share.png",
-                                                           "share.png",
-                                                           this,
-                                                           menu_selector(HelloWorld::menuShareCallback));
-     pShareItem->setPosition(ccp(100,80));
-     CCAction* action = CCMoveTo::create(2.0f, ccp(300, 50));
-     pShareItem->runAction(action);
 
-        // 授权按钮
-    CCMenuItemImage *pAuthItem = CCMenuItemImage::create(
-                                                          "login.png",
-                                                          "login.png",
-                                                          this,
-                                                          menu_selector(HelloWorld::doAuthorize));
-    pAuthItem->setPosition(ccp(100,100));
+    // 打开分享面板
+    CCMenuItemFont *shareTextButton = CCMenuItemFont::create("打开分享面板",this , menu_selector(HelloWorld::menuShareCallback));
+    shareTextButton->setPosition(ccp(150,480));
+
+    // 底层API分享
+    CCMenuItemFont *directTextButton = CCMenuItemFont::create("底层分享",this , menu_selector(HelloWorld::directShareCallback));
+    directTextButton->setPosition(ccp(150,400));
+
+    // 授权某平台
+    CCMenuItemFont *authTextButton = CCMenuItemFont::create("授权某平台",this , menu_selector(HelloWorld::authorizeCallback));
+    authTextButton->setPosition(ccp(150,320));
+
+    // 删除某平台授权
+    CCMenuItemFont *delAuthTextButton = CCMenuItemFont::create("删除某平台删除",this , menu_selector(HelloWorld::deleteAuthorizeCallback));
+    delAuthTextButton->setPosition(ccp(150,240));
+
+    // 判断某平台是否授权
+    CCMenuItemFont *isAuthTextButton = CCMenuItemFont::create("判断某平台是否授权",this , menu_selector(HelloWorld::isAuthorizedShareCallback));
+    isAuthTextButton->setPosition(ccp(150,160));
+
+
+    // ********************  设置友盟的app key      ***********************************
+    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+    sdk->setAppKey("507fcab25270157b37000010");
+    // ********************************************************************************
+
 
     // 关闭按钮
     CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
@@ -154,22 +159,32 @@ bool HelloWorld::init()
                                 origin.y + pCloseItem->getContentSize().height/2));
     
 
-    // share button.
+    // 友盟share button.
     UMShareButton *shareButton = UMShareButton::create("share.png","CloseSelected.png") ;
     shareButton->setUmengAppkey("507fcab25270157b37000010") ;
     shareButton->setShareContent("umeng social cocos2d-x sdk.") ;
     shareButton->setShareImage("/sdcard/header.jpeg") ;
     // 设置回调
     shareButton->setShareCallback(share_selector(shareCallback)) ;
-    shareButton->setPosition(ccp(150, 180));
+    shareButton->setPosition(ccp(480, 150));
 
+    CCMenuItemFont *umshareTextButton = CCMenuItemFont::create("友盟ShareButton");
+    umshareTextButton->setPosition(ccp(480,60));
 
     // create menu, it's an autorelease object
     CCMenu* pMenu = CCMenu::create();
-    pMenu->addChild(pShareItem , 1);
     pMenu->addChild(pCloseItem , 1);
-    pMenu->addChild(shareButton, 1) ;
-    pMenu->addChild(pAuthItem, 1);
+    // 友盟share button
+    pMenu->addChild(shareButton , 1);
+    pMenu->addChild(umshareTextButton, 1);
+
+    // 文字按钮
+    pMenu->addChild(shareTextButton, 1);
+    pMenu->addChild(directTextButton, 1) ;
+    pMenu->addChild(authTextButton, 1);
+    pMenu->addChild(delAuthTextButton, 1) ;
+    pMenu->addChild(isAuthTextButton, 1);
+
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu, 1);
 
@@ -179,7 +194,7 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
     
-    CCLabelTTF* pLabel = CCLabelTTF::create("COCOS2D-X HACKATHON  -- Umeng.com ", "Arial", 34);
+    CCLabelTTF* pLabel = CCLabelTTF::create("Umeng Social Cocos2d-x SDK", "Arial", 34);
     
     // position the label on the center of the screen
     pLabel->setPosition(ccp(origin.x + visibleSize.width/2,
@@ -201,11 +216,45 @@ bool HelloWorld::init()
 }
 
 
+// 直接分享的按钮回调
+void HelloWorld::directShareCallback(CCObject* pSender)
+{
+
+    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+    sdk->directShare(SINA, "COCOS2D-X HACKATHON -->  directShare   testing", "/sdcard/image.png", share_selector(shareCallback)) ;
+}
+
+
+// 授权某个平台的按钮回调
+void HelloWorld::authorizeCallback(CCObject* pSender)
+{
+   CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+   CCLog("授权");
+   sdk->authorize(TENCENT_WEIBO, auth_selector(authCallback));
+
+}
+
+// 删除某个平台的按钮回调
+void HelloWorld::deleteAuthorizeCallback(CCObject* pSender)
+{
+    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+    CCLog("删除腾讯微博授权");
+    sdk->deleteAuthorization(TENCENT_WEIBO, auth_selector(authCallback));
+}
+
+// 判断某个平台的按钮回调
+void HelloWorld::isAuthorizedShareCallback(CCObject* pSender)
+{
+    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+    CCLog("判断腾讯微博是否授权");
+    sdk->isAuthorized(TENCENT_WEIBO);
+}
+
+
 // 直接分享
 void HelloWorld::menuShareCallback(CCObject* pSender)
 {
     CCUMSocialSDK *sdk = CCUMSocialSDK::create();
-    sdk->setAppKey("507fcab25270157b37000010");
     vector<int>* platforms = new vector<int>();
     platforms->push_back(SINA);
     platforms->push_back(RENREN) ;
@@ -214,34 +263,14 @@ void HelloWorld::menuShareCallback(CCObject* pSender)
     platforms->push_back(QQ) ;
     CCLog("COCOS2D-X openshare");
 
-    sdk->authorize(SINA, auth_selector(authCallback));
     // 打开分享面板, 注册分享回调
-    // sdk->openShare(platforms, "COCOS2D-X HACKATHON -->  openShare","/sdcard/image.png", share_selector(shareCallback));
+    sdk->openShare(platforms, "COCOS2D-X HACKATHON -->  openShare","/sdcard/image.png", share_selector(shareCallback));
 
 }
 
-// 授权
-void HelloWorld::doAuthorize(CCObject* pSender)
-{
-
-    static int count = 0 ;
-    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
-    int num = count % 3 ;
-    if (  num == 0 ) {
-        CCLog("授权");
-        sdk->authorize(TENCENT_WEIBO, auth_selector(authCallback));
-    }
-    else if ( num == 1 ) {
-               CCLog("判断腾讯微博是否授权");
-        sdk->isAuthorized(TENCENT_WEIBO);
-    } else {
-           CCLog("删除腾讯微博授权");
-        sdk->deleteAuthorization(TENCENT_WEIBO, auth_selector(authCallback));
-    }
-    ++count;
-}
-
-//截图功能
+/**
+ * 截图功能
+ */ 
 void HelloWorld::saveScreenshot()
 {
     CCSize size = CCDirector::sharedDirector()->getWinSize();
