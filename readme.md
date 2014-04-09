@@ -98,13 +98,13 @@
             android:screenOrientation="portrait">
         </activity>
         
-        <!-- facebook相关 -->
+        <!-- facebook相关,如果没有使用facebook可删除此项与下面的facebook_app_id -->
         <activity
             android:name="com.facebook.LoginActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <!-- 这里填写你的facebook app id,必须声明在string.xml中 -->
+        <!-- 填写你的facebook app id,必须声明在string.xml中-->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
