@@ -560,7 +560,7 @@ public class CCUMSocialController {
 	 * 
 	 * @param appid
 	 */
-	public static void setQQAppid(String appid) {
+	public static void setQQAppId(String appid) {
 		QQ_APP_ID = appid;
 	}
 
@@ -569,7 +569,7 @@ public class CCUMSocialController {
 	 * 
 	 * @param appid
 	 */
-	public static void setQZoneAppid(String appid) {
+	public static void setQZoneAppId(String appid) {
 		QZONE_APP_ID = appid;
 	}
 
@@ -578,7 +578,7 @@ public class CCUMSocialController {
 	 * 
 	 * @param appid
 	 */
-	public static void setWeiXinAppid(String appid) {
+	public static void setWeiXinAppId(String appid) {
 		WEIXIN_APP_ID = appid;
 	}
 
@@ -596,7 +596,7 @@ public class CCUMSocialController {
 	 * 
 	 * @param appid
 	 */
-	public static void setLaiwangAppid(String appid) {
+	public static void setLaiwangAppId(String appid) {
 		LAIWANG_APPID = appid;
 	}
 
@@ -606,7 +606,7 @@ public class CCUMSocialController {
 	 * @param appid
 	 */
 	public static void setLaiwangAppKey(String appkey) {
-		LAIWANG_APPID = appkey;
+		LAIWANG_APPKEY = appkey;
 	}
 
 	/**
