@@ -195,8 +195,8 @@ UMSocial_Shake_Sdk|摇一摇 SDK
 
 <b id=cocos2dx_integration_cocos2dx></b>
 #### 2.3 在Cocos2d-x游戏中添加分享功能
-   将android和ios所需的资源添加到对应的工程以后(也可以是某一个平台), 您就可以在cocos2d-x中使用该友盟社会化组件的分享、登录功能了。   
-  首先将UmengGame项目Classes目录下的UmengSocial文件夹拷贝到您的工程的Classes目录下，UmengSocial包括：   
+   将所需的资源添加到对应的工程以后, 您就可以在cocos2d-x中使用该友盟社会化组件的分享、登录功能了。   
+  首先将sdk压缩包下的根目录下的UmengSocial文件夹拷贝到您的工程的Classes目录下，UmengSocial包括：   
 > * Android平台的调用实现 ( Android文件夹 )；   
 > * IOS平台的调用实现 ( iOS文件夹 )；  
 > * 针对Cocos2d-x的统一接口 ( CCUMSocialSDK )；     
