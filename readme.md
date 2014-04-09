@@ -29,7 +29,7 @@
 	实现cocos2d-x中跨平台分享功能,需拷贝到您项目的Classes文件夹中;    
 >**2. Platforms**    
 	原生的Android和iOS社会化组件SDK,需要您将库和资源拷贝到对应平台的项目中;    
->**3. 集成文档.md**    
+>**3. doc**    
 	Cocos2d-x SDK集成文档。
 	
 <b id=cocos2dx_integration></b>   
