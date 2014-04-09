@@ -5,8 +5,8 @@
     * 2.1 [Android平台集成](#cocos2dx_integration_android)
     * 2.2 [iOS平台集成](#cocos2dx_integration_ios)
     * 2.2 [在Cocos2d-x游戏中添加分享功能](#cocos2dx_integration_cocos2dx)
-* 3.[授权接口说明](#cocos2dx_integration_auth)
-* 4.[添加更多平台](#cocos2dx_integration_more_platforms)
+* 3.[授权接口使用说明](#cocos2dx_integration_auth)
+* 4.[添加更多平台  ( 按需集成 )](#cocos2dx_integration_more_platforms)
 	* 4.1 [集成来往和来往动态](#laiwang_platforms)
 	* 4.2 [集成易信和易信朋友圈](#yixin_platforms)
 	* 4.3 [集成facebook](#facebook_platforms)
@@ -23,9 +23,13 @@
  
 <b id=social_cocos2dx></b>
 ## 1 下载和拷贝Cocos2d-x所需文件 
-   首先您需要下载友盟社会化组件 Cocos2d-x SDK,然后将该sdk解压。
-         
-
+   首先您需要下载友盟社会化组件 Cocos2d-x SDK,然后将该sdk压缩包解压。
+>压缩包目录说明：  
+>**1. UmengSocial**    
+	实现cocos2d-x中跨平台分享功能,需拷贝到您项目的Classes文件夹中;    
+>**2. Platforms**    
+	原生的Android和iOS社会化组件SDK,需要您将库和资源拷贝到对应平台的项目中;
+	
 <b id=cocos2dx_integration></b>   
 ## 2 Cocos2d-x集成友盟分享组件
 <b id=cocos2dx_integration_android></b>
