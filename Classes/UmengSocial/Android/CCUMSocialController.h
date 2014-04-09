@@ -129,18 +129,11 @@ void setShareImageName(const char* pathOrUrl);
 void setSocialPlatforms(vector<int>* platforms);
 
 /**
- * 设置QQ的app id
+ * 设置QQ互联平台的的app id,包括QQ和QQ空间
  * 
  * @param appid
  */
- void setQQPlatformAppId(const char* appid) ; 
-
-/**
-* 设置QQ空间的app id
-* 
-* @param appid
-*/
-void setQZonePlatformAppId(const char* appid);
+ void setQQConnectPlatformAppId(const char* appid) ; 
 
 /**
  * 设置微信和微信朋友圈的app id

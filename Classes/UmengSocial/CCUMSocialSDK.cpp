@@ -177,11 +177,11 @@ void CCUMSocialSDK::directShare(int platform,const char* text, const char* imgNa
 * 
 * @param appid
 */
-void CCUMSocialSDK::setQQAppId(const char* appid) 
+void CCUMSocialSDK::setQQAndQZoneAppId(const char* appid) 
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-    setQQPlatformAppId(appid);
+    setQQConnectPlatformAppId(appid);
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
  
@@ -190,23 +190,6 @@ void CCUMSocialSDK::setQQAppId(const char* appid)
 #endif
 }
 
-/**
-* 设置QQ空间的app id
-* 
-* @param appid
-*/
-void CCUMSocialSDK::setQZoneAppId(const char* appid) 
-{
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-
-    setQZonePlatformAppId(appid);
-
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
- 
-    //TODO: iOS
-    
-#endif
-}
 
 /**
 * 设置微信和微信朋友圈的app id

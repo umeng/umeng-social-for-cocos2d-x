@@ -77,18 +77,11 @@ namespace umeng
             void setTargetUrl(const char* targetUrl);
 
             /**
-             * 设置QQ的app id
+             * 设置QQ和QQ空间的app id
              * 
              * @param appid
              */
-            void setQQAppId(const char* appid) ;
-
-            /**
-             * 设置QQ空间的app id
-             * 
-             * @param appid
-             */
-            void setQZoneAppId(const char* appid);
+            void setQQAndQZoneAppId(const char* appid) ;
 
             /**
              * 设置微信和微信朋友圈的app id

@@ -145,8 +145,7 @@ bool HelloWorld::init()
     // ********************  设置友盟的app key      ***********************************
     CCUMSocialSDK *sdk = CCUMSocialSDK::create();
     sdk->setAppKey("507fcab25270157b37000010");
-    // sdk->setQQAppId("设置QQ的app id");
-    // sdk->setQZoneAppId("设置QQ空间的app id");
+    sdk->setQQAndQZoneAppId("设置QQ的app id");
     // sdk->setWeiXinAppId("设置微信和朋友圈的app id");
     // sdk->setYiXinAppKey("设置易信和易信朋友圈的app id");
     // sdk->setLaiwangAppId("设置来往和来往动态的app id");

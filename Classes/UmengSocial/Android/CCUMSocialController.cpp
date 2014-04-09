@@ -301,10 +301,10 @@ void setSocialPlatforms(vector<int>* platforms)
  * 
  * @param appid
  */
- void setQQPlatformAppId(const char* appid) 
+ void setQQConnectPlatformAppId(const char* appid) 
  {
    JniMethodInfo mi;
-    bool isHave = getMethod(mi, "setQQAppId", "(Ljava/lang/String;)V");
+    bool isHave = getMethod(mi, "setQQAndQZoneAppId", "(Ljava/lang/String;)V");
     if ( isHave )
     {
         jstring jAppid = mi.env->NewStringUTF(appid);
@@ -312,27 +312,9 @@ void setSocialPlatforms(vector<int>* platforms)
         mi.env->DeleteLocalRef(jAppid);
         releaseMethod(mi);
     }
-    CCLog("#### setQQPlatformAppid");
+    CCLog("#### setQQConnectPlatformAppId");
  }
 
-/**
-* 设置QQ空间的app id
-* 
-* @param appid
-*/
-void setQZonePlatformAppId(const char* appid) 
-{
-   JniMethodInfo mi;
-    bool isHave = getMethod(mi, "setQZoneAppId", "(Ljava/lang/String;)V");
-    if ( isHave )
-    {
-        jstring jAppid = mi.env->NewStringUTF(appid);
-        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, jAppid);
-        mi.env->DeleteLocalRef(jAppid);
-        releaseMethod(mi);
-    }
-    CCLog("#### setQZonePlatformAppid");
-}
 
 /**
  * 设置微信和微信朋友圈的app id

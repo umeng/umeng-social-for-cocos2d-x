@@ -69,14 +69,10 @@ public class CCUMSocialController {
 
 	// ******* 以下字段的调用都在supportPlatfrom函数中 *********
 	/**
-	 * QQ app id
+	 * QQ和QQ空间app id
 	 */
-	private static String QQ_APP_ID = "";
+	private static String QQ_QZONE_APP_ID = "";
 
-	/**
-	 * QQ空间共用一个app id
-	 */
-	private static String QZONE_APP_ID = "";
 	/**
 	 * 微信或者微信朋友圈 app id
 	 */
@@ -373,13 +369,13 @@ public class CCUMSocialController {
 		checkActivity();
 		if (target == SHARE_MEDIA.QQ) {
 			// 添加QQ平台支持
-			mSocializeConfig
-					.supportQQPlatform(mActivity, QQ_APP_ID, TARGET_URL);
+			mSocializeConfig.supportQQPlatform(mActivity, QQ_QZONE_APP_ID,
+					TARGET_URL);
 		} else if (target == SHARE_MEDIA.QZONE) {
 			// Social Android sdk 3.3.6 及其以后的版本, 添加QQ空间的支持方式
 			QZoneSsoHandler.setTargetUrl(TARGET_URL);
 			mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity,
-					QZONE_APP_ID));
+					QQ_QZONE_APP_ID));
 			// Social Android sdk 3.3.6之前的版本添加QQ空间的支持方式
 			// mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity));
 		} else if (target == SHARE_MEDIA.WEIXIN) {
@@ -556,23 +552,13 @@ public class CCUMSocialController {
 	}
 
 	/**
-	 * 设置QQ的app id
+	 * 设置QQ和QQ空间的app id
 	 * 
 	 * @param appid
 	 */
-	public static void setQQAppId(String appid) {
-		QQ_APP_ID = appid;
-		Log.d(TAG, "### QQ app id = " + appid) ;
-	}
-
-	/**
-	 * 设置QQ空间的app id
-	 * 
-	 * @param appid
-	 */
-	public static void setQZoneAppId(String appid) {
-		QZONE_APP_ID = appid;
-		Log.d(TAG, "### QQ空间 app id = " + appid) ;
+	public static void setQQAndQZoneAppId(String appid) {
+		QQ_QZONE_APP_ID = appid;
+		Log.d(TAG, "### QQ or qzone app id = " + appid);
 	}
 
 	/**
@@ -582,7 +568,7 @@ public class CCUMSocialController {
 	 */
 	public static void setWeiXinAppId(String appid) {
 		WEIXIN_APP_ID = appid;
-		Log.d(TAG, "### 微信 app id = " + appid) ;
+		Log.d(TAG, "### 微信 app id = " + appid);
 	}
 
 	/**
@@ -592,7 +578,7 @@ public class CCUMSocialController {
 	 */
 	public static void setYiXinAppKey(String appid) {
 		YIXIN_APPKEY = appid;
-		Log.d(TAG, "### 易信 app id = " + appid) ;
+		Log.d(TAG, "### 易信 app id = " + appid);
 	}
 
 	/**
@@ -602,7 +588,7 @@ public class CCUMSocialController {
 	 */
 	public static void setLaiwangAppId(String appid) {
 		LAIWANG_APPID = appid;
-		Log.d(TAG, "### 来往 app id = " + appid) ;
+		Log.d(TAG, "### 来往 app id = " + appid);
 	}
 
 	/**
@@ -612,7 +598,7 @@ public class CCUMSocialController {
 	 */
 	public static void setLaiwangAppKey(String appkey) {
 		LAIWANG_APPKEY = appkey;
-		Log.d(TAG, "### 来往 app key = " + appkey) ;
+		Log.d(TAG, "### 来往 app key = " + appkey);
 	}
 
 	/**
