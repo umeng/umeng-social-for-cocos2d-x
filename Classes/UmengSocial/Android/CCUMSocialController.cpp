@@ -304,7 +304,7 @@ void setSocialPlatforms(vector<int>* platforms)
  void setQQPlatformAppId(const char* appid) 
  {
    JniMethodInfo mi;
-    bool isHave = getMethod(mi, "setQQAppid", "(Ljava/lang/String;)V");
+    bool isHave = getMethod(mi, "setQQAppId", "(Ljava/lang/String;)V");
     if ( isHave )
     {
         jstring jAppid = mi.env->NewStringUTF(appid);
@@ -323,7 +323,7 @@ void setSocialPlatforms(vector<int>* platforms)
 void setQZonePlatformAppId(const char* appid) 
 {
    JniMethodInfo mi;
-    bool isHave = getMethod(mi, "setQQAppid", "(Ljava/lang/String;)V");
+    bool isHave = getMethod(mi, "setQZoneAppId", "(Ljava/lang/String;)V");
     if ( isHave )
     {
         jstring jAppid = mi.env->NewStringUTF(appid);
@@ -342,7 +342,7 @@ void setQZonePlatformAppId(const char* appid)
 void setWeiXinPlatformAppId(const char* appid) 
 {
    JniMethodInfo mi;
-    bool isHave = getMethod(mi, "setWeiXinAppid", "(Ljava/lang/String;)V");
+    bool isHave = getMethod(mi, "setWeiXinAppId", "(Ljava/lang/String;)V");
     if ( isHave )
     {
         jstring jAppid = mi.env->NewStringUTF(appid);
@@ -381,7 +381,7 @@ void setYiXinPlatformAppKey(const char* appid)
  void setLaiwangPlatformAppId(const char* appid)
  {
     JniMethodInfo mi;
-    bool isHave = getMethod(mi, "setLaiwangAppid", "(Ljava/lang/String;)V");
+    bool isHave = getMethod(mi, "setLaiwangAppId", "(Ljava/lang/String;)V");
     if ( isHave )
     {
         jstring jAppid = mi.env->NewStringUTF(appid);

@@ -562,6 +562,7 @@ public class CCUMSocialController {
 	 */
 	public static void setQQAppId(String appid) {
 		QQ_APP_ID = appid;
+		Log.d(TAG, "### QQ app id = " + appid) ;
 	}
 
 	/**
@@ -571,6 +572,7 @@ public class CCUMSocialController {
 	 */
 	public static void setQZoneAppId(String appid) {
 		QZONE_APP_ID = appid;
+		Log.d(TAG, "### QQ空间 app id = " + appid) ;
 	}
 
 	/**
@@ -580,6 +582,7 @@ public class CCUMSocialController {
 	 */
 	public static void setWeiXinAppId(String appid) {
 		WEIXIN_APP_ID = appid;
+		Log.d(TAG, "### 微信 app id = " + appid) ;
 	}
 
 	/**
@@ -589,6 +592,7 @@ public class CCUMSocialController {
 	 */
 	public static void setYiXinAppKey(String appid) {
 		YIXIN_APPKEY = appid;
+		Log.d(TAG, "### 易信 app id = " + appid) ;
 	}
 
 	/**
@@ -598,6 +602,7 @@ public class CCUMSocialController {
 	 */
 	public static void setLaiwangAppId(String appid) {
 		LAIWANG_APPID = appid;
+		Log.d(TAG, "### 来往 app id = " + appid) ;
 	}
 
 	/**
@@ -607,6 +612,7 @@ public class CCUMSocialController {
 	 */
 	public static void setLaiwangAppKey(String appkey) {
 		LAIWANG_APPKEY = appkey;
+		Log.d(TAG, "### 来往 app key = " + appkey) ;
 	}
 
 	/**
