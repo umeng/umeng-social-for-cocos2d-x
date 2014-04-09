@@ -189,7 +189,8 @@ UMSocial_Shake_Sdk|摇一摇 SDK
 
 >注意：  
 >1. 若你的工程设置了all_load，需要添加手机QQ SDK需要的系统framework:Security.framework,libiconv.dylib,SystemConfiguration.framework,CoreGraphics.framework，libsqlite3.dylib，CoreTelephony.framework,libstdc++.dylib,libz.dylib。详情请参考<a http://dev.umeng.com/social/ios/share/specific-integration#binding_config" style="text-decoration:none">SSO（免登录）和新平台的设置</a>    
-    然后您就可以到[在Cocos2d-x游戏中添加分享功能](#cocos2dx_integration_cocos2dx)章节添加分享代码到cocos2d-x游戏中。
+     
+   然后您就可以到[在Cocos2d-x游戏中添加分享功能](#cocos2dx_integration_cocos2dx)章节添加分享代码到cocos2d-x游戏中。
 
 <b id=cocos2dx_integration_cocos2dx></b>
 #### 2.3 在Cocos2d-x游戏中添加分享功能
