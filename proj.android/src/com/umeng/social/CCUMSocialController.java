@@ -69,25 +69,30 @@ public class CCUMSocialController {
 
 	// ******* 以下字段的调用都在supportPlatfrom函数中 *********
 	/**
-	 * QQ 和QQ空间共用一个app id
+	 * QQ app id
 	 */
-	private static final String QQ_QZONE_APPKEY = "";
+	private static String QQ_APP_ID = "";
+
+	/**
+	 * QQ空间共用一个app id
+	 */
+	private static String QZONE_APP_ID = "";
 	/**
 	 * 微信或者微信朋友圈 app id
 	 */
-	private static final String WEIXIN_APPKEY = "";
+	private static String WEIXIN_APP_ID = "";
 	/**
 	 * 易信或者易信朋友圈app id, 需要添加易信或者易信朋友圈平台的支持, 请参考线上文档
 	 */
-	private static final String YIXIN_APPKEY = "";
+	private static String YIXIN_APPKEY = "";
 	/**
 	 * 来往和来往动态的app id, 需要添加来往或者来往动态平台的支持, 请参考线上文档
 	 */
-	private static final String LAIWANG_APPID = "";
+	private static String LAIWANG_APPID = "";
 	/**
 	 * 来往和来往动态的app key, 需要添加来往或者来往动态平台的支持, 请参考线上文档
 	 */
-	private static final String LAIWANG_APPKEY = "";
+	private static String LAIWANG_APPKEY = "";
 	/**
 	 * 在某些平台的分享中， 希望用户点击该分享内容跳转到的目标平台, 一般为app的官网或者下载地址
 	 */
@@ -368,22 +373,22 @@ public class CCUMSocialController {
 		checkActivity();
 		if (target == SHARE_MEDIA.QQ) {
 			// 添加QQ平台支持
-			mSocializeConfig.supportQQPlatform(mActivity, QQ_QZONE_APPKEY,
-					TARGET_URL);
+			mSocializeConfig
+					.supportQQPlatform(mActivity, QQ_APP_ID, TARGET_URL);
 		} else if (target == SHARE_MEDIA.QZONE) {
 			// Social Android sdk 3.3.6 及其以后的版本, 添加QQ空间的支持方式
 			QZoneSsoHandler.setTargetUrl(TARGET_URL);
 			mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity,
-					QQ_QZONE_APPKEY));
+					QZONE_APP_ID));
 			// Social Android sdk 3.3.6之前的版本添加QQ空间的支持方式
 			// mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity));
 		} else if (target == SHARE_MEDIA.WEIXIN) {
 			// 微信平台
-			mSocializeConfig.supportWXPlatform(mActivity, WEIXIN_APPKEY,
+			mSocializeConfig.supportWXPlatform(mActivity, WEIXIN_APP_ID,
 					TARGET_URL);
 		} else if (target == SHARE_MEDIA.WEIXIN_CIRCLE) {
 			// 微信朋友圈平台
-			mSocializeConfig.supportWXCirclePlatform(mActivity, WEIXIN_APPKEY,
+			mSocializeConfig.supportWXCirclePlatform(mActivity, WEIXIN_APP_ID,
 					TARGET_URL);
 		} else if (target == SHARE_MEDIA.YIXIN) {
 			// 创建易信的handler, 参数2为你的app id, 参数3为是否是易信朋友圈平台, false为易信, true为易信朋友圈,
@@ -548,6 +553,60 @@ public class CCUMSocialController {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * 设置QQ的app id
+	 * 
+	 * @param appid
+	 */
+	public static void setQQAppid(String appid) {
+		QQ_APP_ID = appid;
+	}
+
+	/**
+	 * 设置QQ空间的app id
+	 * 
+	 * @param appid
+	 */
+	public static void setQZoneAppid(String appid) {
+		QZONE_APP_ID = appid;
+	}
+
+	/**
+	 * 设置微信和微信朋友圈的app id
+	 * 
+	 * @param appid
+	 */
+	public static void setWeiXinAppid(String appid) {
+		WEIXIN_APP_ID = appid;
+	}
+
+	/**
+	 * 设置易信和易信朋友圈的app id
+	 * 
+	 * @param appid
+	 */
+	public static void setYiXinAppKey(String appid) {
+		YIXIN_APPKEY = appid;
+	}
+
+	/**
+	 * 设置来往和来往动态的app id
+	 * 
+	 * @param appid
+	 */
+	public static void setLaiwangAppid(String appid) {
+		LAIWANG_APPID = appid;
+	}
+
+	/**
+	 * 设置来往和来往动态的app key
+	 * 
+	 * @param appid
+	 */
+	public static void setLaiwangAppKey(String appkey) {
+		LAIWANG_APPID = appkey;
 	}
 
 	/**

@@ -61,6 +61,14 @@ UMShareButton::~UMShareButton()
 }
 
 /*
+ * 获取CCUMSocialSDK对象
+ */
+CCUMSocialSDK* UMShareButton::getSocialSDK() 
+{
+    return mSocialSDK ;
+}
+
+/*
  * 设置友盟app key
  * @param
  */

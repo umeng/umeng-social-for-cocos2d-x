@@ -172,6 +172,114 @@ void CCUMSocialSDK::directShare(int platform,const char* text, const char* imgNa
 #endif
 }
 
+/**
+* 设置QQ的app id
+* 
+* @param appid
+*/
+void CCUMSocialSDK::setQQAppId(const char* appid) 
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
+    setQQPlatformAppId(appid);
+
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+ 
+    //TODO: iOS
+    
+#endif
+}
+
+/**
+* 设置QQ空间的app id
+* 
+* @param appid
+*/
+void CCUMSocialSDK::setQZoneAppId(const char* appid) 
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
+    setQZonePlatformAppId(appid);
+
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+ 
+    //TODO: iOS
+    
+#endif
+}
+
+/**
+* 设置微信和微信朋友圈的app id
+* 
+* @param appid
+*/
+void CCUMSocialSDK::setWeiXinAppId(const char* appid) 
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
+    setWeiXinPlatformAppId(appid);
+
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+ 
+    //TODO: iOS
+    
+#endif
+}
+
+/**
+* 设置易信和易信朋友圈的app id
+* 
+* @param appid
+*/
+void CCUMSocialSDK::setYiXinAppKey(const char* appid) 
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
+    setYiXinPlatformAppKey(appid);
+
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+ 
+    //TODO: iOS
+    
+#endif
+}
+
+/**
+* 设置来往和来往动态的app id
+* 
+* @param appid
+*/
+void CCUMSocialSDK::setLaiwangAppId(const char* appid)
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
+    setLaiwangPlatformAppId(appid);
+
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+ 
+    //TODO: iOS
+    
+#endif
+}
+
+/**
+* 设置来往和来往动态的app key
+* 
+* @param appid
+*/
+void CCUMSocialSDK::setLaiwangAppKey(const char* appkey) 
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
+    setLaiwangPlatformAppKey(appkey);
+
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+ 
+    //TODO: iOS
+    
+#endif
+}
+
 
 /*
 * 设置SDK的target url, 即用户点击某条分享时跳转到的目标页面

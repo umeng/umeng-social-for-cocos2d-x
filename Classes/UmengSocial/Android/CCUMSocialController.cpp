@@ -296,6 +296,121 @@ void setSocialPlatforms(vector<int>* platforms)
    }
 }
 
+/**
+ * 设置QQ的app id
+ * 
+ * @param appid
+ */
+ void setQQPlatformAppId(const char* appid) 
+ {
+   JniMethodInfo mi;
+    bool isHave = getMethod(mi, "setQQAppid", "(Ljava/lang/String;)V");
+    if ( isHave )
+    {
+        jstring jAppid = mi.env->NewStringUTF(appid);
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, jAppid);
+        mi.env->DeleteLocalRef(jAppid);
+        releaseMethod(mi);
+    }
+    CCLog("#### setQQPlatformAppid");
+ }
+
+/**
+* 设置QQ空间的app id
+* 
+* @param appid
+*/
+void setQZonePlatformAppId(const char* appid) 
+{
+   JniMethodInfo mi;
+    bool isHave = getMethod(mi, "setQQAppid", "(Ljava/lang/String;)V");
+    if ( isHave )
+    {
+        jstring jAppid = mi.env->NewStringUTF(appid);
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, jAppid);
+        mi.env->DeleteLocalRef(jAppid);
+        releaseMethod(mi);
+    }
+    CCLog("#### setQZonePlatformAppid");
+}
+
+/**
+ * 设置微信和微信朋友圈的app id
+ * 
+ * @param appid
+*/
+void setWeiXinPlatformAppId(const char* appid) 
+{
+   JniMethodInfo mi;
+    bool isHave = getMethod(mi, "setWeiXinAppid", "(Ljava/lang/String;)V");
+    if ( isHave )
+    {
+        jstring jAppid = mi.env->NewStringUTF(appid);
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, jAppid);
+        mi.env->DeleteLocalRef(jAppid);
+        releaseMethod(mi);
+    }
+    CCLog("#### setWeiXinPlatformAppid");
+}
+
+/**
+* 设置易信和易信朋友圈的app id
+* 
+* @param appid
+*/
+void setYiXinPlatformAppKey(const char* appid) 
+{
+   JniMethodInfo mi;
+    bool isHave = getMethod(mi, "setYiXinAppKey", "(Ljava/lang/String;)V");
+    if ( isHave )
+    {
+        jstring jAppKey = mi.env->NewStringUTF(appid);
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, jAppKey);
+        mi.env->DeleteLocalRef(jAppKey);
+        releaseMethod(mi);
+    }
+    CCLog("#### setYiXinPlatformAppKey");
+
+}
+
+/**
+ * 设置来往和来往动态的app id
+ * 
+ * @param appid
+ */
+ void setLaiwangPlatformAppId(const char* appid)
+ {
+    JniMethodInfo mi;
+    bool isHave = getMethod(mi, "setLaiwangAppid", "(Ljava/lang/String;)V");
+    if ( isHave )
+    {
+        jstring jAppid = mi.env->NewStringUTF(appid);
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, jAppid);
+        mi.env->DeleteLocalRef(jAppid);
+        releaseMethod(mi);
+    }
+    CCLog("#### setLaiwangPlatformAppid");
+ }
+
+/**
+* 设置来往和来往动态的app key
+* 
+* @param appid
+*/
+void setLaiwangPlatformAppKey(const char* appkey) 
+{
+    JniMethodInfo mi;
+    bool isHave = getMethod(mi, "setLaiwangAppKey", "(Ljava/lang/String;)V");
+    if ( isHave )
+    {
+        jstring jAppKey = mi.env->NewStringUTF(appkey);
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, jAppKey);
+        mi.env->DeleteLocalRef(jAppKey);
+        releaseMethod(mi);
+    }
+    CCLog("#### setLaiwangPlatformAppKey");
+}
+
 /*
  * 设置SDK的target url
  * @param url 用户点击某条分享时跳转到的目标页面通常为app的主页或者下载链接等

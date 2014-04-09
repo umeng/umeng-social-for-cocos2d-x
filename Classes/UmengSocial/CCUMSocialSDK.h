@@ -70,8 +70,53 @@ namespace umeng
              */
             void directShare(int platform, const char* text, const char* imgName, ShareEventHandler callback);
 
-
+            /*
+             * 设置SDK的target url, 即用户点击某条分享时跳转到的目标页面
+             * @param url 用户点击某条分享时跳转到的目标页面通常为app的主页或者下载链接等
+             */
             void setTargetUrl(const char* targetUrl);
+
+            /**
+             * 设置QQ的app id
+             * 
+             * @param appid
+             */
+            void setQQAppId(const char* appid) ;
+
+            /**
+             * 设置QQ空间的app id
+             * 
+             * @param appid
+             */
+            void setQZoneAppId(const char* appid);
+
+            /**
+             * 设置微信和微信朋友圈的app id
+             * 
+             * @param appid
+             */
+            void setWeiXinAppId(const char* appid);
+
+            /**
+             * 设置易信和易信朋友圈的app id
+             * 
+             * @param appid
+             */
+            void setYiXinAppKey(const char* appid) ;
+
+            /**
+             * 设置来往和来往动态的app id
+             * 
+             * @param appid
+             */
+            void setLaiwangAppId(const char* appid);
+
+            /**
+             * 设置来往和来往动态的app key
+             * 
+             * @param appid
+             */
+            void setLaiwangAppKey(const char* appkey);
             
             
         };

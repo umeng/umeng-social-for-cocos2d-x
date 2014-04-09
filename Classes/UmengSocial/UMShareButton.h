@@ -38,8 +38,10 @@ namespace umeng
             void setShareImage(const char* imgName);
             // 设置分享回调
             void setShareCallback(ShareEventHandler callback);
-            // 
+            // 设置分享面板上的平台
             void setPlatforms(vector<int>* platforms);
+            // 获取CCUMSocialSDK对象
+            CCUMSocialSDK* getSocialSDK();
 
         private:
             UMShareButton();
