@@ -4,7 +4,7 @@
 * 2.[Cocos2d-x集成分享组件](#cocos2dx_integration)
     * 2.1 [Android平台集成](#cocos2dx_integration_android)
     * 2.2 [iOS平台集成](#cocos2dx_integration_ios)
-    * 2.2 [在Cocos2d-x游戏中添加分享功能](#cocos2dx_integration_cocos2dx)
+    * 2.3 [在Cocos2d-x游戏中添加分享功能](#cocos2dx_integration_cocos2dx)
 * 3.[授权接口使用说明](#cocos2dx_integration_auth)
 * 4.[添加更多平台  ( 按需集成 )](#cocos2dx_integration_more_platforms)
 	* 4.1 [集成来往和来往动态](#laiwang_platforms)
@@ -28,20 +28,22 @@
 >**1. UmengSocial**    
 	实现cocos2d-x中跨平台分享功能,需拷贝到您项目的Classes文件夹中;    
 >**2. Platforms**    
-	原生的Android和iOS社会化组件SDK,需要您将库和资源拷贝到对应平台的项目中;
+	原生的Android和iOS社会化组件SDK,需要您将库和资源拷贝到对应平台的项目中;    
+>**3. 集成文档.md**    
+	Cocos2d-x SDK集成文档。
 	
 <b id=cocos2dx_integration></b>   
 ## 2 Cocos2d-x集成友盟分享组件
 <b id=cocos2dx_integration_android></b>
 ### 2.1 Android平台集成 
 #### 2.1.1 拷贝所需的jar包和资源文件          
-  解压Cocos2d-x SDK压缩包，将proj.android文件夹下的'libs'和'res'文件夹复制到你的项目工程根目录下（如使用'ADT 17'以下用户需要手动添加'libs'下的jar文件到工程Path中）, 如图所示 :    
+  解压Cocos2d-x SDK压缩包，进入到Platforms/Android文件夹下，将'libs'文件夹中的所有jar文件拷贝到工程中的libs目录中，并且将所有jar文件添加到build path中；将Platforms/Android/res目录下的所有文件夹拷贝到你的项目工程res目录下对应的文件夹中, 如图所示 :    
   ![alt text](http://dev.umeng.com/images/android/social_sdk_quick_guide_step2.jpg "drag_sdk")
   
 #### 2.1.2 拷贝类文件
-   将UmengGame的proj.android项目中的com.umeng.social包拷贝到您的项目Android平台的src目录下, 如图所示 :
+   将Platforms/Android/controller目录下的com文件夹拷贝到您的Cocos2d-x项目Android平台的src目录下, 如图所示 :
    
-   在Android.mk中的LOCAL_SRC_FILES下添加如下配置 (注意格式,否则会变异出错) :    
+   在jni/Android.mk中的LOCAL_SRC_FILES下添加如下配置 (注意格式,否则会编译出错) :    
 ```xml
 ../../Classes/UmengSocial/Android/CCUMSocialController.cpp  \
 ../../Classes/UmengSocial/UMShareButton.cpp \
@@ -261,12 +263,20 @@ void HelloWorld::shareButtonClick()
     platforms->push_back(QZONE) ;
     platforms->push_back(QQ) ;
 
-	// 授权函数
-   sdk->authorize(SINA, auth_selector(authCallback));
     // 打开分享面板, 注册分享回调, 参数1为分享面板上的平台, 参数2为要分享的文字内容, 参数3为要分享的图片路径, 参数4为分享回调.
    sdk->openShare(platforms, "要分享的文字内容","/sdcard/image.png", share_selector(shareCallback));
-```    
+```   
     
+***特别说明 :***     
+   使用CCUMSocialSDK对象设置各个平台的app id或者app key.CCUMSocialSDK对象可以通过CCUMSocialSDK::create()函数获取，如果使用UMShareButton可以通过getSocialSDK()函数获取.          
+>1.如果集成了QQ平台,则必须通过CCUMSocialSDK类的setQQAppId("")函数来设置QQ的App id;    
+>2.如果集成了QQ空间平台,则必须通过CCUMSocialSDK类的setQZoneAppId("")函数来设置QQ空间的App id;        
+>3.如果集成了微信或者微信朋友圈平台,则必须通过CCUMSocialSDK类的setWeiXinAppId("")函数来设置微信或者朋友圈的App id;        
+>4.如果集成了易信或者易信朋友圈平台,则必须通过CCUMSocialSDK类的setYiXinAppKey("")函数来设置微信的App key;        
+>5.如果集成了来往或者来往动态平台,则必须通过CCUMSocialSDK类的setLaiwangAppId("")和setLaiwangAppKey()函数来分别设置来往和来往动态的App id、app key.    
+
+
+
    **分享回调的为如下形式 :**    
 ```cpp
 /*
@@ -356,12 +366,12 @@ void authCallback(int platform, int stCode, map<string, string>& data)
 ```   
 
 <b id=cocos2dx_integration_more_platforms></b>
-## 4 添加更多平台
+## 4 添加更多平台 ( 按需集成 )
 <b id=laiwang_platforms></b> 
 ### 4.1 集成来往和来往动态
 #### 4.1.1 Android平台 
    添加所需jar和资源，将sdk包中laiwang文件夹下的libs、res目录下的文件拷贝到工程中对应的文件夹中。        
-   	在com.umeng.social.CCUMSocialController中修改LAIWANG_APPID和LAIWANG_APPKEY为您再来往开放平台申请到的app id和app key，然后在该类的supportPlatfrom函数中找到添加来往或者来往动态平台的代码段，将相应的注释去掉，示例如下 :    
+   	通过CCUMSocialSDK类的setLaiwangAppId("")和setLaiwangAppKey()函数来分别设置来往和来往动态的App id、app key，然后在该类的supportPlatfrom函数中找到添加来往或者来往动态平台的代码段，将相应的注释去掉，并且导入(import)所需的类, 示例如下 :    
    ***添加来往平台***       
 ```java
 UMLWHandler umLWHandler = UMLWService.supportLWPlatform(
@@ -370,7 +380,7 @@ LAIWANG_APPKEY, TARGET_URL);
 umLWHandler.setTitle("友盟社会化分享组件-来往动态");
 umLWHandler.setMessageFrom("友盟分享组件");
 // 添加来往平台到sdk中
-umLWHandler.addToSicalSDK();
+umLWHandler.addToSocialSDK();
 ```
    
    ***添加来往动态平台***    
@@ -383,7 +393,7 @@ umlwDynamicHandler.setTitle("友盟社会化分享组件-来往");
 // 设置消息来源
 umlwDynamicHandler.setMessageFrom("友盟分享组件");
 // 添加来往动态到sdk中
-umlwDynamicHandler.addToSicalSDK();
+umlwDynamicHandler.addToSocialSDK();
 ```   
    
 #### 4.1.2 IOS平台
@@ -396,13 +406,13 @@ umlwDynamicHandler.addToSicalSDK();
 ### 4.2 集成易信和易信朋友圈
 #### 4.2.1 Android平台   
    添加所需jar和资源，将sdk包中yixin文件夹下的libs、res目录下的文件拷贝到工程中对应的文件夹中。         
-   在com.umeng.social.CCUMSocialController中修改YIXIN_APPKEY为您在易信开放平台申请到的app id，然后在该类的supportPlatfrom函数中找到添加易信或者易信朋友圈平台的代码段，将相应的注释去掉，示例如下 :        
+   通过CCUMSocialSDK类的setYiXinAppKey("")函数来设置微信的App key，然后在该类的supportPlatfrom函数中找到添加易信或者易信朋友圈平台的代码段，将相应的注释去掉，并且导入(import)所需的类, 示例如下 :        
    ***添加易信平台***  
 ```java
 UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
 			 false);
 // 添加易信平台到SDK
-// yxHandler.addToSicalSDK();
+// yxHandler.addToSocialSDK();
 ```    
 
    ***添加易信朋友圈平台***    
@@ -410,7 +420,7 @@ UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
 UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
 			 true);
 // 添加易信朋友圈平台到SDK
-yxHandler.addToSicalSDK();
+yxHandler.addToSocialSDK();
 ```   
 
 **易信精确回调使用说明**
@@ -428,7 +438,7 @@ yxHandler.addToSicalSDK();
 ### 4.3 集成Facebook
 #### 4.3.1 Android平台    
    添加所需jar和资源，将sdk包中facebook文件夹下的libs、res目录下的文件拷贝到工程中对应的文件夹中。         
-   在com.umeng.social.CCUMSocialController中的supportPlatfrom函数中找到添加facebook平台的代码段，将相应的注释去掉，示例如下 :     
+   在com.umeng.social.CCUMSocialController中的supportPlatfrom函数中找到添加facebook平台的代码段，将相应的注释去掉，并且导入(import)所需的类, 示例如下 :     
    ***添加Facebook平台***   
 ```java
 UMFacebookHandler mFacebookHandler = new UMFacebookHandler(
@@ -444,7 +454,7 @@ mFacebookHandler.addToSocialSDK();
 ### 4.4 集成Instagram
 #### 4.4.1 Android平台    
    添加所需jar和资源，将sdk包中instagram文件夹下的libs、res目录下的文件拷贝到工程中对应的文件夹中。         
-   在com.umeng.social.CCUMSocialController中的supportPlatfrom函数中找到添加instagram平台的代码段，将相应的注释去掉，示例如下 :     
+   在com.umeng.social.CCUMSocialController中的supportPlatfrom函数中找到添加instagram平台的代码段，将相应的注释去掉，并且导入(import)所需的类,示例如下 :     
    ***添加Instagram平台***   
 ```java
 UMInstagramHandler instagramHandler = new UMInstagramHandler(
