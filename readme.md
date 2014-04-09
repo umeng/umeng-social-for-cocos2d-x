@@ -38,11 +38,11 @@
 ### 2.1 Android平台集成 
 #### 2.1.1 拷贝所需的jar包和资源文件          
   解压Cocos2d-x SDK压缩包，进入到Platforms/Android文件夹下，将'libs'文件夹中的所有jar文件拷贝到工程中的libs目录中，并且将所有jar文件添加到build path中；将Platforms/Android/res目录下的所有文件夹拷贝到你的项目工程res目录下对应的文件夹中, 如图所示 :    
-  <img src="http://dev.umeng.com/system/images/W1siZiIsIjIwMTQvMDQvMDkvMTVfNTZfNDdfOTk4X2NvY29zMmR4X2FuZHJvaWRfcmVzLnBuZyJdXQ/cocos2dx-android-res.png" width="450" height="400">   
+  <img src="http://dev.umeng.com/system/images/W1siZiIsIjIwMTQvMDQvMDkvMTVfNTZfNDdfOTk4X2NvY29zMmR4X2FuZHJvaWRfcmVzLnBuZyJdXQ/cocos2dx-android-res.png" width="450" height="400" style="border:1px solid black">   
   
 #### 2.1.2 拷贝类文件
    将Platforms/Android/controller目录下的com文件夹拷贝到您的Cocos2d-x项目Android平台的src目录下, 如图所示 :    
-     <img src="http://dev.umeng.com/system/images/W1siZiIsIjIwMTQvMDQvMDkvMTVfNTdfMTVfODc2X2NvY29zMmR4X2NvbnRyb2xsZXIucG5nIl1d/cocos2dx-controller.png" width="400" height="160">        
+     <img src="http://dev.umeng.com/system/images/W1siZiIsIjIwMTQvMDQvMDkvMTVfNTdfMTVfODc2X2NvY29zMmR4X2NvbnRyb2xsZXIucG5nIl1d/cocos2dx-controller.png" width="400" height="160" style="border:1px solid black">        
    在jni/Android.mk中的LOCAL_SRC_FILES下添加如下配置 (注意格式,否则会编译出错) :    
 ```xml
 ../../Classes/UmengSocial/Android/CCUMSocialController.cpp  \
@@ -267,7 +267,10 @@ void HelloWorld::shareButtonClick()
 
     // 打开分享面板, 注册分享回调, 参数1为分享面板上的平台, 参数2为要分享的文字内容, 参数3为要分享的图片路径, 参数4为分享回调.
    sdk->openShare(platforms, "要分享的文字内容","/sdcard/image.png", share_selector(shareCallback));
-```   
+```    
+    
+   点击对应的按钮则会弹出如下界面 :    
+  <img src="http://dev.umeng.com/system/images/W1siZiIsIjIwMTQvMDQvMDkvMTVfNTdfNTVfMjk5X2NvY29zMmR4X29wZW5TaGFyZS5wbmciXV0/cocos2dx-openShare.png" width="450" height="300" style="border:1px solid black">    
     
 ***特别说明 :***     
    使用CCUMSocialSDK对象设置各个平台的app id或者app key.CCUMSocialSDK对象可以通过CCUMSocialSDK::create()函数获取，如果使用UMShareButton可以通过getSocialSDK()函数获取.          
@@ -303,11 +306,8 @@ void shareCallback(int platform, int stCode, string& errorMsg)
 
     CCLog("platform num is : %d.", platform);
 }
-```   
-   点击对应的按钮则会弹出如下界面 :    
-  <img src="http://dev.umeng.com/system/images/W1siZiIsIjIwMTQvMDQvMDkvMTVfNTdfNTVfMjk5X2NvY29zMmR4X29wZW5TaGFyZS5wbmciXV0/cocos2dx-openShare.png" width="450" height="300">   
+```     
           
- 
 **微信精确回调使用说明**
 > * 将SDK包中weixin目录下的wxapi文件夹拷贝到您的工程的包目录下，然后修改WXEntryActivity的完整路径即可。例如social_sdk_example的包名为com.umeng.soexample,
 因此将wxapi文件夹拷贝到com.umeng.soexample下即可。最终WXEntryActivity的完整路径为com.umeng.soexample.wxapi.WXEntryActivity。     
