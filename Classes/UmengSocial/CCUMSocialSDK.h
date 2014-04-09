@@ -24,12 +24,9 @@ namespace umeng
          */
         class CCUMSocialSDK
         {
-            
-        private:
-            static CCUMSocialSDK *_instance ;
-            
         private:
             CCUMSocialSDK();
+            void initSDK();
         public:
             
             static CCUMSocialSDK* create() ;
@@ -110,7 +107,11 @@ namespace umeng
              * @param appid
              */
             void setLaiwangAppKey(const char* appkey);
-            
+
+        private:
+            static CCUMSocialSDK *_instance ;
+            char* _wrapperType;
+            char* _wrapperVersion; 
             
         };
     }

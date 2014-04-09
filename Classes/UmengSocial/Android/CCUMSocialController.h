@@ -128,6 +128,16 @@ void setShareImageName(const char* pathOrUrl);
  */
 void setSocialPlatforms(vector<int>* platforms);
 
+
+/**
+ * 初始化Cocos2dx SDK
+ * 
+ * @param type 类型
+ @param version 版本号
+ */
+ void initCocos2dxSDKFromJni(const char* type, const char* version) ;
+
+
 /**
  * 设置QQ互联平台的的app id,包括QQ和QQ空间
  * 

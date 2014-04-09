@@ -28,9 +28,29 @@ USING_NS_UM_SOCIAL;
 CCUMSocialSDK* CCUMSocialSDK::_instance = NULL;
 
 
+/*
+ * 构造函数
+ */
 CCUMSocialSDK::CCUMSocialSDK()
+:_wrapperType("Cocos2d-x"),_wrapperVersion("1.0")
 {
+    initSDK();
+}
 
+/*
+ * 初始化sdk
+ */
+void CCUMSocialSDK::initSDK()
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+    // 初始化cocos2d-x平台
+    initCocos2dxSDKFromJni(_wrapperType, _wrapperVersion);
+    
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    
+    // TODO 
+    
+#endif
 }
 
 

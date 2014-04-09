@@ -296,6 +296,25 @@ void setSocialPlatforms(vector<int>* platforms)
    }
 }
 
+/*
+ * 初始化Cocos2d-x sdk
+ */
+void initCocos2dxSDKFromJni(const char* type, const char* version)
+{
+    JniMethodInfo mi;
+    bool isHave = getMethod(mi, "initCocos2dxSDKInfo", "(Ljava/lang/String;Ljava/lang/String;)V");
+    if ( isHave )
+    {
+        jstring wpType = mi.env->NewStringUTF(type);
+        jstring sdkVersion = mi.env->NewStringUTF(version);
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, wpType, sdkVersion);
+        mi.env->DeleteLocalRef(wpType);
+        mi.env->DeleteLocalRef(sdkVersion);
+        releaseMethod(mi);
+    }
+    CCLog("#### setQQConnectPlatformAppId");
+}
+
 /**
  * 设置QQ的app id
  * 

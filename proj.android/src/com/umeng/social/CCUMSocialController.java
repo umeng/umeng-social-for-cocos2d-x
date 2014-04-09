@@ -337,6 +337,14 @@ public class CCUMSocialController {
 	}
 
 	/**
+	 * 初始化Cocos2d-x SDK版本信息
+	 */
+	public static void initCocos2dxSDKInfo(String type, String sdkVersion) {
+		Log.d(TAG, "### initCocos2dxSDKInfo, type = " + type + ", version = "
+				+ sdkVersion);
+	}
+
+	/**
 	 * 设置用户点击某条分享时跳转到的目标页面
 	 * 
 	 * @param targetUrl
