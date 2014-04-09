@@ -412,7 +412,7 @@ umlwDynamicHandler.addToSocialSDK();
 UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
 			 false);
 // 添加易信平台到SDK
-// yxHandler.addToSocialSDK();
+yxHandler.addToSocialSDK();
 ```    
 
    ***添加易信朋友圈平台***    
