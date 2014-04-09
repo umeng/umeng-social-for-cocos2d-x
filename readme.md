@@ -185,8 +185,6 @@ TencentOpenAPI|QQ互联SDK
 Facebook|Facebook SDK
 LaiWang|来往 SDK
 UMSocialYiXin.framework|易信 SDK
-UMSocial_ScreenShot_Sdk|截屏 SDK
-UMSocial_Shake_Sdk|摇一摇 SDK
 
 >注意：  
 >1. 若你的工程设置了all_load，需要添加手机QQ SDK需要的系统framework:Security.framework,libiconv.dylib,SystemConfiguration.framework,CoreGraphics.framework，libsqlite3.dylib，CoreTelephony.framework,libstdc++.dylib,libz.dylib。详情请参考<a http://dev.umeng.com/social/ios/share/specific-integration#binding_config" style="text-decoration:none">SSO（免登录）和新平台的设置</a>    
