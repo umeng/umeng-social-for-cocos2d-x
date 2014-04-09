@@ -4,6 +4,7 @@
 * 2.[Cocos2d-x集成分享组件](#cocos2dx_integration)
     * 2.1 [Android平台集成](#cocos2dx_integration_android)
     * 2.2 [iOS平台集成](#cocos2dx_integration_ios)
+    * 2.2 [在Cocos2d-x游戏中添加分享功能](#cocos2dx_integration_cocos2dx)
 * 3.[授权接口说明](#cocos2dx_integration_auth)
 * 4.[添加更多平台](#cocos2dx_integration_more_platforms)
 	* 4.1 [集成来往和来往动态](#laiwang_platforms)
@@ -35,6 +36,13 @@
   
 #### 2.1.2 拷贝类文件
    将UmengGame的proj.android项目中的com.umeng.social包拷贝到您的项目Android平台的src目录下, 如图所示 :
+   
+   在Android.mk中的LOCAL_SRC_FILES下添加如下配置 (注意格式,否则会变异出错) :    
+```xml
+../../Classes/UmengSocial/Android/CCUMSocialController.cpp  \
+../../Classes/UmengSocial/UMShareButton.cpp \
+../../Classes/UmengSocial/CCUMSocialSDK.cpp
+```   
    
 #### 2.1.3 配置AndroidManifest.xml
 ```xml
@@ -134,7 +142,8 @@ CCUMSocialController.initSocialSDK(this, "com.umeng.social.share");
 // 授权回调    
 CCUMSocialController.onActivityResult(requestCode, resultCode, data);    	  
 super.onActivityResult(requestCode, resultCode, data);
-``` 
+```   
+   完成以上步骤以后，并且您不需要集成分享到ios平台，您就可以到[在Cocos2d-x游戏中添加分享功能](#cocos2dx_integration_cocos2dx)章节添加分享代码到cocos2d-x游戏中。
 
 <b id=cocos2dx_integration_ios></b>  
 ### 2.2 iOS平台集成   
@@ -173,9 +182,10 @@ UMSocial_ScreenShot_Sdk|截屏 SDK
 UMSocial_Shake_Sdk|摇一摇 SDK
 
 >注意：  
->1. 若你的工程设置了all_load，需要添加手机QQ SDK需要的系统framework:Security.framework,libiconv.dylib,SystemConfiguration.framework,CoreGraphics.framework，libsqlite3.dylib，CoreTelephony.framework,libstdc++.dylib,libz.dylib。详情请参考<a http://dev.umeng.com/social/ios/share/specific-integration#binding_config" style="text-decoration:none">SSO（免登录）和新平台的设置</a>  
+>1. 若你的工程设置了all_load，需要添加手机QQ SDK需要的系统framework:Security.framework,libiconv.dylib,SystemConfiguration.framework,CoreGraphics.framework，libsqlite3.dylib，CoreTelephony.framework,libstdc++.dylib,libz.dylib。详情请参考<a http://dev.umeng.com/social/ios/share/specific-integration#binding_config" style="text-decoration:none">SSO（免登录）和新平台的设置</a>    
+    然后您就可以到[在Cocos2d-x游戏中添加分享功能](#cocos2dx_integration_cocos2dx)章节添加分享代码到cocos2d-x游戏中。
 
-
+<b id=cocos2dx_integration_cocos2dx></b>
 #### 2.3 在Cocos2d-x游戏中添加分享功能
    将android和ios所需的资源添加到对应的工程以后(也可以是某一个平台), 您就可以在cocos2d-x中使用该友盟社会化组件的分享、登录功能了。   
   首先将UmengGame项目Classes目录下的UmengSocial文件夹拷贝到您的工程的Classes目录下，UmengSocial包括：   

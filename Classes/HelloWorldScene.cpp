@@ -272,6 +272,8 @@ void HelloWorld::menuShareCallback(CCObject* pSender)
     platforms->push_back(DOUBAN) ;
     platforms->push_back(QZONE) ;
     platforms->push_back(QQ) ;
+    platforms->push_back(SMS) ;
+    platforms->push_back(EMAIL) ;
     CCLog("COCOS2D-X openshare");
 
     // 打开分享面板, 注册分享回调
