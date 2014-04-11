@@ -339,7 +339,7 @@ public class CCUMSocialController {
 	/**
 	 * 初始化Cocos2d-x SDK版本信息
 	 */
-	public static void initCocos2dxSDKInfo(String type, String sdkVersion) {
+	protected static void initCocos2dxSDKInfo(String type, String sdkVersion) {
 		Log.d(TAG, "### initCocos2dxSDKInfo, type = " + type + ", version = "
 				+ sdkVersion);
 	}
