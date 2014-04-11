@@ -24,32 +24,6 @@ UMShareButton::UMShareButton()
     new (this)UMShareButton("","");
 }
 
-
-// #ifdef CC_CALLBACK_1
-// UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
-// :mPlatforms(NULL), mAppKey(""),mShareText(""),mImageName(""),mSocialSDK(NULL),mCallback(NULL)
-// {
-//     CCLog("UMShareButton图片: normalImage = %s, selectedImage = %s.", normalImage, selectedImage);
-//     // 初始化图片按钮
-//     initWithNormalImage(normalImage, selectedImage, "", CC_CALLBACK_1(UMShareButton::shareCallback, this)) ;
-//     // 构造CCUMSocialSDK对象
-//     mSocialSDK = CCUMSocialSDK::create() ;
-// }
-
-// #else
-// UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
-// :mPlatforms(NULL), mAppKey(""),mShareText(""),mImageName(""),mSocialSDK(NULL),mCallback(NULL)
-// {
-//     CCLog("UMShareButton图片: normalImage = %s, selectedImage = %s.", normalImage, selectedImage);
-//     // 初始化图片按钮
-//     initWithNormalImage(normalImage, selectedImage, "", this, menu_selector(UMShareButton::shareCallback)) ;
-//     // 构造CCUMSocialSDK对象
-//     mSocialSDK = CCUMSocialSDK::create() ;
-// }
-
-// #endif
-
-
 UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
 :mPlatforms(NULL), mAppKey(""),mShareText(""),mImageName(""),mSocialSDK(NULL),mCallback(NULL)
 {
