@@ -9,6 +9,7 @@
 #include "UMShareButton.h"
 #include "cocos2d.h"
 #include <iostream>
+
 USING_NS_CC;
 using namespace std;
 // 使用友盟命令空间 
@@ -24,20 +25,46 @@ UMShareButton::UMShareButton()
 }
 
 
-/*
- * 设置文本内容
- * @param  normalImage  按钮正常情况下显示的图片
- * @param  selectedImage 按钮选中情况下显示的图片
- */
+// #ifdef CC_CALLBACK_1
+// UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
+// :mPlatforms(NULL), mAppKey(""),mShareText(""),mImageName(""),mSocialSDK(NULL),mCallback(NULL)
+// {
+//     CCLog("UMShareButton图片: normalImage = %s, selectedImage = %s.", normalImage, selectedImage);
+//     // 初始化图片按钮
+//     initWithNormalImage(normalImage, selectedImage, "", CC_CALLBACK_1(UMShareButton::shareCallback, this)) ;
+//     // 构造CCUMSocialSDK对象
+//     mSocialSDK = CCUMSocialSDK::create() ;
+// }
+
+// #else
+// UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
+// :mPlatforms(NULL), mAppKey(""),mShareText(""),mImageName(""),mSocialSDK(NULL),mCallback(NULL)
+// {
+//     CCLog("UMShareButton图片: normalImage = %s, selectedImage = %s.", normalImage, selectedImage);
+//     // 初始化图片按钮
+//     initWithNormalImage(normalImage, selectedImage, "", this, menu_selector(UMShareButton::shareCallback)) ;
+//     // 构造CCUMSocialSDK对象
+//     mSocialSDK = CCUMSocialSDK::create() ;
+// }
+
+// #endif
+
+
 UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
 :mPlatforms(NULL), mAppKey(""),mShareText(""),mImageName(""),mSocialSDK(NULL),mCallback(NULL)
 {
     CCLog("UMShareButton图片: normalImage = %s, selectedImage = %s.", normalImage, selectedImage);
-
-    initWithNormalImage(normalImage, selectedImage, "", this, menu_selector(UMShareButton::shareCallback)) ;
+    #ifdef CC_CALLBACK_1
+        // 初始化图片按钮
+        initWithNormalImage(normalImage, selectedImage, "", CC_CALLBACK_1(UMShareButton::shareCallback, this)) ;
+    #else
+        // 初始化图片按钮
+        initWithNormalImage(normalImage, selectedImage, "", this, menu_selector(UMShareButton::shareCallback)) ;
+    #endif
     // 构造CCUMSocialSDK对象
     mSocialSDK = CCUMSocialSDK::create() ;
 }
+
 
 /*
  * 创建一个UMShareButton对象
@@ -117,15 +144,20 @@ void UMShareButton::setPlatforms(vector<int>* platforms)
     mPlatforms = platforms ;
 }
 
-
 /*
- * 点击该按钮时的回调, 这里实现为调用打开分享面板
- * @param pSender 
+ * 打开分享面板
  */
-void UMShareButton::shareCallback(CCNode* pSender)
+void UMShareButton::openShareBoard()
 {
 
-    if ( mPlatforms == NULL ) {
+    if ( mAppKey.empty() ) 
+    {
+        CCLog("请设置友盟AppKey到UMShareButton对象.");
+        return ;
+    }
+
+    if ( mPlatforms == NULL ) 
+    {
         mPlatforms = new vector<int>();
         mPlatforms->push_back(SINA) ;
         mPlatforms->push_back(QZONE) ;
@@ -133,8 +165,30 @@ void UMShareButton::shareCallback(CCNode* pSender)
         mPlatforms->push_back(DOUBAN) ;
         mPlatforms->push_back(TENCENT_WEIBO);
     }
-    if ( mSocialSDK != NULL && !mAppKey.empty() ) {
+    if ( mSocialSDK != NULL ) {
         mSocialSDK->setAppKey(this->mAppKey.c_str());
         mSocialSDK->openShare(mPlatforms, mShareText.c_str(), mImageName.c_str(), mCallback) ;
     }
 }
+
+#ifdef CC_CALLBACK_1
+/*
+ * 点击该按钮时的回调, 这里实现为调用打开分享面板
+ * @param pSender 
+ */
+void UMShareButton::shareCallback(Ref* pSender)
+{
+    CCLog("Cocos2d-x V3.X ShareButton.");
+    this->openShareBoard() ;
+}
+#else 
+/*
+ * 点击该按钮时的回调, 这里实现为调用打开分享面板
+ * @param pSender 
+ */
+void UMShareButton::shareCallback(CCNode* pSender)
+{
+    CCLog("Cocos2d-x V2.X ShareButton.");
+    this->openShareBoard() ;
+}
+#endif
