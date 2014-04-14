@@ -342,6 +342,8 @@ public class CCUMSocialController {
 	protected static void initCocos2dxSDKInfo(String type, String sdkVersion) {
 		Log.d(TAG, "### initCocos2dxSDKInfo, type = " + type + ", version = "
 				+ sdkVersion);
+		// 设置cocos2dx sdk版本号
+		mController.getEntity().setAdapterSDKInfo(type, sdkVersion);
 	}
 
 	/**
