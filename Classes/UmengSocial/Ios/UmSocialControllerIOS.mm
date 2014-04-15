@@ -111,7 +111,7 @@ bool UmSocialControllerIOS::isAuthorized(int platform){
     return isOauth == YES;
 }
 
-void UmSocialControllerIOS::openShareWithImagePath(vector<int>* platforms, const char* text, const char* imagePath, ShareEventHandler callback){
+void UmSocialControllerIOS::openShareWithImagePath(vector<int>* platforms, const char* text, const char* imagePath,ShareEventHandler callback){
     
     NSMutableArray* array = [NSMutableArray array];
     if (platforms) {
@@ -122,7 +122,13 @@ void UmSocialControllerIOS::openShareWithImagePath(vector<int>* platforms, const
     
     UIImage* image = nil;
     if(imagePath){
-        image = [UIImage imageNamed:getNSStringFromCString(imagePath)];
+        NSString *imageString = getNSStringFromCString(imagePath);
+        NSLog(@"imageString is %@",imageString);
+        if ([imageString hasPrefix:@"http://"] || [imageString hasPrefix:@"https://"]) {
+            [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
+        } else {
+            image = [UIImage imageNamed:getNSStringFromCString(imagePath)];
+        }
     }
     
     UMSocialUIObject * delegate = [[UMSocialUIObject alloc] initWithCallback:callback];
@@ -139,7 +145,12 @@ void UmSocialControllerIOS::openShareWithImagePath(vector<int>* platforms, const
 void UmSocialControllerIOS::directShare(const char* text, const char* imagePath,int platform, ShareEventHandler callback){
     UIImage* image = nil;
     if(imagePath){
-        image = [UIImage imageNamed:getNSStringFromCString(imagePath)];
+        NSString *imageString = [NSString stringWithUTF8String:imagePath];
+        if ([imageString hasPrefix:@"http:://"] || [imageString hasPrefix:@"https://"]) {
+            [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
+        } else {
+            image = [UIImage imageNamed:getNSStringFromCString(imagePath)];
+        }
     }
     [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[getPlatformString(platform)] content:[NSString stringWithUTF8String:text] image:image location:nil urlResource:nil presentedController:getViewController() completion:^(UMSocialResponseEntity *response){
         if (callback) {

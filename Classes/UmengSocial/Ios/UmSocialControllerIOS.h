@@ -14,14 +14,15 @@
 #include <vector>
 
 using namespace std;
+using namespace umeng::social;
 
 class UmSocialControllerIOS {
 public:
     static void setAppKey(const char* appKey);
     static void authorize(int platform, AuthEventHandler callback);
-    static void deleteAuthorization(int platform, AuthEventHandler callback);
+    static void deleteAuthorization(int platform,AuthEventHandler callback);
     static bool isAuthorized(int platform);
-    static void openShareWithImagePath(vector<int>* platform, const char* text, const char* imagePath, ShareEventHandler callback);
+    static void openShareWithImagePath(vector<int>* platform, const char* text, const char* imagePath,ShareEventHandler callback);
     static void directShare(const char* text, const char* imagePath, int platform, ShareEventHandler callback);
     
 private:
