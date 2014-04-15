@@ -307,10 +307,6 @@ void HelloWorld::saveScreenshot()
 
 }
 
-
-
-
-
 void HelloWorld::menuCloseCallback(CCObject* pSender)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT) || (CC_TARGET_PLATFORM == CC_PLATFORM_WP8)
