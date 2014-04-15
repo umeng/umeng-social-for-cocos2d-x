@@ -71,15 +71,15 @@ void getData(JNIEnv *env, jobjectArray data, map<string, string>& outputMap)
         jstring uid = (jstring) env->GetObjectArrayElement(data, 1);
         const char* pToken = env->GetStringUTFChars(token, NULL);
         const char* pUid = env->GetStringUTFChars(uid, NULL);
-        outputMap.insert(pair<string,string>("token", pToken));
-        outputMap.insert(pair<string,string>("uid", pUid));
+        outputMap.insert(make_pair("token", pToken));
+        outputMap.insert(make_pair("uid", pUid));
     }
     else if ( count == 1 )
     {
         // 错误消息
         jstring msg = (jstring) env->GetObjectArrayElement(data, 0);
         const char* pMsg = env->GetStringUTFChars(msg, NULL);
-        outputMap.insert(pair<string,string>("msg", pMsg));
+        outputMap.insert(make_pair("msg", pMsg));
     }
 }
 
