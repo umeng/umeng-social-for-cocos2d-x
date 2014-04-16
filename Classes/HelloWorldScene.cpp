@@ -145,11 +145,10 @@ bool HelloWorld::init()
     // ********************  设置友盟的app key      ***********************************
     CCUMSocialSDK *sdk = CCUMSocialSDK::create();
     sdk->setAppKey("507fcab25270157b37000010");
-    sdk->setQQAndQZoneAppId("设置QQ的app id");
+    sdk->setQQAppIdAndAppKey("设置QQ的app id", "my qq appkey");
     // sdk->setWeiXinAppId("设置微信和朋友圈的app id");
     // sdk->setYiXinAppKey("设置易信和易信朋友圈的app id");
-    // sdk->setLaiwangAppId("设置来往和来往动态的app id");
-    // sdk->setLaiwangAppKey("设置来往和来往动态的app key");
+    sdk->setLaiwangAppIdAndAppKey("设置来往和来往动态的app id", "设置来往和来往动态的app key");
     // 设置用户点击一条图文分享时用户跳转到的目标页面, 一般为app主页或者下载页面
     sdk->setTargetUrl("http://www.umeng.com/social");
     // ********************************************************************************

@@ -143,7 +143,7 @@ void setSocialPlatforms(vector<int>* platforms);
  * 
  * @param appid
  */
- void setQQConnectPlatformAppId(const char* appid) ; 
+ void setQQAndQzoneAppIdWithAppKey(const char* appid, const char* appKey) ; 
 
 /**
  * 设置微信和微信朋友圈的app id

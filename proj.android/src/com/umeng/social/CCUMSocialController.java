@@ -72,6 +72,10 @@ public class CCUMSocialController {
 	 * QQ和QQ空间app id
 	 */
 	private static String QQ_QZONE_APP_ID = "";
+	/**
+	 * QQ和QQ空间app key
+	 */
+	private static String QQ_QZONE_APP_KEY = "";
 
 	/**
 	 * 微信或者微信朋友圈 app id
@@ -339,9 +343,11 @@ public class CCUMSocialController {
 	/**
 	 * 初始化Cocos2d-x SDK版本信息
 	 */
-	public static void initCocos2dxSDKInfo(String type, String sdkVersion) {
+	protected static void initCocos2dxSDKInfo(String type, String sdkVersion) {
 		Log.d(TAG, "### initCocos2dxSDKInfo, type = " + type + ", version = "
 				+ sdkVersion);
+		// 设置cocos2dx sdk版本号
+		mController.getEntity().setAdapterSDKInfo(type, sdkVersion);
 	}
 
 	/**
@@ -376,6 +382,7 @@ public class CCUMSocialController {
 		}
 		checkActivity();
 		if (target == SHARE_MEDIA.QQ) {
+			// TODO QQ和QQ空间需要设置app key
 			// 添加QQ平台支持
 			mSocializeConfig.supportQQPlatform(mActivity, QQ_QZONE_APP_ID,
 					TARGET_URL);
@@ -564,9 +571,11 @@ public class CCUMSocialController {
 	 * 
 	 * @param appid
 	 */
-	public static void setQQAndQZoneAppId(String appid) {
+	public static void setQQAndQzoneAppIdWithAppKey(String appid, String appKey) {
 		QQ_QZONE_APP_ID = appid;
-		Log.d(TAG, "### QQ or qzone app id = " + appid);
+		QQ_QZONE_APP_KEY = appKey;
+		Log.d(TAG, "### QQ or qzone app id = " + appid + ", app key = "
+				+ appKey);
 	}
 
 	/**
