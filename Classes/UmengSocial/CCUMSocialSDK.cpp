@@ -252,13 +252,13 @@ void CCUMSocialSDK::setYiXinAppKey(const char* appKey)
 * 
 * @param appid
 */
-void CCUMSocialSDK::setLaiwangAppIdAndAppKey(const char* appid, const char* appKey)
+void CCUMSocialSDK::setLaiwangAppInfo(const char* appid, const char* appKey, const char* appName)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
     setLaiwangPlatformAppId(appid);
     setLaiwangPlatformAppKey(appKey);
-
+    setLaiwangPlatformAppName(appName);
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
  
     //TODO: iOS

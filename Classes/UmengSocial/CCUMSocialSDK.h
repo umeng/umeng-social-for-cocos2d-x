@@ -95,11 +95,13 @@ namespace umeng
             void setYiXinAppKey(const char* appid) ;
 
             /**
-             * 设置来往和来往动态的app id, app key
+             * 设置来往和来往动态的app id, app key, appName
              * 
-             * @param appid
+             * @param appid   应用的app id
+             * @param appKey  应用的app key
+             * @param appName 应用吗
              */
-            void setLaiwangAppIdAndAppKey(const char* appid, const char* appkey);
+            void setLaiwangAppInfo(const char* appid, const char* appkey, const char* appName);
 
         private:
             static CCUMSocialSDK *_instance ;
