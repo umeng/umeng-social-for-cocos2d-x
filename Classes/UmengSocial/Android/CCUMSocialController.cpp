@@ -398,7 +398,7 @@ void setYiXinPlatformAppKey(const char* appid)
 /**
 * 设置来往和来往动态的app key
 * 
-* @param appid
+* @param appKey
 */
 void setLaiwangPlatformAppKey(const char* appkey) 
 {
@@ -412,6 +412,25 @@ void setLaiwangPlatformAppKey(const char* appkey)
         releaseMethod(mi);
     }
     CCLog("#### setLaiwangPlatformAppKey");
+}
+
+/**
+* 设置来往和来往动态的app key
+* 
+* @param appName
+*/
+void setLaiwangPlatformAppName(const char* appName)
+{
+    JniMethodInfo mi;
+    bool isHave = getMethod(mi, "setLaiwangAppName", "(Ljava/lang/String;)V");
+    if ( isHave )
+    {
+        jstring jAppName = mi.env->NewStringUTF(appName);
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, jAppName);
+        mi.env->DeleteLocalRef(jAppName);
+        releaseMethod(mi);
+    }
+    CCLog("#### setLaiwangPlatformAppName");
 }
 
 /*

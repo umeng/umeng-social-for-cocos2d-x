@@ -275,7 +275,7 @@ void HelloWorld::shareButtonClick()
 >1.如果集成了QQ或者QQ空间平台,则必须通过CCUMSocialSDK类的setQQAppIdAndAppKey("appid","appkey")函数来设置QQ或者QQ空间的AppId、AppKey;           
 >2.如果集成了微信或者微信朋友圈平台,则必须通过CCUMSocialSDK类的setWeiXinAppId("")函数来设置微信或者朋友圈的App id;        
 >3.如果集成了易信或者易信朋友圈平台,则必须通过CCUMSocialSDK类的setYiXinAppKey("")函数来设置微信的App key;        
->4.如果集成了来往或者来往动态平台,则必须通过CCUMSocialSDK类的setLaiwangAppIdAndAppKey("app id ", "app key")来设置来往和来往动态的App id、app key.    
+>4.如果集成了来往或者来往动态平台,则必须通过CCUMSocialSDK类的setLaiwangAppInfo("app id ", "app key", "app Name")来设置来往和来往动态的App id、App key、App Name(应用名).    
 
 
 

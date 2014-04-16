@@ -173,6 +173,13 @@ void setYiXinPlatformAppKey(const char* appid) ;
 */
 void setLaiwangPlatformAppKey(const char* appkey) ;
 
+/**
+* 设置来往和来往动态的app key
+* 
+* @param appid
+*/
+void setLaiwangPlatformAppName(const char* appName) ;
+
 
 /*
  * 设置SDK的target url, 即用户点击某条分享时跳转到的目标页面

@@ -94,6 +94,10 @@ public class CCUMSocialController {
 	 */
 	private static String LAIWANG_APPKEY = "";
 	/**
+	 * 当前应用名称,用于显示在来往分享来源上
+	 */
+	private static String LAIWANG_APP_NAME = "";
+	/**
 	 * 在某些平台的分享中， 希望用户点击该分享内容跳转到的目标平台, 一般为app的官网或者下载地址
 	 */
 	private static String TARGET_URL = "http://www.umeng.com/social";
@@ -388,9 +392,9 @@ public class CCUMSocialController {
 					TARGET_URL);
 		} else if (target == SHARE_MEDIA.QZONE) {
 			// Social Android sdk 3.3.6 及其以后的版本, 添加QQ空间的支持方式
-			QZoneSsoHandler.setTargetUrl(TARGET_URL);
 			mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity,
 					QQ_QZONE_APP_ID));
+			QZoneSsoHandler.setTargetUrl(TARGET_URL);
 			// Social Android sdk 3.3.6之前的版本添加QQ空间的支持方式
 			// mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity));
 		} else if (target == SHARE_MEDIA.WEIXIN) {
@@ -405,38 +409,40 @@ public class CCUMSocialController {
 			// 创建易信的handler, 参数2为你的app id, 参数3为是否是易信朋友圈平台, false为易信, true为易信朋友圈,
 			// UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
 			// false);
-			// 添加易信平台到SDK
-			// yxHandler.addToSicalSDK();
+			// yxHandler.setTargetUrl(TARGET_URL);
+			// // 添加易信平台到SDK
+			// yxHandler.addToSocialSDK();
+
 		} else if (target == SHARE_MEDIA.YIXIN_CIRCLE) {
 			// 创建易信的handler, 参数2为你的app id, 参数3为是否是易信朋友圈平台, false为易信, true为易信朋友圈,
 			// UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
 			// true);
-			// 添加易信朋友圈平台到SDK
-			// yxHandler.addToSicalSDK();
+			// yxHandler.setTargetUrl(TARGET_URL);
+			// // 添加易信朋友圈平台到SDK
+			// yxHandler.addToSocialSDK();
 		} else if (target == SHARE_MEDIA.LAIWANG) {
 			// 添加来往平台的支持
-			// UMLWHandler umLWHandler = UMLWService.supportLWPlatform(
-			// mActivity, LAIWANG_APPID,
-			// LAIWANG_APPKEY, TARGET_URL);
+			// UMLWHandler umLWHandler =
+			// UMLWService.supportLWPlatform(mActivity,
+			// LAIWANG_APPID, LAIWANG_APPKEY, TARGET_URL);
 			// umLWHandler.setTitle("友盟社会化分享组件-来往动态");
-			// umLWHandler.setMessageFrom("友盟分享组件");
-			// umLWHandler.addToSicalSDK();
+			// umLWHandler.setMessageFrom(LAIWANG_APP_NAME);
+			// umLWHandler.addToSocialSDK();
 		} else if (target == SHARE_MEDIA.LAIWANG_DYNAMIC) {
 			// 添加来往动态平台的支持
-			// UMLWHandler umlwDynamicHandler =
-			// UMLWService.supportLWDynamicPlatform(
-			// mActivity, LAIWANG_APPID,
+			// UMLWHandler umlwDynamicHandler = UMLWService
+			// .supportLWDynamicPlatform(mActivity, LAIWANG_APPID,
 			// LAIWANG_APPKEY, TARGET_URL);
 			// umlwDynamicHandler.setTitle("友盟社会化分享组件-来往");
 			// // 设置消息来源
-			// umlwDynamicHandler.setMessageFrom("友盟分享组件");
-			// umlwDynamicHandler.addToSicalSDK();
+			// umlwDynamicHandler.setMessageFrom(LAIWANG_APP_NAME);
+			// umlwDynamicHandler.addToSocialSDK();
 		} else if (target == SHARE_MEDIA.FACEBOOK) {
 			// facebook的支持
 			// UMFacebookHandler mFacebookHandler = new UMFacebookHandler(
 			// mActivity, PostType.FEED);
-			// mFacebookHandler.addToSocialSDK();
 			// mFacebookHandler.setTargetUrl(TARGET_URL);
+			// mFacebookHandler.addToSocialSDK();
 		} else if (target == SHARE_MEDIA.INSTAGRAM) {
 			// 构建Instagram的Handler
 			// UMInstagramHandler instagramHandler = new UMInstagramHandler(
@@ -616,6 +622,16 @@ public class CCUMSocialController {
 	public static void setLaiwangAppKey(String appkey) {
 		LAIWANG_APPKEY = appkey;
 		Log.d(TAG, "### 来往 app key = " + appkey);
+	}
+
+	/**
+	 * 设置来往和来往动态的app name
+	 * 
+	 * @param appName
+	 */
+	public static void setLaiwangAppName(String appName) {
+		LAIWANG_APP_NAME = appName;
+		Log.d(TAG, "### 来往 app name = " + appName);
 	}
 
 	/**
