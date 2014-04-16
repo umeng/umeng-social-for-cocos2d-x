@@ -197,11 +197,11 @@ void CCUMSocialSDK::directShare(int platform,const char* text, const char* imgNa
 * 
 * @param appid
 */
-void CCUMSocialSDK::setQQAndQZoneAppId(const char* appid) 
+void CCUMSocialSDK::setQQAppIdAndAppKey(const char* appid, const char* appKey) 
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-    setQQConnectPlatformAppId(appid);
+    setQQAndQzoneAppIdWithAppKey(appid, appKey);
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
  
@@ -234,11 +234,11 @@ void CCUMSocialSDK::setWeiXinAppId(const char* appid)
 * 
 * @param appid
 */
-void CCUMSocialSDK::setYiXinAppKey(const char* appid) 
+void CCUMSocialSDK::setYiXinAppKey(const char* appKey) 
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-    setYiXinPlatformAppKey(appid);
+    setYiXinPlatformAppKey(appKey);
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
  
@@ -252,11 +252,12 @@ void CCUMSocialSDK::setYiXinAppKey(const char* appid)
 * 
 * @param appid
 */
-void CCUMSocialSDK::setLaiwangAppId(const char* appid)
+void CCUMSocialSDK::setLaiwangAppIdAndAppKey(const char* appid, const char* appKey)
 {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
     setLaiwangPlatformAppId(appid);
+    setLaiwangPlatformAppKey(appKey);
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
  
@@ -264,25 +265,6 @@ void CCUMSocialSDK::setLaiwangAppId(const char* appid)
     
 #endif
 }
-
-/**
-* 设置来往和来往动态的app key
-* 
-* @param appid
-*/
-void CCUMSocialSDK::setLaiwangAppKey(const char* appkey) 
-{
-#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-
-    setLaiwangPlatformAppKey(appkey);
-
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
- 
-    //TODO: iOS
-    
-#endif
-}
-
 
 /*
 * 设置SDK的target url, 即用户点击某条分享时跳转到的目标页面

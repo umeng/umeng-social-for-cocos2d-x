@@ -78,7 +78,7 @@ namespace umeng
              * 
              * @param appid
              */
-            void setQQAndQZoneAppId(const char* appid) ;
+            void setQQAppIdAndAppKey(const char* appid, const char* appkey) ;
 
             /**
              * 设置微信和微信朋友圈的app id
@@ -95,18 +95,11 @@ namespace umeng
             void setYiXinAppKey(const char* appid) ;
 
             /**
-             * 设置来往和来往动态的app id
+             * 设置来往和来往动态的app id, app key
              * 
              * @param appid
              */
-            void setLaiwangAppId(const char* appid);
-
-            /**
-             * 设置来往和来往动态的app key
-             * 
-             * @param appid
-             */
-            void setLaiwangAppKey(const char* appkey);
+            void setLaiwangAppIdAndAppKey(const char* appid, const char* appkey);
 
         private:
             static CCUMSocialSDK *_instance ;
