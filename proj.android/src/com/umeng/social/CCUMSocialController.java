@@ -394,11 +394,11 @@ public class CCUMSocialController {
 			// TODO QQ和QQ空间需要设置app key
 			// 添加QQ平台支持
 			mSocializeConfig.supportQQPlatform(mActivity, QQ_QZONE_APP_ID,
-					TARGET_URL);
+					QQ_QZONE_APP_KEY, TARGET_URL);
 		} else if (target == SHARE_MEDIA.QZONE) {
 			// Social Android sdk 3.3.6 及其以后的版本, 添加QQ空间的支持方式
 			mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity,
-					QQ_QZONE_APP_ID));
+					QQ_QZONE_APP_ID, QQ_QZONE_APP_KEY));
 			QZoneSsoHandler.setTargetUrl(TARGET_URL);
 			// Social Android sdk 3.3.6之前的版本添加QQ空间的支持方式
 			// mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity));
