@@ -411,7 +411,7 @@ void setLaiwangPlatformAppKey(const char* appkey)
         mi.env->DeleteLocalRef(jAppKey);
         releaseMethod(mi);
     }
-    CCLog("#### setLaiwangPlatformAppKey");
+    CCLog("#### setLaiwangPlatformAppKey   jni");
 }
 
 /**
@@ -430,7 +430,22 @@ void setLaiwangPlatformAppName(const char* appName)
         mi.env->DeleteLocalRef(jAppName);
         releaseMethod(mi);
     }
-    CCLog("#### setLaiwangPlatformAppName");
+    CCLog("#### setLaiwangPlatformAppName jni ");
+}
+
+void setFacebookPlatformAppId(const char* appid) 
+{
+    JniMethodInfo mi;
+    bool isHave = getMethod(mi, "setFacebookAppId", "(Ljava/lang/String;)V");
+    if ( isHave )
+    {
+        jstring jAppId = mi.env->NewStringUTF(appid);
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, jAppId);
+        mi.env->DeleteLocalRef(jAppId);
+        releaseMethod(mi);
+    }
+    CCLog("#### setFacebookPlatformAppId  jni ");
+
 }
 
 /*

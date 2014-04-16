@@ -81,6 +81,11 @@ public class CCUMSocialController {
 	 * 微信或者微信朋友圈 app id
 	 */
 	private static String WEIXIN_APP_ID = "";
+
+	/**
+	 * facebook app id
+	 */
+	private static String FACEBOOK_APP_ID = "";
 	/**
 	 * 易信或者易信朋友圈app id, 需要添加易信或者易信朋友圈平台的支持, 请参考线上文档
 	 */
@@ -440,7 +445,7 @@ public class CCUMSocialController {
 		} else if (target == SHARE_MEDIA.FACEBOOK) {
 			// facebook的支持
 			// UMFacebookHandler mFacebookHandler = new UMFacebookHandler(
-			// mActivity, PostType.FEED);
+			// mActivity, FACEBOOK_APP_ID, PostType.FEED);
 			// mFacebookHandler.setTargetUrl(TARGET_URL);
 			// mFacebookHandler.addToSocialSDK();
 		} else if (target == SHARE_MEDIA.INSTAGRAM) {
@@ -592,6 +597,16 @@ public class CCUMSocialController {
 	public static void setWeiXinAppId(String appid) {
 		WEIXIN_APP_ID = appid;
 		Log.d(TAG, "### 微信 app id = " + appid);
+	}
+
+	/**
+	 * 设置facebook app id
+	 * 
+	 * @param appid
+	 */
+	public static void setFacebookAppId(String appid) {
+		FACEBOOK_APP_ID = appid;
+		Log.d(TAG, "### facebook appid = " + appid);
 	}
 
 	/**

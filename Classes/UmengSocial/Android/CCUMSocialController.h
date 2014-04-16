@@ -180,6 +180,13 @@ void setLaiwangPlatformAppKey(const char* appkey) ;
 */
 void setLaiwangPlatformAppName(const char* appName) ;
 
+/**
+* 设置facebook app id
+* 
+* @param appid
+*/
+void setFacebookPlatformAppId(const char* appId);
+
 
 /*
  * 设置SDK的target url, 即用户点击某条分享时跳转到的目标页面
