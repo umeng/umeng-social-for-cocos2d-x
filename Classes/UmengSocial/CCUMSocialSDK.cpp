@@ -48,7 +48,7 @@ void CCUMSocialSDK::initSDK()
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
-    // TODO 
+    
     
 #endif
 }

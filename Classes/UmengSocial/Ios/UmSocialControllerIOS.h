@@ -24,6 +24,7 @@ public:
     static bool isAuthorized(int platform);
     static void openShareWithImagePath(vector<int>* platform, const char* text, const char* imagePath,ShareEventHandler callback);
     static void directShare(const char* text, const char* imagePath, int platform, ShareEventHandler callback);
+    static void initCocos2dxSDK(const char *sdkType, const char *version);
     
 private:
     static string m_appKey;

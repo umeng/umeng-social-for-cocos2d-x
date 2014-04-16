@@ -68,6 +68,10 @@ void UmSocialControllerIOS::setAppKey(const char* appKey){
     m_appKey = appKey;
 }
 
+void UmSocialControllerIOS::initCocos2dxSDK(const char *sdkType, const char *version){
+    [[UMSocialData defaultData] performSelector:@selector(setSdkType:version:) withObject:getNSStringFromCString(sdkType) withObject:getNSStringFromCString(version)];
+}
+
 void UmSocialControllerIOS::authorize(int platform, AuthEventHandler callback){
     
     UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:getPlatformString(platform)];
