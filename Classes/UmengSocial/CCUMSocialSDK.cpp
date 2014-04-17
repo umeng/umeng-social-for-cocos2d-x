@@ -272,7 +272,7 @@ void CCUMSocialSDK::setLaiwangAppInfo(const char* appid, const char* appKey, con
 */
 void CCUMSocialSDK::setTargetUrl(const char* targetUrl)
 {
-    #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
     setShareTargetUrl(targetUrl);
 
@@ -289,9 +289,17 @@ void CCUMSocialSDK::setTargetUrl(const char* targetUrl)
  */
 void CCUMSocialSDK::setFacebookAppId(const char *appid)
 {
-    #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
+    setFacebookPlatformAppId(appid);
+
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+ 
     UmSocialControllerIOS::setFacebookAppId(appid);
-    #endif
+    
+#endif
+
 }
 
 /*

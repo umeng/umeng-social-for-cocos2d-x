@@ -142,13 +142,16 @@ bool HelloWorld::init()
     isAuthTextButton->setPosition(ccp(150,160));
 
 
-    // ********************  设置友盟的app key      ***********************************
+    // ********************  设置友盟的app key以及相关的信息  ***********************************
+    // 获取CCUMSocialSDK对象, 如果使用的UMShareButton, 则通过UMShareButton对象的getSocialSDK()方法获取.
     CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+    // 设置友盟app key
     sdk->setAppKey("507fcab25270157b37000010");
-    sdk->setQQAppIdAndAppKey("设置QQ的app id", "my qq appkey");
+    sdk->setQQAppIdAndAppKey("设置QQ的app id", "appkey");
     // sdk->setWeiXinAppId("设置微信和朋友圈的app id");
     // sdk->setYiXinAppKey("设置易信和易信朋友圈的app id");
     sdk->setLaiwangAppInfo("设置来往和来往动态的app id", "设置来往和来往动态的app key", "我的应用名");
+    sdk->setFacebookAppId("你的facebook appid");
     // 设置用户点击一条图文分享时用户跳转到的目标页面, 一般为app主页或者下载页面
     sdk->setTargetUrl("http://www.umeng.com/social");
     // ********************************************************************************
