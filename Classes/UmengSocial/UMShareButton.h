@@ -22,8 +22,13 @@ namespace umeng
 {
     namespace social 
     {
-        class UMShareButton : public cocos2d::CCMenuItemImage
-        {
+        #ifdef CC_CALLBACK_1
+            class UMShareButton : public cocos2d::MenuItemImage 
+            {
+        #else
+            class UMShareButton : public cocos2d::CCMenuItemImage 
+            {
+        #endif
         public:
             virtual  ~UMShareButton() ;
 
@@ -47,8 +52,16 @@ namespace umeng
             UMShareButton();
             // 构造函数
             UMShareButton(const char *normalImage, const char *selectedImage);
+            // 打开分享面板
+            void openShareBoard();
+        #ifdef CC_CALLBACK_1
             // 分享按钮回调, 打开友盟分享面板
+            void shareCallback(cocos2d::Ref* pSender);
+        #else 
+             // 分享按钮回调, 打开友盟分享面板
             void shareCallback(CCNode* pSender);
+        #endif
+           
         private:
             // 友盟分享组件SDK
             CCUMSocialSDK* mSocialSDK;

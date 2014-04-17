@@ -7,9 +7,6 @@
 #include <vector>
 #include <map>
  
-// #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-// #include "UmengSocial/Android/CCUMSocialController.h"
-// #endif
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
@@ -119,8 +116,7 @@ bool HelloWorld::init()
     
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
     CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
-
-
+    
     // 打开分享面板
     CCMenuItemFont *shareTextButton = CCMenuItemFont::create("打开分享面板",this , menu_selector(HelloWorld::menuShareCallback));
     shareTextButton->setPosition(ccp(150,480));
@@ -225,7 +221,6 @@ bool HelloWorld::init()
     return true;
 }
 
-
 // 直接分享的按钮回调
 void HelloWorld::directShareCallback(CCObject* pSender)
 {
@@ -310,10 +305,6 @@ void HelloWorld::saveScreenshot()
     }
 
 }
-
-
-
-
 
 void HelloWorld::menuCloseCallback(CCObject* pSender)
 {

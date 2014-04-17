@@ -284,7 +284,7 @@ void CCUMSocialSDK::setTargetUrl(const char* targetUrl)
 }
 
 /*
- * 针对iOS平台设置appId
+ * 设置 facebook appId
  * @param appid
  */
 void CCUMSocialSDK::setFacebookAppId(const char *appid)
