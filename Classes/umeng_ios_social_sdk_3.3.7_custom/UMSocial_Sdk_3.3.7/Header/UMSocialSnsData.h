@@ -395,6 +395,12 @@ typedef enum {
  */
 @property (nonatomic, assign) UMSocialYXMessageType yxMessageType;
 
+/**
+ 分享网页消息的链接地址
+ 
+ */
+@property (nonatomic, copy) NSString *url;
+
 @end
 
 /**
@@ -407,6 +413,12 @@ typedef enum {
  */
 @property (nonatomic, assign) UMSocialYXMessageType yxMessageType;
 
+/**
+ 分享网页消息的链接地址
+ 
+ */
+@property (nonatomic, copy) NSString *url;
+
 @end
 
 /**
@@ -414,12 +426,24 @@ typedef enum {
  */
 @interface UMSocialLWSessionData : UMSocialSnsData
 
+/**
+ 分享网页消息的链接地址
+ 
+ */
+@property (nonatomic, copy) NSString *url;
+
 @end
 
 /**
  分享到来往好友
  */
 @interface UMSocialLWTimelineData : UMSocialSnsData
+
+/**
+ 分享网页消息的链接地址
+ 
+ */
+@property (nonatomic, copy) NSString *url;
 
 @end
 

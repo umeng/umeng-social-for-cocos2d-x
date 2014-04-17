@@ -55,11 +55,6 @@ extern NSString *const UMShareToWechatSession;
 extern NSString *const UMShareToWechatTimeline;
 
 /**
- 微信收藏
- */
-extern NSString *const UMShareToWechatFavorite;
-
-/**
  手机QQ
  */
 extern NSString *const UMShareToQQ;
@@ -115,16 +110,14 @@ typedef enum {
     UMSocialSnsTypeSms = 16,
     UMSocialSnsTypeWechatSession = 17,
     UMSocialSnsTypeWechatTimeline = 18,
-    UMSocialSnsTypeWechatFavorite = 19,
-    UMSocialSnsTypeMobileQQ = 20,
-    UMSocialSnsTypeFacebook = 21,
-    UMSocialSnsTypeTwitter = 22,
-    UMSocialSnsTypeYiXinSession = 23,
-    UMSocialSnsTypeYiXinTimeline = 24,
-    UMSocialSnsTypeLaiWangSession = 25,
-    UMSocialSnsTypeLaiWangTimeline = 26,
-    UMSocialSnsTypeInstagram = 27,
-    UMSocialSnsTypeNew = 28
+    UMSocialSnsTypeMobileQQ = 19,
+    UMSocialSnsTypeFacebook = 20,
+    UMSocialSnsTypeTwitter = 21,
+    UMSocialSnsTypeYiXinSession = 22,
+    UMSocialSnsTypeYiXinTimeline = 23,
+    UMSocialSnsTypeLaiWangSession = 24,
+    UMSocialSnsTypeLaiWangTimeline = 25,
+    UMSocialSnsTypeInstagram = 26
 } UMSocialSnsType;
 
 

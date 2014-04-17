@@ -14,7 +14,6 @@
  */
 typedef enum {
     UMSResponseCodeSuccess            = 200,        //成功
-    UMSREsponseCodeTokenInvalid       = 400,        //授权用户token错误
     UMSResponseCodeBaned              = 505,        //用户被封禁
     UMSResponseCodeFaild              = 510,        //发送失败（由于内容不符合要求或者其他原因）
     UMSResponseCodeEmptyContent       = 5007,       //发送内容为空

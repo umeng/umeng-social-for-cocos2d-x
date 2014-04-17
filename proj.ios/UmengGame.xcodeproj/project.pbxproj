@@ -61,6 +61,19 @@
 		D5483D7318FE23B200D57A62 /* ios-social-sdk-shake.html in Resources */ = {isa = PBXBuildFile; fileRef = D5483D5218FE23B200D57A62 /* ios-social-sdk-shake.html */; };
 		D5483D7518FE23B200D57A62 /* libSocialWechat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5483D5618FE23B200D57A62 /* libSocialWechat.a */; };
 		D5483D7618FE23B200D57A62 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5483D5718FE23B200D57A62 /* libWeChatSDK.a */; };
+		D568332A18FE7BD90084AC3F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D568332918FE7BD90084AC3F /* CoreTelephony.framework */; };
+		D568332C18FE7BF60084AC3F /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D568332B18FE7BF60084AC3F /* libsqlite3.dylib */; };
+		D568332E18FE7C010084AC3F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D568332D18FE7C010084AC3F /* Security.framework */; };
+		D568333018FE7C3F0084AC3F /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D568332F18FE7C3F0084AC3F /* libiconv.dylib */; };
+		D568333218FE7C490084AC3F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D568333118FE7C490084AC3F /* SystemConfiguration.framework */; };
+		D568333418FE7C5B0084AC3F /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D568333318FE7C5B0084AC3F /* libstdc++.dylib */; };
+		D568333518FE7D510084AC3F /* libSocialFacebook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5483D3D18FE23B200D57A62 /* libSocialFacebook.a */; };
+		D568333618FE7D720084AC3F /* libSocialInstagram.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5483D4018FE23B200D57A62 /* libSocialInstagram.a */; };
+		D568333718FE7D850084AC3F /* libSocialTwitter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5483D4B18FE23B200D57A62 /* libSocialTwitter.a */; };
+		D568333918FE7E320084AC3F /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D568333818FE7E320084AC3F /* Accounts.framework */; };
+		D568333B18FE7E370084AC3F /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D568333A18FE7E370084AC3F /* Social.framework */; };
+		D568333C18FE7E580084AC3F /* libSocialLaiWang.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5483D4318FE23B200D57A62 /* libSocialLaiWang.a */; };
+		D568333D18FE7E670084AC3F /* libSocialYiXin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5483D5C18FE23B200D57A62 /* libSocialYiXin.a */; };
 		D5A44A5518E555CD00B95D22 /* UMSocialUIObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = D5A44A5418E555CD00B95D22 /* UMSocialUIObject.mm */; };
 /* End PBXBuildFile section */
 
@@ -188,6 +201,14 @@
 		D5483D5A18FE23B200D57A62 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		D5483D5C18FE23B200D57A62 /* libSocialYiXin.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSocialYiXin.a; sourceTree = "<group>"; };
 		D5483D5D18FE23B200D57A62 /* UMSocialYiXinHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialYiXinHandler.h; sourceTree = "<group>"; };
+		D568332918FE7BD90084AC3F /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		D568332B18FE7BF60084AC3F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		D568332D18FE7C010084AC3F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		D568332F18FE7C3F0084AC3F /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		D568333118FE7C490084AC3F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		D568333318FE7C5B0084AC3F /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		D568333818FE7E320084AC3F /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		D568333A18FE7E370084AC3F /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		D5A44A5318E555CD00B95D22 /* UMSocialUIObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMSocialUIObject.h; path = ../Ios/UMSocialUIObject.h; sourceTree = "<group>"; };
 		D5A44A5418E555CD00B95D22 /* UMSocialUIObject.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = UMSocialUIObject.mm; path = ../Ios/UMSocialUIObject.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -197,16 +218,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D568333D18FE7E670084AC3F /* libSocialYiXin.a in Frameworks */,
+				D568333C18FE7E580084AC3F /* libSocialLaiWang.a in Frameworks */,
+				D568333B18FE7E370084AC3F /* Social.framework in Frameworks */,
+				D568333918FE7E320084AC3F /* Accounts.framework in Frameworks */,
+				D5483D7518FE23B200D57A62 /* libSocialWechat.a in Frameworks */,
+				D5483D7618FE23B200D57A62 /* libWeChatSDK.a in Frameworks */,
+				D568333718FE7D850084AC3F /* libSocialTwitter.a in Frameworks */,
+				D568333618FE7D720084AC3F /* libSocialInstagram.a in Frameworks */,
+				D568333518FE7D510084AC3F /* libSocialFacebook.a in Frameworks */,
+				BF1712471292920000B8313A /* libz.dylib in Frameworks */,
+				D568333418FE7C5B0084AC3F /* libstdc++.dylib in Frameworks */,
+				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
+				D568333218FE7C490084AC3F /* SystemConfiguration.framework in Frameworks */,
+				D568333018FE7C3F0084AC3F /* libiconv.dylib in Frameworks */,
+				D568332E18FE7C010084AC3F /* Security.framework in Frameworks */,
+				D568332C18FE7BF60084AC3F /* libsqlite3.dylib in Frameworks */,
+				D568332A18FE7BD90084AC3F /* CoreTelephony.framework in Frameworks */,
 				D5483D6E18FE23B200D57A62 /* TencentOpenAPI.framework in Frameworks */,
 				15A3DA6A1682F886002FB0C5 /* libcocos2dx.a in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
-				D5483D7618FE23B200D57A62 /* libWeChatSDK.a in Frameworks */,
-				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
 				BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */,
-				D5483D7518FE23B200D57A62 /* libSocialWechat.a in Frameworks */,
 				BF1712461292920000B8313A /* libxml2.dylib in Frameworks */,
-				BF1712471292920000B8313A /* libz.dylib in Frameworks */,
 				BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */,
 				D44C620C132DFF330009C878 /* OpenAL.framework in Frameworks */,
 				D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */,
@@ -352,6 +386,14 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D568333A18FE7E370084AC3F /* Social.framework */,
+				D568333818FE7E320084AC3F /* Accounts.framework */,
+				D568333318FE7C5B0084AC3F /* libstdc++.dylib */,
+				D568333118FE7C490084AC3F /* SystemConfiguration.framework */,
+				D568332F18FE7C3F0084AC3F /* libiconv.dylib */,
+				D568332D18FE7C010084AC3F /* Security.framework */,
+				D568332B18FE7BF60084AC3F /* libsqlite3.dylib */,
+				D568332918FE7BD90084AC3F /* CoreTelephony.framework */,
 				1ACB3243164770DE00914215 /* libcurl.a */,
 				BF170DB212928DE900B8313A /* libxml2.dylib */,
 				BF170DB412928DE900B8313A /* libz.dylib */,
@@ -763,6 +805,11 @@
 					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.7_custom/UMSocial_Sdk_3.3.7\"",
 					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.7_custom/UMSocial_Sdk_Extra_Frameworks/Wechat\"",
 					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.7_custom/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI\"",
+					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.7_custom/UMSocial_Sdk_Extra_Frameworks/Yixin\"",
+					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.7_custom/UMSocial_Sdk_Extra_Frameworks/LaiWang\"",
+					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.7_custom/UMSocial_Sdk_Extra_Frameworks/Facebook\"",
+					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.7_custom/UMSocial_Sdk_Extra_Frameworks/Twitter\"",
+					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.7_custom/UMSocial_Sdk_Extra_Frameworks/Instagram\"",
 				);
 				OTHER_CFLAGS = "-O2";
 				PRODUCT_NAME = UmengGame;
@@ -818,6 +865,11 @@
 					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.7_custom/UMSocial_Sdk_3.3.7\"",
 					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.7_custom/UMSocial_Sdk_Extra_Frameworks/Wechat\"",
 					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.7_custom/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI\"",
+					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.7_custom/UMSocial_Sdk_Extra_Frameworks/Yixin\"",
+					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.7_custom/UMSocial_Sdk_Extra_Frameworks/LaiWang\"",
+					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.7_custom/UMSocial_Sdk_Extra_Frameworks/Facebook\"",
+					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.7_custom/UMSocial_Sdk_Extra_Frameworks/Twitter\"",
+					"\"$(SRCROOT)/../Classes/umeng_ios_social_sdk_3.3.7_custom/UMSocial_Sdk_Extra_Frameworks/Instagram\"",
 				);
 				PRODUCT_NAME = UmengGame;
 				PROVISIONING_PROFILE = "";

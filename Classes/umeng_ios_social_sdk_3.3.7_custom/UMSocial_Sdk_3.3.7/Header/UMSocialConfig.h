@@ -240,35 +240,40 @@ typedef void (^UMTableViewCellConfig)(UITableViewCell *cell,UMSViewControllerTyp
 + (void)setSupportSinaSSO:(BOOL)supportSinaSSO;
 
 
-/** deprecated API, Use ''[UMSocialQQHandler shareToQQWithAppId:@"100424468" url:@"http://www.umeng.com/social"];''
+/**设置微信appId和图文分享用到的url地址
+ 
+ @param appId 微信AppId
+ @param url   微信图文分享web类型，用到的url地址，如果传nil，默认使用http://www.umeng.com/social
+ */
 
- 设置手机QQ的appId和微信图文分享用到的url地址
++ (void)setWXAppId:(NSString *)appId url:(NSString *)url;
+
+
+/**设置手机QQ的appId和微信图文分享用到的url地址
  
  @param appId 手机QQ的AppId
  @param url   手机QQ图文分享web类型，用到的url地址，如果传nil，默认使用http://www.umeng.com/social
- @param classes 载入QQ互联 SDK，用到的两个类
+ @param classes 载入手机QQ SDK，用到的两个类
  */
 
-//+ (void)setQQAppId:(NSString *)appId url:(NSString *)url importClasses:(NSArray *)classes;
++ (void)setQQAppId:(NSString *)appId url:(NSString *)url importClasses:(NSArray *)classes;
 
 
-/**deprecated API, Use ''[UMSocialQQHandler setSupportQzoneSSO:YES];''
- 设置支持Qzone的SSO授权
+/**设置支持Qzone的SSO授权
  
  @param supportQzoneSSO Qzone支持SSO
- @param classes 载入QQ互联 SDK，用到的两个类
+ @param classes 载入手机QQ SDK，用到的两个类
  */
 
-//+ (void)setSupportQzoneSSO:(BOOL)supportQzoneSSO importClasses:(NSArray *)classes;
++ (void)setSupportQzoneSSO:(BOOL)supportQzoneSSO importClasses:(NSArray *)classes;
 
 
-/**deprecated API
- 设置是否使用QQ互联的SDK来分享
+/**设置是否使用QQ互联的SDK来分享
  
  @param useQQSDK 是否使用QQ互联的SDK来分享
- @param classes 载入QQ互联 SDK，用到的两个类
+ @param classes 载入手机QQ SDK，用到的两个类
  */
 
-//+ (void)setShareQzoneWithQQSDK:(BOOL)useQQSDK url:(NSString *)urlString importClasses:(NSArray *)classes;
++ (void)setShareQzoneWithQQSDK:(BOOL)useQQSDK url:(NSString *)urlString importClasses:(NSArray *)classes;
 
 @end
