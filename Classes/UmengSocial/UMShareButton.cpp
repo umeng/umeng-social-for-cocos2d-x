@@ -24,6 +24,11 @@ UMShareButton::UMShareButton()
     new (this)UMShareButton("","");
 }
 
+/*
+ * 构造函数, 没有使用cocos2d-x的内存管理, 需要开发者自行管理内存
+ * @param  normalImage  按钮正常情况下显示的图片
+ * @param  selectedImage 按钮选中情况下显示的图片
+ */
 UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
 :mPlatforms(NULL), mAppKey(""),mShareText(""),mImageName(""),mSocialSDK(NULL),mCallback(NULL)
 {
@@ -49,6 +54,7 @@ UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
  * 创建一个UMShareButton对象
  * @param  normalImage  按钮正常情况下显示的图片
  * @param  selectedImage 按钮选中情况下显示的图片
+ * @param callback 分享回调函数
  */
 UMShareButton* UMShareButton::create(const char *normalImage, const char *selectedImage, ShareEventHandler callback)
 {
