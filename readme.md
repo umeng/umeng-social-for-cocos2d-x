@@ -395,11 +395,10 @@ void authCallback(int platform, int stCode, map<string, string>& data)
    	通过CCUMSocialSDK类的setLaiwangAppId("")和setLaiwangAppKey()函数来分别设置来往和来往动态的App id、app key，然后在该类的supportPlatfrom函数中找到添加来往或者来往动态平台的代码段，将相应的注释去掉，并且导入(import)所需的类, 示例如下 :    
    ***添加来往平台***       
 ```java
-UMLWHandler umLWHandler = UMLWService.supportLWPlatform(
-			mActivity, LAIWANG_APPID,
-LAIWANG_APPKEY, TARGET_URL);
+UMLWHandler umLWHandler = UMLWService.supportLWPlatform(mActivity,
+ 	LAIWANG_APPID, LAIWANG_APPKEY, TARGET_URL);
 umLWHandler.setTitle("友盟社会化分享组件-来往动态");
-umLWHandler.setMessageFrom("友盟分享组件");
+umLWHandler.setMessageFrom(LAIWANG_APP_NAME);
 // 添加来往平台到sdk中
 umLWHandler.addToSocialSDK();
 ```
@@ -412,7 +411,7 @@ UMLWService.supportLWDynamicPlatform(
 LAIWANG_APPKEY, TARGET_URL);
 umlwDynamicHandler.setTitle("友盟社会化分享组件-来往");
 // 设置消息来源
-umlwDynamicHandler.setMessageFrom("友盟分享组件");
+umlwDynamicHandler.setMessageFrom(LAIWANG_APP_NAME);
 // 添加来往动态到sdk中
 umlwDynamicHandler.addToSocialSDK();
 ```   
@@ -432,6 +431,7 @@ umlwDynamicHandler.addToSocialSDK();
 ```java
 UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
 			 false);
+yxHandler.setTargetUrl(TARGET_URL);
 // 添加易信平台到SDK
 yxHandler.addToSocialSDK();
 ```    
@@ -440,6 +440,7 @@ yxHandler.addToSocialSDK();
 ```java
 UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
 			 true);
+yxHandler.setTargetUrl(TARGET_URL);
 // 添加易信朋友圈平台到SDK
 yxHandler.addToSocialSDK();
 ```   
@@ -464,6 +465,7 @@ yxHandler.addToSocialSDK();
 ```java
 UMFacebookHandler mFacebookHandler = new UMFacebookHandler(
 			 mActivity, PostType.FEED);
+mFacebookHandler.setTargetUrl(TARGET_URL);
 // 添加facebook平台 
 mFacebookHandler.addToSocialSDK();
 ```     
