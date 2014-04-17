@@ -110,7 +110,7 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <!-- 填写你的facebook app id,必须声明在string.xml中-->
+        <!-- 填写你的facebook app id,可以在代码中设置,也可以声明在string.xml中-->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -233,6 +233,18 @@ bool HelloWorld::init()
 	shareButton->setPosition(ccp(150, 180));
 	// 然后开发者需要将该按钮添加到游戏场景中
 	this->addChild( shareButton );
+	
+	// ********************** 设置平台信息 ***************************
+	// CCUMSocialSDK *sdk = shareButton->getSocialSDK();
+    // sdk->setQQAppIdAndAppKey("设置QQ的app id", "appkey");
+    // sdk->setWeiXinAppId("设置微信和朋友圈的app id");
+    // sdk->setYiXinAppKey("设置易信和易信朋友圈的app id");
+    // sdk->setLaiwangAppInfo("设置来往和来往动态的app id", 
+    //					"设置来往和来往动态的app key", "我的应用名");
+    // sdk->setFacebookAppId("你的facebook appid");
+    // 设置用户点击一条图文分享时用户跳转到的目标页面, 一般为app主页或者下载页面
+    // sdk->setTargetUrl("http://www.umeng.com/social");
+    // **********************	END	***************************
     
     return true;
 }
@@ -255,6 +267,16 @@ void HelloWorld::shareButtonClick()
     CCUMSocialSDK *sdk = CCUMSocialSDK::create();
     // 设置友盟appkey
     sdk->setAppKey("4eaee02c527015373b000003");
+    // **********************	设置平台信息	***************************
+    // sdk->setQQAppIdAndAppKey("设置QQ的app id", "appkey");
+    // sdk->setWeiXinAppId("设置微信和朋友圈的app id");
+    // sdk->setYiXinAppKey("设置易信和易信朋友圈的app id");
+    // sdk->setLaiwangAppInfo("设置来往和来往动态的app id", 
+    //				"设置来往和来往动态的app key", "我的应用名");
+    // sdk->setFacebookAppId("你的facebook appid");
+    // **********************	END	***************************
+    // 设置用户点击一条图文分享时用户跳转到的目标页面, 一般为app主页或者下载页面
+    sdk->setTargetUrl("http://www.umeng.com/social");
     // 设置友盟分享面板上显示的平台
     vector<int>* platforms = new vector<int>();
     platforms->push_back(SINA);
@@ -265,19 +287,19 @@ void HelloWorld::shareButtonClick()
 
     // 打开分享面板, 注册分享回调, 参数1为分享面板上的平台, 参数2为要分享的文字内容, 参数3为要分享的图片路径, 参数4为分享回调.
    sdk->openShare(platforms, "要分享的文字内容","/sdcard/image.png", share_selector(shareCallback));
-```    
-    
-   点击对应的按钮则会弹出如下界面 :    
-  <img src="http://dev.umeng.com/system/images/W1siZiIsIjIwMTQvMDQvMDkvMTVfNTdfNTVfMjk5X2NvY29zMmR4X29wZW5TaGFyZS5wbmciXV0/cocos2dx-openShare.png" width="450" height="300" style="border:1px solid black">    
-    
+```      
+
 ***特别说明 :***     
    使用CCUMSocialSDK对象设置各个平台的app id或者app key.CCUMSocialSDK对象可以通过CCUMSocialSDK::create()函数获取，如果使用UMShareButton可以通过getSocialSDK()函数获取.          
 >1.如果集成了QQ或者QQ空间平台,则必须通过CCUMSocialSDK类的setQQAppIdAndAppKey("appid","appkey")函数来设置QQ或者QQ空间的AppId、AppKey;           
 >2.如果集成了微信或者微信朋友圈平台,则必须通过CCUMSocialSDK类的setWeiXinAppId("")函数来设置微信或者朋友圈的App id;        
 >3.如果集成了易信或者易信朋友圈平台,则必须通过CCUMSocialSDK类的setYiXinAppKey("")函数来设置微信的App key;        
->4.如果集成了来往或者来往动态平台,则必须通过CCUMSocialSDK类的setLaiwangAppInfo("app id ", "app key", "app Name")来设置来往和来往动态的App id、App key、App Name(应用名).    
+>4.如果集成了来往或者来往动态平台,则必须通过CCUMSocialSDK类的setLaiwangAppInfo("app id ", "app key", "app Name")来设置来往和来往动态的App id、App key、App Name(应用名).
 
-
+   最后,点击对应的按钮则会弹出如下界面 :    
+  <img src="http://dev.umeng.com/system/images/W1siZiIsIjIwMTQvMDQvMDkvMTVfNTdfNTVfMjk5X2NvY29zMmR4X29wZW5TaGFyZS5wbmciXV0/cocos2dx-openShare.png" width="450" height="300" style="border:1px solid black">    
+    
+         
 
    **分享回调的为如下形式 :**    
 ```cpp
