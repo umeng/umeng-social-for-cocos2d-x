@@ -48,7 +48,7 @@ void CCUMSocialSDK::initSDK()
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     
-    // TODO 
+    UmSocialControllerIOS::initCocos2dxSDK(_wrapperType, _wrapperVersion);
     
 #endif
 }
@@ -119,8 +119,8 @@ void CCUMSocialSDK::deleteAuthorization(int platform, AuthEventHandler callback)
     deletePlatformAuthorization(platform, callback);
     
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    
     UmSocialControllerIOS::deleteAuthorization(platform, callback) ;
-    //TODO: iOS
     
 #endif
 }
@@ -205,7 +205,7 @@ void CCUMSocialSDK::setQQAppIdAndAppKey(const char* appid, const char* appKey)
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
  
-    //TODO: iOS
+    UmSocialControllerIOS::setQQAppIdAndAppKey(appid, appKey);
     
 #endif
 }
@@ -224,7 +224,7 @@ void CCUMSocialSDK::setWeiXinAppId(const char* appid)
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
  
-    //TODO: iOS
+    UmSocialControllerIOS::setWechatAppId(appid);
     
 #endif
 }
@@ -242,7 +242,7 @@ void CCUMSocialSDK::setYiXinAppKey(const char* appKey)
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
  
-    //TODO: iOS
+    UmSocialControllerIOS::setYiXinAppKey(appKey);
     
 #endif
 }
@@ -261,7 +261,7 @@ void CCUMSocialSDK::setLaiwangAppInfo(const char* appid, const char* appKey, con
     setLaiwangPlatformAppName(appName);
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
  
-    //TODO: iOS
+    UmSocialControllerIOS::setLaiwangAppInfo(appid, appKey, appName);
     
 #endif
 }
@@ -278,8 +278,40 @@ void CCUMSocialSDK::setTargetUrl(const char* targetUrl)
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
  
-    //TODO: iOS
+    UmSocialControllerIOS::setTargetUrl(targetUrl);
     
 #endif
 }
 
+/*
+ * 针对iOS平台设置appId
+ * @param appid
+ */
+void CCUMSocialSDK::setFacebookAppId(const char *appid)
+{
+    #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    UmSocialControllerIOS::setFacebookAppId(appid);
+    #endif
+}
+
+/*
+ * 针对iOS平台打开分享到Twitter的开关
+ *
+ */
+void CCUMSocialSDK::openTwitterForiOS()
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    UmSocialControllerIOS::openTwitter();
+#endif
+}
+
+/*
+ * 针对iOS平台打开分享到Instagram的开关
+ *
+ */
+void CCUMSocialSDK::openInstagramForiOS()
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+    UmSocialControllerIOS::openInstagram();
+#endif
+}

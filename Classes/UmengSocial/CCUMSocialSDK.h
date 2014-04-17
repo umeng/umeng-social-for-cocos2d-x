@@ -102,6 +102,25 @@ namespace umeng
              * @param appName 应用吗
              */
             void setLaiwangAppInfo(const char* appid, const char* appkey, const char* appName);
+            
+            /**
+             * 设置Facebook的appid
+             *
+             * @param appid   Facebook应用的app id
+             */
+            void setFacebookAppId(const char *appid);
+            
+            /**
+             * 打开Twitter开关，只对iOS平台生效
+             *
+             */
+            void openTwitterForiOS();
+            
+            /**
+             * 打开Instagram开关，只对iOS平台生效
+             *
+             */
+            void openInstagramForiOS();
 
         private:
             static CCUMSocialSDK *_instance ;

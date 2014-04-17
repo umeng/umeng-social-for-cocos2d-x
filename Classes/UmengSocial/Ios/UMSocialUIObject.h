@@ -10,6 +10,8 @@
 #import "UMSocial.h"
 #include "CCUMTypeDef.h"
 
+using namespace umeng::social;
+
 @interface UMSocialUIObject : NSObject<UMSocialUIDelegate>
 {
     ShareEventHandler handler;
