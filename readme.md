@@ -7,10 +7,8 @@
     * 2.3 [在Cocos2d-x游戏中添加分享功能](#cocos2dx_integration_cocos2dx)
 * 3.[授权接口使用说明](#cocos2dx_integration_auth)
 * 4.[添加更多平台  ( 按需集成 )](#cocos2dx_integration_more_platforms)
-	* 4.1 [集成来往和来往动态](#laiwang_platforms)
-	* 4.2 [集成易信和易信朋友圈](#yixin_platforms)
-	* 4.3 [集成facebook](#facebook_platforms)
-	* 4.4 [集成instagram](#instagram_platforms)
+	* 4.1 [Android平台集成](#cocos2dx_platforms_integration_android)
+	* 4.2 [iOS平台集成](#cocos2dx_platforms_integration_ios)
 * 5.[Android混淆问题](#proguard)
 * 6.[技术支持](#support)  
 
@@ -435,9 +433,10 @@ void authCallback(int platform, int stCode, map<string, string>& data)
 
 <b id=cocos2dx_integration_more_platforms></b>
 ## 4 添加更多平台 ( 按需集成 )
-<b id=laiwang_platforms></b> 
-### 4.1 集成来往和来往动态
-#### 4.1.1 Android平台 
+<b id=cocos2dx_platforms_integration_android></b> 
+### 4.1 Android平台 
+
+#### 4.1.1 集成来往和来往动态
    添加所需jar和资源，将sdk包中laiwang文件夹下的libs、res目录下的文件拷贝到工程中对应的文件夹中。        
    	通过CCUMSocialSDK类的setLaiwangAppId("")和setLaiwangAppKey()函数来分别设置来往和来往动态的App id、app key，然后在该类的supportPlatfrom函数中找到添加来往或者来往动态平台的代码段，将相应的注释去掉，并且导入(import)所需的类, 示例如下 :    
    ***添加来往平台***       
@@ -463,14 +462,9 @@ umlwDynamicHandler.setMessageFrom(LAIWANG_APP_NAME);
 umlwDynamicHandler.addToSocialSDK();
 ```   
    
-#### 4.1.2 IOS平台
-- Xcode的other linker flag 设置为-all_load
-   
-- 默认提供的库文件已经包含来往平台。若不需要该平台，可以在Xocde中把UMSocial_Sdk_Extra_Frameworks下面的LaiWang文件夹删除，并把UmSocialControllerIOS.h 中的CC_ShareToLaiWang 设置为0
-
 <b id=yixin_platforms></b>
-### 4.2 集成易信和易信朋友圈
-#### 4.2.1 Android平台   
+### 4.1.2 集成易信和易信朋友圈
+   
    添加所需jar和资源，将sdk包中yixin文件夹下的libs、res目录下的文件拷贝到工程中对应的文件夹中。         
    通过CCUMSocialSDK类的setYiXinAppKey("")函数来设置微信的App key，然后在该类的supportPlatfrom函数中找到添加易信或者易信朋友圈平台的代码段，将相应的注释去掉，并且导入(import)所需的类, 示例如下 :        
    ***添加易信平台***  
@@ -495,14 +489,10 @@ yxHandler.addToSocialSDK();
 > * 将SDK包中yixin目录下的yxapi文件夹拷贝到您的工程的包目录下，然后修改YXEntryActivity的完整路径即可。例如social_sdk_example的包名为com.umeng.soexample,
 因此将yxapi文件夹拷贝到com.umeng.soexample下即可。最终YXEntryActivity的完整路径为com.umeng.soexample.yxapi.YXEntryActivity。     
 * 其中分享回调接口SnsPostListener中的onComplete方法的第二个参数代表分享的状态码，当值为200时表示分享成功;其余的值则为分享失败。
-   
-#### 4.2.2 IOS平台 
-   
-默认提供的库文件已经包含易信平台。若不需要该平台，可以在Xocde中把UMSocial_Sdk_Extra_Frameworks下面的YiXin文件夹删除，并把UmSocialControllerIOS.h 中的CC_ShareToYiXin 设置为0
-   
+      
  <b id=facebook_platforms></b>
-### 4.3 集成Facebook
-#### 4.3.1 Android平台    
+### 4.1.3 集成Facebook
+
    添加所需jar和资源，将sdk包中facebook文件夹下的libs、res目录下的文件拷贝到工程中对应的文件夹中。         
    在com.umeng.social.CCUMSocialController中的supportPlatfrom函数中找到添加facebook平台的代码段，将相应的注释去掉，并且导入(import)所需的类, 示例如下 :     
    ***添加Facebook平台***   
@@ -513,15 +503,10 @@ mFacebookHandler.setTargetUrl(TARGET_URL);
 // 添加facebook平台 
 mFacebookHandler.addToSocialSDK();
 ```     
-   
-#### 4.3.2 IOS平台
-
-   默认提供的库文件已经包含易信平台。若不需要该平台，可以在Xocde中把UMSocial_Sdk_Extra_Frameworks下面的Facebook文件夹删除，并把UmSocialControllerIOS.h 中的CC_ShareToFacebook 设置为0
-   
-   
+      
 <b id=instagram_platforms></b>
-### 4.4 集成Instagram
-#### 4.4.1 Android平台    
+### 4.1.4 集成Instagram
+ 
    添加所需jar和资源，将sdk包中instagram文件夹下的libs、res目录下的文件拷贝到工程中对应的文件夹中。         
    在com.umeng.social.CCUMSocialController中的supportPlatfrom函数中找到添加instagram平台的代码段，将相应的注释去掉，并且导入(import)所需的类,示例如下 :     
    ***添加Instagram平台***   
@@ -531,10 +516,65 @@ UMInstagramHandler instagramHandler = new UMInstagramHandler(
 // 添加instagram平台 
 instagramHandler.addToSocialSDK();
 ```      
-   
-#### 4.4.2 IOS平台
 
-默认提供的库文件已经包含Instagram平台。若不需要该平台，可以在Xocde中把UMSocial_Sdk_Extra_Frameworks下面的Instagram文件夹删除，并把UmSocialControllerIOS.h 中的CC_ShareToInstagram 设置为0
+<b id=cocos2dx_platforms_integration_ios></b> 
+### 4.2 iOS平台
+
+iOS提供的包默认已经包含了QQ空间、手机QQ、微信、来往、易信、Facebook、Twitter、Instagram这些平台的库文件。
+集成各个平台，只需要分别对各个平台进行设置.各平台的设置代码如下
+
+#### 4.2.1 集成来往和来往动态
+
+集成来往平台需要将Xcode的other linker flag设置为-all_load 
+
+设置应用信息
+```
+CCUMSocialSDK *sdk = shareButton->getSocialSDK();
+sdk->setLaiwangAppInfo("设置来往和来往动态的app id", "设置来往和来往动态的app key", "我的应用名");
+```
+
+若不需要集成来往，可以在Xcode中把UMSocial_Sdk_Extra_Frameworks下把LaiWang文件夹删除。并把UmSocialControllerIOS.h 头文件中把宏CC_ShareToLaiWang设置为0。
+
+#### 4.2.2 集成易信和易信动态
+
+设置应用信息
+```
+CCUMSocialSDK *sdk = shareButton->getSocialSDK();
+sdk->setYiXinAppKey("设置易信和易信朋友圈的app id");
+```
+
+若不需要集成易信，可以在Xcode中把UMSocial_Sdk_Extra_Frameworks下把YiXin文件夹删除。并把UmSocialControllerIOS.h 头文件中把宏CC_ShareToYiXin设置为0。
+
+#### 4.2.3 集成Facebook
+
+设置应用信息
+```
+CCUMSocialSDK *sdk = shareButton->getSocialSDK();
+sdk->setFacebookAppId("你的facebook appid");
+```
+
+若不需要集成Facebook，可以在Xcode中把UMSocial_Sdk_Extra_Frameworks下把Facebook文件夹删除。并把UmSocialControllerIOS.h 头文件中把宏CC_ShareToFacebook设置为0。
+
+#### 4.2.4 集成Twitter
+
+设置应用信息
+```
+CCUMSocialSDK *sdk = shareButton->getSocialSDK();
+sdk->openTwitterForiOS();
+```
+
+若不需要集成Twitter，可以在Xcode中把UMSocial_Sdk_Extra_Frameworks下把Twitter文件夹删除。并把UmSocialControllerIOS.h 头文件中把宏CC_ShareToTwitter设置为0。
+
+#### 4.2.4 集成Instagram
+
+设置应用信息
+```
+CCUMSocialSDK *sdk = shareButton->getSocialSDK();
+sdk->openInstagramForiOS();
+```
+
+若不需要集成Instagram，可以在Xcode中把UMSocial_Sdk_Extra_Frameworks下把Instagram文件夹删除。并把UmSocialControllerIOS.h 头文件中把宏CC_ShareToInstagram设置为0。
+
 
 <b id=proguard></b>
 ## 5. Android混淆         

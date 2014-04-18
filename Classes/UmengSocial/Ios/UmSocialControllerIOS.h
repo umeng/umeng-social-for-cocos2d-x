@@ -63,11 +63,12 @@ public:
 #endif
     
 #ifdef CC_ShareToTwitter
-    //设置Facebook的appid
+    //打开Twitter的开关
     static void openTwitter();
 #endif
     
 #ifdef CC_ShareToInstagram
+    //打开Instagram的开关
     static void openInstagram();
 #endif
     
