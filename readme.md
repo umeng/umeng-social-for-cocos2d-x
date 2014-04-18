@@ -30,7 +30,9 @@
 >**2. Platforms**    
 	原生的Android和iOS社会化组件SDK,需要您将库和资源拷贝到对应平台的项目中;    
 >**3. doc**    
-	Cocos2d-x SDK集成文档。
+	Cocos2d-x SDK集成文档。   
+	   
+   **SDK中默认的添加的平台为新浪微博、腾讯微博、人人网、豆瓣、短信、邮件，其他的平台需要按下文提供的方式手动添加。**
 	
 <b id=cocos2dx_integration></b>   
 ## 2 Cocos2d-x集成友盟分享组件
