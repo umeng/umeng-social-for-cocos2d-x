@@ -143,7 +143,7 @@ bool HelloWorld::init()
     CCUMSocialSDK *sdk = CCUMSocialSDK::create();
     // 设置友盟app key
     sdk->setAppKey("507fcab25270157b37000010");
-    sdk->setQQAppIdAndAppKey("设置QQ的app id", "appkey");
+//    sdk->setQQAppIdAndAppKey("设置QQ的app id", "appkey");
     // sdk->setWeiXinAppId("设置微信和朋友圈的app id");
     // sdk->setYiXinAppKey("设置易信和易信朋友圈的app id");
     sdk->setLaiwangAppInfo("设置来往和来往动态的app id", "设置来往和来往动态的app key", "我的应用名");
@@ -152,7 +152,9 @@ bool HelloWorld::init()
     sdk->setTargetUrl("http://www.umeng.com/social");
     // ********************************************************************************
 
-
+    //设置QQ互联SDK
+    sdk->setQQAppIdAndAppKey("100424468", "c7394704798a158208a74ab60104f0ba");
+    sdk->setWeiXinAppId("wxd9a39c7122aa6516");
     // 关闭按钮
     CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
                                         "CloseNormal.png",
@@ -168,11 +170,21 @@ bool HelloWorld::init()
     UMShareButton *shareButton = UMShareButton::create("share.png","CloseSelected.png", share_selector(shareCallback)) ;
     shareButton->setUmengAppkey("507fcab25270157b37000010") ;
     shareButton->setShareContent("umeng social cocos2d-x sdk.") ;
-    shareButton->setShareImage("/sdcard/header.jpeg") ;
-    // 设置分享回调
-    // shareButton->setShareCallback(share_selector(shareCallback));
-    shareButton->setPosition(ccp(480, 150));
+    
+//    shareButton->setShareImage("share.png") ;
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
+    shareButton->setShareImage("/sdcard/header.jpeg") ;
+
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    
+    shareButton->setShareImage("share.png") ;
+    
+#endif
+
+    // 设置分享回调
+    shareButton->setShareCallback(share_selector(shareCallback));
+    shareButton->setPosition(ccp(480, 150));
 
     CCMenuItemFont *umshareTextButton = CCMenuItemFont::create("友盟ShareButton");
     umshareTextButton->setPosition(ccp(480,60));
@@ -226,7 +238,12 @@ void HelloWorld::directShareCallback(CCObject* pSender)
 {
 
     CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+    
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     sdk->directShare(SINA, "COCOS2D-X HACKATHON -->  directShare   testing", "/sdcard/image.png", share_selector(shareCallback)) ;
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    sdk->directShare(SINA, "COCOS2D-X HACKATHON -->  directShare   testing", "share.png", share_selector(shareCallback)) ;
+#endif
 }
 
 
@@ -276,11 +293,18 @@ void HelloWorld::menuShareCallback(CCObject* pSender)
     platforms->push_back(QQ) ;
     platforms->push_back(SMS) ;
     platforms->push_back(EMAIL) ;
+    platforms->push_back(WEIXIN);
     CCLog("COCOS2D-X openshare");
 
-    // 打开分享面板, 注册分享回调
-    sdk->openShare(platforms, "COCOS2D-X HACKATHON -->  openShare","/sdcard/image.png", share_selector(shareCallback));
+//    sdk->openShare(platforms, "COCOS2D-X HACKATHON -->  openShare","/sdcard/image.png", share_selector(shareCallback));
 
+    // 打开分享面板, 注册分享回调
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    sdk->openShare(platforms, "COCOS2D-X HACKATHON -->  openShare","/sdcard/image.png", share_selector(shareCallback));
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    printf("CC_PLATFORM_IOS !!!\n");
+    sdk->openShare(platforms, "COCOS2D-X HACKATHON -->  openShare","share.png", share_selector(shareCallback));
+#endif
 }
 
 /**

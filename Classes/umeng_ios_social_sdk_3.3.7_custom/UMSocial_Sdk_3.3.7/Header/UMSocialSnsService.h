@@ -8,6 +8,7 @@
 
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @protocol WXApiDelegate ;
 @protocol UMSocialUIDelegate;
@@ -25,15 +26,25 @@
 
 /**
  处理app的URL方法
+ 若除了 UMSocial SDK外，还需要处理其他url，可以针对url的前缀作处理，例如下面写法：
  
- 如果你要处理自己的url，你可以把这个方法的实现，复制到你的代码中：
+ if ([url.description hasPrefix:@"xxxx"]) {
+    //你的处理逻辑
+ }
+ else {
+    return [UMSocialSnsService handleOpenURL:url];
+ }
  
- if ([url.description hasPrefix:@"sina"]) {
-    return (BOOL)[[UMSocialSnsService sharedInstance] performSelector:@selector(handleSinaSsoOpenURL:) withObject:url];
- }
- else if([url.description hasPrefix:@"wx"]){
-    return [WXApi handleOpenURL:url delegate:(id <WXApiDelegate>)[UMSocialSnsService sharedInstance]];
- }
+ @param url 传入的url
+ 
+ */
++(BOOL)handleOpenURL:(NSURL *)url;
+
+/**
+ 
+ Deprecated API
+ 
+ 处理app的URL方法
  
  @param url 传入的url
  

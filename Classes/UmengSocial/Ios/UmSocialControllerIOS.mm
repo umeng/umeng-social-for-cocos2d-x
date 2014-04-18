@@ -113,6 +113,14 @@ void UmSocialControllerIOS::setTargetUrl(const char *targetUrl){
     [UMSocialData defaultData].extConfig.facebookData.urlString =getNSStringFromCString(targetUrl);
 }
 
+//bool UmSocialControllerIOS::openURL(const char *url){
+//    
+//    NSString *urlString = [[NSString alloc] initWithBytes:url length:strlen(url) encoding:NSUTF8StringEncoding];
+//    NSURL *urlPath = [NSURL URLWithString:urlString];
+//    return (bool)[UMSocialSnsService handleOpenURL:urlPath wxApiDelegate:nil];
+//    return false;
+//}
+
 #ifdef CC_ShareToQQOrQzone
 void UmSocialControllerIOS::setQQAppIdAndAppKey(const char *appId,const char *appKey){
     [UMSocialQQHandler setQQWithAppId:getNSStringFromCString(appId) appKey:getNSStringFromCString(appKey) url:@"http://www.umeng.com/social"];

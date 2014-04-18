@@ -4,6 +4,8 @@
 #import "AppDelegate.h"
 #import "RootViewController.h"
 
+#import "UMSocial.h"
+
 @implementation AppController
 
 #pragma mark -
@@ -67,6 +69,7 @@ static AppDelegate s_sharedApplication;
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
+    
     cocos2d::CCDirector::sharedDirector()->resume();
 }
 
@@ -92,6 +95,10 @@ static AppDelegate s_sharedApplication;
      */
 }
 
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    return [UMSocialSnsService handleOpenURL:url];
+}
 
 #pragma mark -
 #pragma mark Memory management

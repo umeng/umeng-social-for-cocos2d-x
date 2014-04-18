@@ -175,19 +175,66 @@ libUMSocial_Sdk_x.x.x.a, libUMSocial_Sdk_Comment_3.0.a | 库文件
 Header| 头文件
 SocialSDKXib| xib文件
 en.lproj，zh-Hans.lproj | 英文和中文语言文件
-frameworks|使用的第三方SDK，里面的Wechat 代表微信SDK
 
 UMSocial_Sdk_Extra_Frameworks 文件夹的目录结构
 
 文件或文件夹|含义
 ---|---
+Wechat|微信
 TencentOpenAPI|QQ互联SDK
 Facebook|Facebook SDK
 LaiWang|来往 SDK
-UMSocialYiXin.framework|易信 SDK
+YiXin|易信 SDK
 
->注意：  
->1. 若你的工程设置了all_load，需要添加手机QQ SDK需要的系统framework:Security.framework,libiconv.dylib,SystemConfiguration.framework,CoreGraphics.framework，libsqlite3.dylib，CoreTelephony.framework,libstdc++.dylib,libz.dylib。详情请参考<a http://dev.umeng.com/social/ios/share/specific-integration#binding_config" style="text-decoration:none">SSO（免登录）和新平台的设置</a>    
+#### 2.2.2 添加下面的系统framework
+Security.framework,libiconv.dylib,SystemConfiguration.framework,CoreGraphics.framework，libsqlite3.dylib，CoreTelephony.framework,libstdc++.dylib,libz.dylib,Social.framework,Accounts.framework。
+
+#### 2.2.3 按需设置各个平台的URL Scheme
+<table border="1">
+  <tr>
+    <th> 平台 </th>
+    <th>url scheme设置格式</th>
+  </tr>
+  <tr>
+    <td>新浪微博</td>
+    <td>“sina.”+友盟appkey，例如“sina.507fcab25270157b37000010”</td>
+  </tr>
+   <tr>
+    <td>微信</td>
+    <td>微信应用appId，例如“wxd9a39c7122aa6516”,微信详细集成步骤参考<a href="#social_wechat" style="text-decoration:none">微信集成方法</a></td>
+  </tr>
+   <tr>
+    <td>分享到手机QQ、QQ空间</td>
+    <td>“QQ”+腾讯QQ互联应用appId转换成十六进制（不足8位前面补0），例如“QQ05FA957C”。生成十六进制方法：在命令行输入<div>echo 'ibase=10;obase=16;您的腾讯QQ互联应用Id'|bc</div>，并在QQ互联后台的URL schema中填入此字符串保持一致，手机QQ详细集成步骤参考<a href="#social_qq" style="text-decoration:none">手机QQ集成方法</a></td>
+  </tr>
+  <tr>
+    <td>单独登录到QQ、QQ空间（不分享）</td>
+    <td>“tencent“+腾讯QQ互联应用Id，例如“tencent100308348”</td>
+  </tr>
+  <tr>
+    <td>来往</td>
+    <td>Identifier填“Laiwang”，URL Schemes填来往AppId.注意使用来往SDK后，Xcode工程other linker flags需要添加-ObjC参数</td>
+  </tr>
+  <tr>
+    <td>易信</td>
+    <td>易信Appkey，例如“yx35664bdff4db42c2b7be1e29390c1a06”</td>
+  </tr>
+  <tr>
+    <td>Facebook</td>
+    <td>默认使用iOS自带的Facebook分享framework，在iOS 6以上有效，若要使用我们提供的facebook分享需要设置“fb”+facebook AppID，例如“fb1440390216179601”，详细集成方法见[集成facebook](#social_facebook)</td>
+  </tr>
+</table> 
+
+#### 2.2.4 在AppDelegate实现系统回调方法
+在Xcode工程中的ios文件夹下的AppController.mm文件，实现下面的系统回调
+
+```
+#import "UMSocial.h"
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    return [UMSocialSnsService handleOpenURL:url];
+}
+```
      
    然后您就可以到[在Cocos2d-x游戏中添加分享功能](#cocos2dx_integration_cocos2dx)章节添加分享代码到cocos2d-x游戏中。
 
@@ -196,7 +243,7 @@ UMSocialYiXin.framework|易信 SDK
    将所需的资源添加到对应的工程以后, 您就可以在cocos2d-x中使用该友盟社会化组件的分享、登录功能了。   
   首先将sdk压缩包下的根目录下的UmengSocial文件夹拷贝到您的工程的Classes目录下，UmengSocial包括：   
 > * Android平台的调用实现 ( Android文件夹 )；   
-> * IOS平台的调用实现 ( iOS文件夹 )；  
+> * iOS平台的调用实现 ( iOS文件夹 )；  
 > * 针对Cocos2d-x的统一接口 ( CCUMSocialSDK )；     
 > * 针对Cocos2d-x封装的分享按钮,点击按钮即可打开分享面板  ( UMShareButton )；    
 > * 平台以及分享、授权回调函数的定义   ( CCUMTypeDef.h ) 。
@@ -417,10 +464,9 @@ umlwDynamicHandler.addToSocialSDK();
 ```   
    
 #### 4.1.2 IOS平台
-   ***添加来往平台***   
+- Xcode的other linker flag 设置为-all_load
    
-   
-   ***添加来往动态平台***   
+- 默认提供的库文件已经包含来往平台。若不需要该平台，可以在Xocde中把UMSocial_Sdk_Extra_Frameworks下面的LaiWang文件夹删除，并把UmSocialControllerIOS.h 中的CC_ShareToLaiWang 设置为0
 
 <b id=yixin_platforms></b>
 ### 4.2 集成易信和易信朋友圈
@@ -450,11 +496,9 @@ yxHandler.addToSocialSDK();
 因此将yxapi文件夹拷贝到com.umeng.soexample下即可。最终YXEntryActivity的完整路径为com.umeng.soexample.yxapi.YXEntryActivity。     
 * 其中分享回调接口SnsPostListener中的onComplete方法的第二个参数代表分享的状态码，当值为200时表示分享成功;其余的值则为分享失败。
    
-#### 4.2.2 IOS平台
-   ***添加易信平台***   
+#### 4.2.2 IOS平台 
    
-   
-   ***添加易信朋友圈平台***  
+默认提供的库文件已经包含易信平台。若不需要该平台，可以在Xocde中把UMSocial_Sdk_Extra_Frameworks下面的YiXin文件夹删除，并把UmSocialControllerIOS.h 中的CC_ShareToYiXin 设置为0
    
  <b id=facebook_platforms></b>
 ### 4.3 集成Facebook
@@ -471,7 +515,9 @@ mFacebookHandler.addToSocialSDK();
 ```     
    
 #### 4.3.2 IOS平台
-   ***添加Facebook平台***
+
+   默认提供的库文件已经包含易信平台。若不需要该平台，可以在Xocde中把UMSocial_Sdk_Extra_Frameworks下面的Facebook文件夹删除，并把UmSocialControllerIOS.h 中的CC_ShareToFacebook 设置为0
+   
    
 <b id=instagram_platforms></b>
 ### 4.4 集成Instagram
@@ -487,7 +533,8 @@ instagramHandler.addToSocialSDK();
 ```      
    
 #### 4.4.2 IOS平台
-   ***添加Instagram平台***
+
+默认提供的库文件已经包含Instagram平台。若不需要该平台，可以在Xocde中把UMSocial_Sdk_Extra_Frameworks下面的Instagram文件夹删除，并把UmSocialControllerIOS.h 中的CC_ShareToInstagram 设置为0
 
 <b id=proguard></b>
 ## 5. Android混淆         
@@ -538,4 +585,4 @@ instagramHandler.addToSocialSDK();
 <b id=support></b>
 ## 6 技术支持        
 
-请发邮件至social-support@umeng.com。如果您出现的问题和SDK相关，请说明您使用的是Android的SDK，我们会尽快回复您。
+请发邮件至social-support@umeng.com。如果您出现的问题和SDK相关，请说明您使用的是Android的SDK或者是iOS的SDK，我们会尽快回复您。

@@ -58,7 +58,11 @@ using namespace cocos2d;
         }
     }
     if (handler) {
-        handler(platform,stCode,string([response.message UTF8String]));
+        string message = string();
+        if (response.message) {
+            message = string([response.message UTF8String]);
+        }
+        handler(platform,stCode,message);
     }
 }
 
