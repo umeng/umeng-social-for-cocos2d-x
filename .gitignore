@@ -1,4 +1,3 @@
-*.a
 *.lib
 *.class
 .DS_Store
