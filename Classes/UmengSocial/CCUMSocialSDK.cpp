@@ -187,7 +187,6 @@ void CCUMSocialSDK::directShare(int platform,const char* text, const char* imgNa
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
     UmSocialControllerIOS::directShare(text, imgName, platform, callback) ;
-    //TODO: iOS
     
 #endif
 }
