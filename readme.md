@@ -19,6 +19,9 @@
    本指南将会手把手教你使用友盟社会化组件Cocos2d-x SDK，用5分钟为APP增加新浪微博、微信、QQ空间等国内外十几个主流平台的分享功能。
    该Cocos2d-x SDK目前支持ios和android平台。
  
+## 前提   
+   如果你之前已经在友盟注册了应用，并获取到了Appkey，可以继续使用它。如果你尚未在友盟[友盟](http://www.umeng.com/)注册开发者账号，需要先注册，注册之后登录你的账号，点击**添加新应用**，填写完应用基本信息后，将进入"下载SDK并添加代码"页面，此页面即可得到Umeng Appkey。进入到"组件"一栏，选择左边的“社会化分享”，然后选择“设置”--“自定义设置”， 将你在各个平台获取到的app id和app secret填写到其中，并且保存。    
+
 <b id=social_cocos2dx></b>
 ## 1 下载和拷贝Cocos2d-x所需文件 
    首先您需要下载友盟社会化组件 Cocos2d-x SDK,然后将该sdk压缩包解压。
@@ -248,7 +251,8 @@ Security.framework,libiconv.dylib,SystemConfiguration.framework,CoreGraphics.fra
 > * 针对Cocos2d-x封装的分享按钮,点击按钮即可打开分享面板  ( UMShareButton )；    
 > * 平台以及分享、授权回调函数的定义   ( CCUMTypeDef.h ) 。
 
-   然后添加用于分享的代码, 友盟提供了两种方式来方便开发者使用分享功能， 示例如下 :    
+   针对Android平台， 如果开发者需要使用facebook、易信、易信朋友圈、来往、来往动态、twitter、instagram平台则需要到[添加更多平台  ( 按需集成 )](#cocos2dx_integration_more_platforms)章节添加相应的平台。    
+   友盟提供了三种方式来方便开发者使用分享功能，示例如下 :    
    ***方式一 :***     
    开发者可以通过UMShareButton类来快速的实现分享功能，UMShareButton是CCMenuItemImage的子类，当用户点击该按钮时将会打开友盟的分享面板。
    集成代码如下 :
@@ -256,6 +260,8 @@ Security.framework,libiconv.dylib,SystemConfiguration.framework,CoreGraphics.fra
 // 引入相关的头文件
 #include "UmengSocial/CCUMTypeDef.h"
 #include "UmengSocial/UMShareButton.h"
+// 使用友盟命令空间
+USING_NS_UM_SOCIAL;
 // ...... 代码省略
 
 // HelloWorld为cocos2d::CCLayer的子类
@@ -304,6 +310,8 @@ bool HelloWorld::init()
 // 引入相关的头文件
 #include "UmengSocial/CCUMTypeDef.h"
 #include "UmengSocial/CCUMSocialSDK.h"
+// 使用友盟命令空间
+USING_NS_UM_SOCIAL;
 // ...... 代码省略
 
 
@@ -334,6 +342,39 @@ void HelloWorld::shareButtonClick()
 
     // 打开分享面板, 注册分享回调, 参数1为分享面板上的平台, 参数2为要分享的文字内容, 参数3为要分享的图片路径, 参数4为分享回调.
    sdk->openShare(platforms, "要分享的文字内容","/sdcard/image.png", share_selector(shareCallback));
+```      
+
+***方式三 :***    
+    开发者也可以自行定义某个按钮，然后在该按钮的点击事件中通过CCUMSocialSDK的directShare函数来进行直接分享到某个平台的操作，该接口为api分享接口，不会弹出分享面板和内容编辑界面，用户授权之后直接分享。示例代码如下 :   
+```cpp
+// 引入相关的头文件
+#include "UmengSocial/CCUMTypeDef.h"
+#include "UmengSocial/CCUMSocialSDK.h"
+// 使用友盟命令空间
+USING_NS_UM_SOCIAL;
+// ...... 代码省略
+
+
+// HelloWorld为cocos2d::CCLayer的子类, shareButtonClick为某个按钮点击事件的处理函数
+void HelloWorld::shareButtonClick()
+{
+	// 获取一个CCUMSocialSDK实例
+    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+    // 设置友盟appkey
+    sdk->setAppKey("4eaee02c527015373b000003");
+    // **********************	设置平台信息	***************************
+    // sdk->setQQAppIdAndAppKey("设置QQ的app id", "appkey");
+    // sdk->setWeiXinAppId("设置微信和朋友圈的app id");
+    // sdk->setYiXinAppKey("设置易信和易信朋友圈的app id");
+    // sdk->setLaiwangAppInfo("设置来往和来往动态的app id", 
+    //				"设置来往和来往动态的app key", "我的应用名");
+    // sdk->setFacebookAppId("你的facebook appid");
+    // **********************	END	***************************
+    // 设置用户点击一条图文分享时用户跳转到的目标页面, 一般为app主页或者下载页面
+    sdk->setTargetUrl("http://www.umeng.com/social");
+
+    // 打开分享面板, 注册分享回调, 参数1为要分享到的目标平台, 参数2为要分享的文字内容, 参数3为要分享的图片路径, 参数4为分享回调.
+   sdk->directShare(SINA, "要分享的文字内容","/sdcard/image.png", share_selector(shareCallback));
 ```      
 
 ***特别说明 :***     
@@ -384,7 +425,7 @@ void shareCallback(int platform, int stCode, string& errorMsg)
 <b id=cocos2dx_integration_auth></b>
 ### 3 授权接口使用说明
 #### 3.1 授权接口说明   
-   CCUMSocialSDK类中还提供了授权相关的接口，接口使用说明如下 : 
+   CCUMSocialSDK类中还提供了授权相关的接口，支持授权的平台有新浪微博、QQ空间、QQ、人人网、豆瓣、腾讯微博、facebook。授权接口使用说明如下 : 
 ```cpp
 CCUMSocialSDK *sdk = CCUMSocialSDK::create();
 // 对某个平台授权, 参数二为授权回调
