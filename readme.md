@@ -278,6 +278,15 @@ bool HelloWorld::init()
 	UMShareButton *shareButton = UMShareButton::create("shareNormal.png","shareSelected.png", share_selector(shareCallback)) ;
 	// 设置您的友盟appkey
 	shareButton->setUmengAppkey("507fcab25270157b37000010") ;
+	// 显示在友盟分享面板上的平台
+    vector<int>* platforms = new vector<int>();
+    platforms->push_back(SINA);
+    platforms->push_back(RENREN) ;
+    platforms->push_back(DOUBAN) ;
+    platforms->push_back(QZONE) ;
+    platforms->push_back(QQ) ;
+    // 设置友盟分享面板上显示的平台
+    shareButton->setPlatforms(platforms);
 	// 设置文本分享内容
 	shareButton->setShareContent("umeng social cocos2d-x sdk.") ;
 	// 设置要分享的图片, 图片支持本地图片和url图片, 但是url图片必须以http://或者https://开头
