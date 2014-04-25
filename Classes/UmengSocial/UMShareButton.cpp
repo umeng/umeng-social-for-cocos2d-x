@@ -21,16 +21,17 @@ USING_NS_UM_SOCIAL;
  */
 UMShareButton::UMShareButton()
 {
-    new (this)UMShareButton("","");
+    new (this)UMShareButton("","", "");
 }
 
 /*
  * 构造函数, 没有使用cocos2d-x的内存管理, 需要开发者自行管理内存
  * @param  normalImage  按钮正常情况下显示的图片
  * @param  selectedImage 按钮选中情况下显示的图片
+ * @param  umAppKey 友盟AppKey
  */
-UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
-:mPlatforms(NULL), mAppKey(""),mShareText(""),mImageName(""),mSocialSDK(NULL),mCallback(NULL)
+UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage, const char* umAppKey)
+:mPlatforms(NULL), mShareText(""),mImageName(""),mSocialSDK(NULL),mCallback(NULL)
 {
     CCLog("UMShareButton图片: normalImage = %s, selectedImage = %s.", normalImage, selectedImage);
     #ifdef CC_CALLBACK_1
@@ -46,7 +47,7 @@ UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
         initWithNormalImage(normalImage, selectedImage, "", this, menu_selector(UMShareButton::shareCallback)) ;
     #endif
     // 构造CCUMSocialSDK对象
-    mSocialSDK = CCUMSocialSDK::create() ;
+    mSocialSDK = CCUMSocialSDK::create(umAppKey) ;
 }
 
 
@@ -54,11 +55,12 @@ UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage)
  * 创建一个UMShareButton对象
  * @param  normalImage  按钮正常情况下显示的图片
  * @param  selectedImage 按钮选中情况下显示的图片
+ * @param  umAppKey 友盟AppKey
  * @param callback 分享回调函数
  */
-UMShareButton* UMShareButton::create(const char *normalImage, const char *selectedImage, ShareEventHandler callback)
+UMShareButton* UMShareButton::create(const char *normalImage, const char *selectedImage, const char* umAppKey, ShareEventHandler callback)
 {
-    UMShareButton* shareButton = new UMShareButton(normalImage, selectedImage) ;
+    UMShareButton* shareButton = new UMShareButton(normalImage, selectedImage, umAppKey) ;
     shareButton->setShareCallback(callback);
     return shareButton ;
 }
@@ -79,16 +81,6 @@ CCUMSocialSDK* UMShareButton::getSocialSDK()
 {
     return mSocialSDK ;
 }
-
-/*
- * 设置友盟app key
- * @param
- */
-void UMShareButton::setUmengAppkey(const char* appkey)
-{
-    this->mAppKey = appkey;
-}
-
 
 /*
  * 设置文本内容
@@ -134,13 +126,6 @@ void UMShareButton::setPlatforms(vector<int>* platforms)
  */
 void UMShareButton::openShareBoard()
 {
-
-    if ( mAppKey.empty() ) 
-    {
-        CCLog("请设置友盟AppKey到UMShareButton对象.");
-        return ;
-    }
-
     if ( mPlatforms == NULL ) 
     {
         mPlatforms = new vector<int>();
@@ -151,7 +136,6 @@ void UMShareButton::openShareBoard()
         mPlatforms->push_back(TENCENT_WEIBO);
     }
     if ( mSocialSDK != NULL ) {
-        mSocialSDK->setAppKey(this->mAppKey.c_str());
         mSocialSDK->openShare(mPlatforms, mShareText.c_str(), mImageName.c_str(), mCallback) ;
     }
 }

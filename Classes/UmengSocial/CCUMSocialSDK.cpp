@@ -27,14 +27,14 @@ USING_NS_UM_SOCIAL;
 
 CCUMSocialSDK* CCUMSocialSDK::_instance = NULL;
 
-
 /*
  * 构造函数
  */
-CCUMSocialSDK::CCUMSocialSDK()
+CCUMSocialSDK::CCUMSocialSDK(const char* appKey)
 :_wrapperType("Cocos2d-x"),_wrapperVersion("1.0")
 {
     initSDK();
+    setAppKey(appKey);
 }
 
 /*
@@ -56,13 +56,15 @@ void CCUMSocialSDK::initSDK()
 
 /*
  * 创建CCUMSocialSDK对象, 单例模式
+ * @param appKey 友盟app key
  */
-CCUMSocialSDK* CCUMSocialSDK::create()
+
+CCUMSocialSDK* CCUMSocialSDK::create(const char* appKey)
 {
 
     if ( _instance == NULL ) 
     {
-        _instance = new CCUMSocialSDK();
+        _instance = new CCUMSocialSDK(appKey);
     }
     return _instance;
 }

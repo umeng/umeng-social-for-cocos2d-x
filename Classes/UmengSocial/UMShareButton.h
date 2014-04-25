@@ -1,6 +1,6 @@
 //
 //  UMShareButton.h
-//  Umeng Social SDK ShareButton
+//  UMShareButton, 封装了CCUMSocialSDK的分享功能 ( 通过分享面板分享 ). 没有使用Cocos2d-x的内存管理策略，开发者自行管理该Button的内存释放.
 //
 //  Created by mrsimple on 3/18/14.
 //
@@ -32,11 +32,9 @@ namespace umeng
         public:
             virtual  ~UMShareButton() ;
 
-            /** creates a menu item with a normal and selected image*/
-            static UMShareButton* create(const char *normalImage, const char *selectedImage, ShareEventHandler callback);
+            // 参数1为正常情况下的图片, 参数2为用户点击后的图片, 参数3为友盟app key, 参数四为分享回调.
+            static UMShareButton* create(const char *normalImage, const char *selectedImage, const char* umAppKey, ShareEventHandler callback);
             
-            // // 设置友盟app key
-            void setUmengAppkey(const char* appkey);
             // 设置文本内容
             void setShareContent(const char* text);
             // 可以设置本地图片和url图片, url图片必须以http://开头
@@ -51,7 +49,7 @@ namespace umeng
         private:
             UMShareButton();
             // 构造函数
-            UMShareButton(const char *normalImage, const char *selectedImage);
+            UMShareButton(const char *normalImage, const char *selectedImage, const char* umAppKey);
             // 打开分享面板
             void openShareBoard();
         #ifdef CC_CALLBACK_1
@@ -71,8 +69,6 @@ namespace umeng
             string mShareText;
             // 要分享的图片本地路径或者url
             string mImageName;
-            // 友盟的appkey
-            string mAppKey;
             // 分享回调
             ShareEventHandler mCallback ;
         };

@@ -25,11 +25,15 @@ namespace umeng
         class CCUMSocialSDK
         {
         private:
-            CCUMSocialSDK();
+            CCUMSocialSDK(const char* umAppKey);
             void initSDK();
         public:
             
-            static CCUMSocialSDK* create() ;
+            /*
+             * 构建CCUMSocialSDK对象
+             * @param appKey 友盟app key
+             */
+            static CCUMSocialSDK* create(const char* appKey) ;
 
             /*
              * 设置友盟app key

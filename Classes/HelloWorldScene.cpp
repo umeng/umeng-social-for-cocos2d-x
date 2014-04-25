@@ -117,9 +117,7 @@ bool HelloWorld::init()
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
     CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
     
-    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
-    // 设置友盟app key
-    sdk->setAppKey("507fcab25270157b37000010");
+
     
     // 打开分享面板
     CCMenuItemFont *shareTextButton = CCMenuItemFont::create("打开分享面板",this , menu_selector(HelloWorld::menuShareCallback));
@@ -144,7 +142,8 @@ bool HelloWorld::init()
 
     // ********************  设置友盟的app key以及相关的信息  ***********************************
     // 获取CCUMSocialSDK对象, 如果使用的UMShareButton, 则通过UMShareButton对象的getSocialSDK()方法获取.
-//    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+    CCUMSocialSDK *sdk = CCUMSocialSDK::create("507fcab25270157b37000010");
+    sdk->setTargetUrl("http://www.umeng.com/social");
 //    // 设置友盟app key
 //    sdk->setAppKey("507fcab25270157b37000010");
 //    sdk->setQQAppIdAndAppKey("设置QQ的app id", "appkey");
@@ -153,7 +152,7 @@ bool HelloWorld::init()
     sdk->setLaiwangAppInfo("设置来往和来往动态的app id", "设置来往和来往动态的app key", "我的应用名");
     sdk->setFacebookAppId("你的facebook appid");
     // 设置用户点击一条图文分享时用户跳转到的目标页面, 一般为app主页或者下载页面
-    sdk->setTargetUrl("http://www.umeng.com/social");
+
     // ********************************************************************************
 
     //设置QQ互联SDK
@@ -170,9 +169,8 @@ bool HelloWorld::init()
                                 origin.y + pCloseItem->getContentSize().height/2));
     
 
-    // 友盟share button.
-    UMShareButton *shareButton = UMShareButton::create("share.png","CloseSelected.png", share_selector(shareCallback)) ;
-    shareButton->setUmengAppkey("507fcab25270157b37000010") ;
+    // 友盟share button, 参数1为正常情况下的图片, 参数2为用户点击后的图片, 参数3为友盟app key, 参数四为分享回调.
+    UMShareButton *shareButton = UMShareButton::create("share.png","CloseSelected.png", "507fcab25270157b37000010", share_selector(shareCallback)) ;
     shareButton->setShareContent("umeng social cocos2d-x sdk.") ;
     
 //    shareButton->setShareImage("share.png") ;
@@ -241,7 +239,7 @@ bool HelloWorld::init()
 void HelloWorld::directShareCallback(CCObject* pSender)
 {
 
-    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+    CCUMSocialSDK *sdk = CCUMSocialSDK::create("507fcab25270157b37000010");
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     sdk->directShare(SINA, "COCOS2D-X HACKATHON -->  directShare   testing", "/sdcard/image.png", share_selector(shareCallback)) ;
@@ -254,7 +252,7 @@ void HelloWorld::directShareCallback(CCObject* pSender)
 // 授权某个平台的按钮回调
 void HelloWorld::authorizeCallback(CCObject* pSender)
 {
-   CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+   CCUMSocialSDK *sdk = CCUMSocialSDK::create("507fcab25270157b37000010");
    CCLog("授权");
    sdk->authorize(SINA, auth_selector(authCallback));
 
@@ -263,7 +261,7 @@ void HelloWorld::authorizeCallback(CCObject* pSender)
 // 删除某个平台的按钮回调
 void HelloWorld::deleteAuthorizeCallback(CCObject* pSender)
 {
-    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+    CCUMSocialSDK *sdk = CCUMSocialSDK::create("507fcab25270157b37000010");
     CCLog("删除腾讯微博授权");
     sdk->deleteAuthorization(SINA, auth_selector(authCallback));
 }
@@ -271,7 +269,7 @@ void HelloWorld::deleteAuthorizeCallback(CCObject* pSender)
 // 判断某个平台的按钮回调
 void HelloWorld::isAuthorizedShareCallback(CCObject* pSender)
 {
-    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+    CCUMSocialSDK *sdk = CCUMSocialSDK::create("507fcab25270157b37000010");
     CCLog("@@@@ 判断新浪微博是否授权");
     bool isAuthorized = sdk->isAuthorized(SINA);
     if ( isAuthorized ) 
@@ -288,7 +286,7 @@ void HelloWorld::isAuthorizedShareCallback(CCObject* pSender)
 // 直接分享
 void HelloWorld::menuShareCallback(CCObject* pSender)
 {
-    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+    CCUMSocialSDK *sdk = CCUMSocialSDK::create("507fcab25270157b37000010");
     vector<int>* platforms = new vector<int>();
     platforms->push_back(SINA);
     platforms->push_back(RENREN) ;
@@ -300,14 +298,12 @@ void HelloWorld::menuShareCallback(CCObject* pSender)
     platforms->push_back(WEIXIN);
     CCLog("COCOS2D-X openshare");
 
-//    sdk->openShare(platforms, "COCOS2D-X HACKATHON -->  openShare","/sdcard/image.png", share_selector(shareCallback));
-
-    // 打开分享面板, 注册分享回调
+    // 打开分享面板, 注册分享回调, android 和 IOS的图片地址格式不一致，因此分开设置
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    sdk->openShare(platforms, "COCOS2D-X HACKATHON -->  openShare","/sdcard/image.png", share_selector(shareCallback));
+    sdk->openShare(platforms, "Umeng Social Cocos2d-x SDK V1.0 -->  openShare","/sdcard/image.png", share_selector(shareCallback));
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     printf("CC_PLATFORM_IOS !!!\n");
-    sdk->openShare(platforms, "COCOS2D-X HACKATHON -->  openShare","share.png", share_selector(shareCallback));
+    sdk->openShare(platforms, "Umeng Social Cocos2d-x SDK V1.0","share.png", share_selector(shareCallback));
 #endif
 }
 
