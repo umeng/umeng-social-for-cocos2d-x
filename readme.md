@@ -274,10 +274,8 @@ bool HelloWorld::init()
         return false;
     }
     
-	// 创建分享按钮, 参数1为按钮正常情况下的图片, 参数2为按钮选中时的图片,参数3为分享回调
-	UMShareButton *shareButton = UMShareButton::create("shareNormal.png","shareSelected.png", share_selector(shareCallback)) ;
-	// 设置您的友盟appkey
-	shareButton->setUmengAppkey("507fcab25270157b37000010") ;
+	// 创建分享按钮, 参数1为按钮正常情况下的图片, 参数2为按钮选中时的图片,参数3为友盟appkey, 参数4为分享回调
+	UMShareButton *shareButton = UMShareButton::create("shareNormal.png","shareSelected.png", "你的友盟appkey", share_selector(shareCallback)) ;
 	// 显示在友盟分享面板上的平台
     vector<int>* platforms = new vector<int>();
     platforms->push_back(SINA);
@@ -328,7 +326,7 @@ USING_NS_UM_SOCIAL;
 void HelloWorld::shareButtonClick()
 {
 	// 获取一个CCUMSocialSDK实例
-    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+    CCUMSocialSDK *sdk = CCUMSocialSDK::create("你的友盟appkey");
     // 设置友盟appkey
     sdk->setAppKey("4eaee02c527015373b000003");
     // **********************	设置平台信息	***************************
@@ -349,8 +347,14 @@ void HelloWorld::shareButtonClick()
     platforms->push_back(QZONE) ;
     platforms->push_back(QQ) ;
 
-    // 打开分享面板, 注册分享回调, 参数1为分享面板上的平台, 参数2为要分享的文字内容, 参数3为要分享的图片路径, 参数4为分享回调.
-   sdk->openShare(platforms, "要分享的文字内容","/sdcard/image.png", share_selector(shareCallback));
+    // 打开分享面板, 注册分享回调, 参数1为分享面板上的平台, 参数2为要分享的文字内容，
+    // 参数3为要分享的图片路径(android和IOS的图片地址格式不一致，因此分平台设置), 参数4为分享回调.
+   #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    	sdk->openShare(platforms, "要分享的文字内容", "/sdcard/image.png", share_selector(shareCallback));
+	#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    	sdk->openShare(platforms, "要分享的文字内容","share.png", share_selector(shareCallback));
+	#endif
+
 ```      
 
 ***方式三 :***    
@@ -368,9 +372,9 @@ USING_NS_UM_SOCIAL;
 void HelloWorld::shareButtonClick()
 {
 	// 获取一个CCUMSocialSDK实例
-    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
-    // 设置友盟appkey
-    sdk->setAppKey("4eaee02c527015373b000003");
+    CCUMSocialSDK *sdk = CCUMSocialSDK::create("你的友盟appkey");
+    // 设置用户点击一条图文分享时用户跳转到的目标页面, 一般为app主页或者下载页面
+    sdk->setTargetUrl("http://www.umeng.com/social");   
     // **********************	设置平台信息	***************************
     // sdk->setQQAppIdAndAppKey("设置QQ的app id", "appkey");
     // sdk->setWeiXinAppId("设置微信和朋友圈的app id");
@@ -379,26 +383,27 @@ void HelloWorld::shareButtonClick()
     //				"设置来往和来往动态的app key", "我的应用名");
     // sdk->setFacebookAppId("你的facebook appid");
     // **********************	END	***************************
-    // 设置用户点击一条图文分享时用户跳转到的目标页面, 一般为app主页或者下载页面
-    sdk->setTargetUrl("http://www.umeng.com/social");
 
-    // 打开分享面板, 注册分享回调, 参数1为要分享到的目标平台, 参数2为要分享的文字内容, 参数3为要分享的图片路径, 参数4为分享回调.
-   sdk->directShare(SINA, "要分享的文字内容","/sdcard/image.png", share_selector(shareCallback));
+    // 直接分享，参数1为要分享到的目标平台, 参数2为要分享的文字内容, 
+    // 参数3为要分享的图片路径(android和IOS的图片地址格式不一致，因此分平台设置), 参数4为分享回调.
+	#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		sdk->directShare(SINA, "要分享的文字内容","/sdcard/image.png", share_selector(shareCallback));
+	#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    	sdk->directShare(SINA, "要分享的文字内容","image.png", share_selector(shareCallback));
+	#endif
 ```      
 
 ***特别说明 :***     
-   使用CCUMSocialSDK对象设置各个平台的app id或者app key.CCUMSocialSDK对象可以通过CCUMSocialSDK::create()函数获取，如果使用UMShareButton可以通过getSocialSDK()函数获取.          
+   使用CCUMSocialSDK对象设置各个平台的app id或者app key.CCUMSocialSDK对象可以通过CCUMSocialSDK::create("umeng appkey")函数获取，如果使用UMShareButton可以通过getSocialSDK()函数获取.          
 >1.如果集成了QQ或者QQ空间平台,则必须通过CCUMSocialSDK类的setQQAppIdAndAppKey("appid","appkey")函数来设置QQ或者QQ空间的AppId、AppKey;           
 >2.如果集成了微信或者微信朋友圈平台,则必须通过CCUMSocialSDK类的setWeiXinAppId("")函数来设置微信或者朋友圈的App id;        
 >3.如果集成了易信或者易信朋友圈平台,则必须通过CCUMSocialSDK类的setYiXinAppKey("")函数来设置微信的App key;        
 >4.如果集成了来往或者来往动态平台,则必须通过CCUMSocialSDK类的setLaiwangAppInfo("app id ", "app key", "app Name")来设置来往和来往动态的App id、App key、App Name(应用名).
 
    最后,点击对应的按钮则会弹出如下界面 :    
-  <img src="http://dev.umeng.com/system/images/W1siZiIsIjIwMTQvMDQvMDkvMTVfNTdfNTVfMjk5X2NvY29zMmR4X29wZW5TaGFyZS5wbmciXV0/cocos2dx-openShare.png" width="450" height="300" style="border:1px solid black">    
-    
+  <img src="http://dev.umeng.com/system/images/W1siZiIsIjIwMTQvMDQvMDkvMTVfNTdfNTVfMjk5X2NvY29zMmR4X29wZW5TaGFyZS5wbmciXV0/cocos2dx-openShare.png" width="450" height="300" style="border:1px solid black">      
          
-
-   **分享回调的为如下形式 :**    
+**分享回调的为如下形式 :**    
 ```cpp
 /*
  * 分享回调, 该回调不是某个类的成员函数， 而是一个普通的函数, 具体使用参考HelloWorldScene的例子
@@ -436,7 +441,7 @@ void shareCallback(int platform, int stCode, string& errorMsg)
 #### 3.1 授权接口说明   
    CCUMSocialSDK类中还提供了授权相关的接口，支持授权的平台有新浪微博、QQ空间、QQ、人人网、豆瓣、腾讯微博、facebook。授权接口使用说明如下 : 
 ```cpp
-CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+CCUMSocialSDK *sdk = CCUMSocialSDK::create("你的友盟appkey");
 // 对某个平台授权, 参数二为授权回调
 sdk->authorize(RENREN, auth_selector(authCallback));
 
