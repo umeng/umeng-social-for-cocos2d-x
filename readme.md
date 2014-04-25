@@ -292,7 +292,9 @@ bool HelloWorld::init()
 	// 设置按钮的位置
 	shareButton->setPosition(ccp(150, 180));
 	// 然后开发者需要将该按钮添加到游戏场景中
-	this->addChild( shareButton );
+    CCMenu* pMenu = CCMenu::create(shareButton, NULL);
+    pMenu->setPosition(CCPointZero);
+    this->addChild(pMenu, 1);
 	
 	// ********************** 设置平台信息 ***************************
 	// CCUMSocialSDK *sdk = shareButton->getSocialSDK();
