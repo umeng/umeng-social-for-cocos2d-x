@@ -66,7 +66,6 @@
 		D568333018FE7C3F0084AC3F /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D568332F18FE7C3F0084AC3F /* libiconv.dylib */; };
 		D568333218FE7C490084AC3F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D568333118FE7C490084AC3F /* SystemConfiguration.framework */; };
 		D568333418FE7C5B0084AC3F /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D568333318FE7C5B0084AC3F /* libstdc++.dylib */; };
-		D568333518FE7D510084AC3F /* libSocialFacebook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5483D3D18FE23B200D57A62 /* libSocialFacebook.a */; };
 		D568333618FE7D720084AC3F /* libSocialInstagram.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5483D4018FE23B200D57A62 /* libSocialInstagram.a */; };
 		D568333718FE7D850084AC3F /* libSocialTwitter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5483D4B18FE23B200D57A62 /* libSocialTwitter.a */; };
 		D568333918FE7E320084AC3F /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D568333818FE7E320084AC3F /* Accounts.framework */; };
@@ -174,7 +173,6 @@
 		D5483D3818FE23B200D57A62 /* UMSShareListController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UMSShareListController.xib; sourceTree = "<group>"; };
 		D5483D3918FE23B200D57A62 /* UMSocialSDKResourcesNew.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = UMSocialSDKResourcesNew.bundle; sourceTree = "<group>"; };
 		D5483D3A18FE23B200D57A62 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/UMSocialLocalizable.strings"; sourceTree = "<group>"; };
-		D5483D3D18FE23B200D57A62 /* libSocialFacebook.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSocialFacebook.a; sourceTree = "<group>"; };
 		D5483D3E18FE23B200D57A62 /* UMSocialFacebookHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialFacebookHandler.h; sourceTree = "<group>"; };
 		D5483D4018FE23B200D57A62 /* libSocialInstagram.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSocialInstagram.a; sourceTree = "<group>"; };
 		D5483D4118FE23B200D57A62 /* UMSocialInstagramHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialInstagramHandler.h; sourceTree = "<group>"; };
@@ -224,7 +222,6 @@
 				D5483D7618FE23B200D57A62 /* libWeChatSDK.a in Frameworks */,
 				D568333718FE7D850084AC3F /* libSocialTwitter.a in Frameworks */,
 				D568333618FE7D720084AC3F /* libSocialInstagram.a in Frameworks */,
-				D568333518FE7D510084AC3F /* libSocialFacebook.a in Frameworks */,
 				BF1712471292920000B8313A /* libz.dylib in Frameworks */,
 				D568333418FE7C5B0084AC3F /* libstdc++.dylib in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
@@ -526,7 +523,6 @@
 		D5483D3C18FE23B200D57A62 /* Facebook */ = {
 			isa = PBXGroup;
 			children = (
-				D5483D3D18FE23B200D57A62 /* libSocialFacebook.a */,
 				D5483D3E18FE23B200D57A62 /* UMSocialFacebookHandler.h */,
 			);
 			path = Facebook;
