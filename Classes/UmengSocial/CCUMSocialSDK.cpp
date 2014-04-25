@@ -337,7 +337,7 @@ void CCUMSocialSDK::setLogEnable(bool flag)
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
  
-    // TODO
+    UmSocialControllerIOS::openLog(flag);
     
 #endif
 

@@ -11,31 +11,31 @@
 #import "UMSocialUIObject.h"
 #import <UIKit/UIKit.h>
 
-#ifdef CC_ShareToQQOrQzone
+#if CC_ShareToQQOrQzone == 1
 #import "UMSocialQQHandler.h"
 #endif
 
-#ifdef CC_ShareToWechat
+#if CC_ShareToWechat == 1
 #import "UMSocialWechatHandler.h"
 #endif
 
-#ifdef CC_ShareToLaiWang
+#if CC_ShareToLaiWang == 1
 #import "UMSocialLaiwangHandler.h"
 #endif
 
-#ifdef CC_ShareToYiXin
+#if CC_ShareToYiXin == 1
 #import "UMSocialYiXinHandler.h"
 #endif
 
-#ifdef CC_ShareToFacebook
+#if CC_ShareToFacebook == 1
 #import "UMSocialFacebookHandler.h"
 #endif
 
-#ifdef CC_ShareToTwitter
+#if CC_ShareToTwitter == 1
 #import "UMSocialTwitterHandler.h"
 #endif
 
-#ifdef CC_ShareToInstagram
+#if CC_ShareToInstagram == 1
 #import "UMSocialInstagramHandler.h"
 #endif
 
@@ -250,6 +250,11 @@ void UmSocialControllerIOS::openShareWithImagePath(vector<int>* platforms, const
                                        delegate:delegate];
     [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskLandscape];
 
+}
+
+void UmSocialControllerIOS::openLog(bool flag)
+{
+    [UMSocialData openLog:flag];
 }
 
 void UmSocialControllerIOS::directShare(const char* text, const char* imagePath,int platform, ShareEventHandler callback){

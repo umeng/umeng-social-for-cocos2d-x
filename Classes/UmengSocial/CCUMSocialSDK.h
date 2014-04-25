@@ -34,7 +34,7 @@ namespace umeng
              * @param appKey 友盟app key
              */
             static CCUMSocialSDK* create(const char* appKey) ;
-
+            
             /*
              * 设置友盟app key
              * @param appKey 友盟app key

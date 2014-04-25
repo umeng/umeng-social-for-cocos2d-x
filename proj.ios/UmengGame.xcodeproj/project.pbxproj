@@ -42,6 +42,7 @@
 		D4EF949C15BD2D8E00D803EB /* Icon-114.png in Resources */ = {isa = PBXBuildFile; fileRef = D4EF949B15BD2D8E00D803EB /* Icon-114.png */; };
 		D4EF949E15BD2D9600D803EB /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = D4EF949D15BD2D9600D803EB /* Icon-72.png */; };
 		D4EF94A015BD2D9800D803EB /* Icon-144.png in Resources */ = {isa = PBXBuildFile; fileRef = D4EF949F15BD2D9800D803EB /* Icon-144.png */; };
+		D52CE0CA190A42A00008731D /* libSocialFacebook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D52CE0C9190A42A00008731D /* libSocialFacebook.a */; };
 		D5483D5E18FE23B200D57A62 /* UMSocialLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D5483D2018FE23B200D57A62 /* UMSocialLocalizable.strings */; };
 		D5483D5F18FE23B200D57A62 /* libUMSocial_Sdk_3.3.7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5483D2E18FE23B200D57A62 /* libUMSocial_Sdk_3.3.7.a */; };
 		D5483D6118FE23B200D57A62 /* UMSCommentDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5483D3118FE23B200D57A62 /* UMSCommentDetailController.xib */; };
@@ -149,6 +150,7 @@
 		D4EF949D15BD2D9600D803EB /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "../proj.ios/Icon-72.png"; sourceTree = "<group>"; };
 		D4EF949F15BD2D9800D803EB /* Icon-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-144.png"; path = "../proj.ios/Icon-144.png"; sourceTree = "<group>"; };
 		D4F9F37B12E54555005CA6D2 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
+		D52CE0C9190A42A00008731D /* libSocialFacebook.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSocialFacebook.a; sourceTree = "<group>"; };
 		D5483D2118FE23B200D57A62 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/UMSocialLocalizable.strings; sourceTree = "<group>"; };
 		D5483D2318FE23B200D57A62 /* UMSocial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocial.h; sourceTree = "<group>"; };
 		D5483D2418FE23B200D57A62 /* UMSocialAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialAccountManager.h; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				15A3DA6A1682F886002FB0C5 /* libcocos2dx.a in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				D52CE0CA190A42A00008731D /* libSocialFacebook.a in Frameworks */,
 				BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */,
 				BF1712461292920000B8313A /* libxml2.dylib in Frameworks */,
 				BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */,
@@ -523,6 +526,7 @@
 		D5483D3C18FE23B200D57A62 /* Facebook */ = {
 			isa = PBXGroup;
 			children = (
+				D52CE0C9190A42A00008731D /* libSocialFacebook.a */,
 				D5483D3E18FE23B200D57A62 /* UMSocialFacebookHandler.h */,
 			);
 			path = Facebook;
