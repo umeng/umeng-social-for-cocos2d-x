@@ -158,6 +158,9 @@ bool HelloWorld::init()
     //设置QQ互联SDK
     sdk->setQQAppIdAndAppKey("100424468", "c7394704798a158208a74ab60104f0ba");
     sdk->setWeiXinAppId("wxd9a39c7122aa6516");
+    // 打开或者关闭log
+    sdk->setLogEnable(true) ;
+
     // 关闭按钮
     CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
                                         "CloseNormal.png",

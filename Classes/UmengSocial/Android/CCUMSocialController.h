@@ -194,6 +194,12 @@ void setFacebookPlatformAppId(const char* appId);
  */
 void setShareTargetUrl(const char* url) ;
 
+/**
+ *  是否开启log
+ * @param flag 如果为true则开启log, 否则关闭.
+ */
+ void setAndroidLogEnable(bool flag);
+
 
 void getData(JNIEnv *env, jobjectArray data, map<string, string>& outputMap) ;
 

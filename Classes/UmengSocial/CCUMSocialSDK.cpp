@@ -324,3 +324,21 @@ void CCUMSocialSDK::openInstagramForiOS()
     UmSocialControllerIOS::openInstagram();
 #endif
 }
+
+/**
+*  是否开启log
+* @param flag 如果为true则开启log, 否则关闭.
+*/
+void CCUMSocialSDK::setLogEnable(bool flag) 
+{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+
+    setAndroidLogEnable(flag);
+
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+ 
+    // TODO
+    
+#endif
+
+}

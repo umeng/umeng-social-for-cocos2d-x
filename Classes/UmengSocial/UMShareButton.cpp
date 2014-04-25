@@ -136,6 +136,13 @@ void UMShareButton::openShareBoard()
         mPlatforms->push_back(TENCENT_WEIBO);
     }
     if ( mSocialSDK != NULL ) {
+    	if ( mShareText == NULL )
+    	{
+    		mShareText = "";
+    	}
+    	if ( mImageName == NULL) {
+    		mImageName = "";
+    	}
         mSocialSDK->openShare(mPlatforms, mShareText.c_str(), mImageName.c_str(), mCallback) ;
     }
 }

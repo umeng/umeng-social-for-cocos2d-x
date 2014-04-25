@@ -126,6 +126,12 @@ namespace umeng
              */
             void openInstagramForiOS();
 
+            /**
+             *  是否开启log
+             * @param flag 如果为true则开启log, 否则关闭.
+             */
+            void setLogEnable(bool flag);
+
         private:
             static CCUMSocialSDK *_instance ;
             char* _wrapperType;

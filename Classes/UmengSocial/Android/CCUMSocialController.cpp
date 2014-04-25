@@ -471,6 +471,22 @@ void setShareTargetUrl(const char* url)
     CCLog("#### setShareTargetUrl");
 }
 
+/**
+ *  是否开启log
+ * @param flag 如果为true则开启log, 否则关闭.
+ */
+ void setAndroidLogEnable(bool flag)
+ {
+    JniMethodInfo mi;
+    bool isHave = getMethod(mi, "setAndroidLogEnable", "(Z)V");
+    if ( isHave )
+    {
+        mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, flag);
+        releaseMethod(mi);
+    }
+    CCLog("#### setAndroidLogEnable");
+
+ }
 
 /*
  * 获取某个方法的对象

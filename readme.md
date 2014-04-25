@@ -33,7 +33,7 @@
 >**3. doc**    
 	Cocos2d-x SDK集成文档。   
 	   
-   **SDK中默认的添加的平台为新浪微博、腾讯微博、人人网、豆瓣、短信、邮件，其他的平台需要按下文提供的方式手动添加。**
+   **SDK中默认的添加的平台为新浪微博、腾讯微博、人人网、豆瓣、短信、邮件，其他的平台需要按[添加更多平台  ( 按需集成 )](#cocos2dx_integration_more_platforms)提供的方式手动添加。**
 	
 <b id=cocos2dx_integration></b>   
 ## 2 Cocos2d-x集成友盟分享组件
@@ -304,6 +304,8 @@ bool HelloWorld::init()
     // sdk->setFacebookAppId("你的facebook appid");
     // 设置用户点击一条图文分享时用户跳转到的目标页面, 一般为app主页或者下载页面
     // sdk->setTargetUrl("http://www.umeng.com/social");
+    //     // 打开或者关闭log
+    // sdk->setLogEnable(true) ;
     // **********************	END	***************************
     
     return true;
@@ -336,6 +338,8 @@ void HelloWorld::shareButtonClick()
     // sdk->setLaiwangAppInfo("设置来往和来往动态的app id", 
     //				"设置来往和来往动态的app key", "我的应用名");
     // sdk->setFacebookAppId("你的facebook appid");
+    //     // 打开或者关闭log
+    // sdk->setLogEnable(true) ;
     // **********************	END	***************************
     // 设置用户点击一条图文分享时用户跳转到的目标页面, 一般为app主页或者下载页面
     sdk->setTargetUrl("http://www.umeng.com/social");
@@ -382,6 +386,8 @@ void HelloWorld::shareButtonClick()
     // sdk->setLaiwangAppInfo("设置来往和来往动态的app id", 
     //				"设置来往和来往动态的app key", "我的应用名");
     // sdk->setFacebookAppId("你的facebook appid");
+    //     // 打开或者关闭log
+    // sdk->setLogEnable(true) ;
     // **********************	END	***************************
 
     // 直接分享，参数1为要分享到的目标平台, 参数2为要分享的文字内容, 
