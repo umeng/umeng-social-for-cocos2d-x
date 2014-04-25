@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.umeng.socialize.bean.CustomPlatform;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -32,6 +31,7 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.net.utils.SocializeNetUtils;
 import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.UMSsoHandler;
+import com.umeng.socom.Log;
 
 /**
  * 友盟Social Android SDK的控制器, cocos2d-x sdk 通过jni代码调用相关的静态函数实现对应的功能.
@@ -331,22 +331,27 @@ public class CCUMSocialController {
 	 */
 	public static void setShareImageName(String imgName) {
 		Log.d(TAG, "#### 设置图片路径 :" + imgName);
-		if (TextUtils.isEmpty(imgName)) {
-			return;
-		}
-
 		// 网络图片
 		if (imgName.startsWith("http://") || imgName.startsWith("https://")) {
 			mController.setShareMedia(new UMImage(mActivity, imgName));
 		} else {
 			// 本地图片
 			File imgFile = new File(imgName);
-			if (imgFile.exists()) {
-				mController.setShareMedia(new UMImage(mActivity, imgFile));
-			} else {
+			if (!imgFile.exists()) {
 				Log.e(TAG, "### 要分享的本地图片不存在");
 			}
+			mController.setShareMedia(new UMImage(mActivity, imgFile));
 		}
+	}
+
+	/**
+	 * 设置是否开启log
+	 * 
+	 * @param flag
+	 */
+	protected static void setAndroidLogEnable(boolean flag) {
+		Log.LOG = flag;
+		Log.e(TAG, "### 是否开启log : " + Log.LOG);
 	}
 
 	/**
