@@ -150,7 +150,7 @@ bool HelloWorld::init()
     // sdk->setWeiXinAppId("设置微信和朋友圈的app id");
     // sdk->setYiXinAppKey("设置易信和易信朋友圈的app id");
     sdk->setLaiwangAppInfo("设置来往和来往动态的app id", "设置来往和来往动态的app key", "我的应用名");
-    sdk->setFacebookAppId("你的facebook appid");
+    sdk->setFacebookAppId("1440390216179601");
     // 设置用户点击一条图文分享时用户跳转到的目标页面, 一般为app主页或者下载页面
 
     // ********************************************************************************
@@ -247,7 +247,7 @@ void HelloWorld::directShareCallback(CCObject* pSender)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     sdk->directShare(SINA, "COCOS2D-X HACKATHON -->  directShare   testing", "/sdcard/image.png", share_selector(shareCallback)) ;
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    sdk->directShare(EMAIL, "COCOS2D-X HACKATHON -->  directShare   testing", "http://www.baidu.com/img/bdlogo.gif", share_selector(shareCallback)) ;
+    sdk->directShare(SINA, "COCOS2D-X HACKATHON -->  directShare   testing", "http://www.baidu.com/img/bdlogo.gif", share_selector(shareCallback)) ;
 #endif
 }
 

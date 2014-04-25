@@ -121,48 +121,53 @@ void UmSocialControllerIOS::setTargetUrl(const char *targetUrl){
 //    return false;
 //}
 
-#ifdef CC_ShareToQQOrQzone
+
 void UmSocialControllerIOS::setQQAppIdAndAppKey(const char *appId,const char *appKey){
+    #if CC_ShareToQQOrQzone == 1
     [UMSocialQQHandler setQQWithAppId:getNSStringFromCString(appId) appKey:getNSStringFromCString(appKey) url:@"http://www.umeng.com/social"];
+    #endif
 }
-#endif
 
-#ifdef CC_ShareToWechat
 void UmSocialControllerIOS::setWechatAppId(const char *appId){
+    #if CC_ShareToWechat == 1
     [UMSocialWechatHandler setWXAppId:getNSStringFromCString(appId) url:@"http://www.umeng.com/social"];
+    #endif
 }
-#endif
 
-#ifdef CC_ShareToLaiWang
+
 void UmSocialControllerIOS::setLaiwangAppInfo(const char *appId, const char *appKey, const char *appName){
+    #if CC_ShareToLaiWang == 1
     [UMSocialLaiwangHandler setLaiwangAppId:getNSStringFromCString(appId) appSecret:getNSStringFromCString(appKey) appDescription:getNSStringFromCString(appName) urlStirng:@"http://www.umeng.com/social"];
+    #endif
 }
-#endif
 
-#ifdef CC_ShareToYiXin
+
 void UmSocialControllerIOS::setYiXinAppKey(const char *appKey){
+    #if CC_ShareToYiXin == 1
     [UMSocialYixinHandler  setYixinAppKey:getNSStringFromCString(appKey) url:@"http://www.umeng.com/social"];
+    #endif
 }
-#endif
 
-#ifdef CC_ShareToFacebook
+
 void UmSocialControllerIOS::setFacebookAppId(const char *appId){
+    #if CC_ShareToFacebook == 1
     [UMSocialFacebookHandler setFacebookAppID:getNSStringFromCString(appId) shareFacebookWithURL:@"http://www.umeng.com/social"];
+    #endif
 }
-#endif
 
-#ifdef CC_ShareToTwitter
+
 void UmSocialControllerIOS::openTwitter(){
+    #if CC_ShareToTwitter == 1
     [UMSocialTwitterHandler openTwitter];
+    #endif
 }
-#endif
 
-#ifdef CC_ShareToInstagram
 void UmSocialControllerIOS::openInstagram()
 {
+    #ifdef CC_ShareToInstagram
     [UMSocialInstagramHandler openInstagramWithScale:YES paddingColor:[UIColor blackColor]];
+    #endif
 }
-#endif
 
 void UmSocialControllerIOS::authorize(int platform, AuthEventHandler callback){
     
@@ -248,6 +253,10 @@ void UmSocialControllerIOS::openShareWithImagePath(vector<int>* platforms, const
 }
 
 void UmSocialControllerIOS::directShare(const char* text, const char* imagePath,int platform, ShareEventHandler callback){
+    if (m_appKey.empty()) {
+        NSLog(@"请设置友盟AppKey到UMShareButton对象.");
+        return ;
+    }
     UIImage* image = nil;
     UMSocialUrlResource *urlResource = nil;
     if(imagePath){
