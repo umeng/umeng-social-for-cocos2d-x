@@ -209,6 +209,11 @@ bool UmSocialControllerIOS::isAuthorized(int platform){
 
 void UmSocialControllerIOS::openShareWithImagePath(vector<int>* platforms, const char* text, const char* imagePath,ShareEventHandler callback){
     
+    if (m_appKey.empty()) {
+        NSLog(@"请设置友盟AppKey到UMShareButton对象.");
+        return ;
+    }
+    
     NSMutableArray* array = [NSMutableArray array];
     if (platforms) {
         for (unsigned int i = 0; i < platforms->size(); i++) {
@@ -227,7 +232,11 @@ void UmSocialControllerIOS::openShareWithImagePath(vector<int>* platforms, const
         }
     }
     
-    UMSocialUIObject * delegate = [[UMSocialUIObject alloc] initWithCallback:callback];
+    UMSocialUIObject * delegate = nil;
+    if (callback) {
+        delegate = [[UMSocialUIObject alloc] initWithCallback:callback];
+    }
+    
     [UMSocialSnsService presentSnsIconSheetView:getViewController()
                                          appKey:[NSString stringWithUTF8String:m_appKey.c_str() ]
                                       shareText:[NSString stringWithUTF8String:text ]
@@ -240,17 +249,23 @@ void UmSocialControllerIOS::openShareWithImagePath(vector<int>* platforms, const
 
 void UmSocialControllerIOS::directShare(const char* text, const char* imagePath,int platform, ShareEventHandler callback){
     UIImage* image = nil;
+    UMSocialUrlResource *urlResource = nil;
     if(imagePath){
         NSString *imageString = [NSString stringWithUTF8String:imagePath];
-        if ([imageString hasPrefix:@"http:://"] || [imageString hasPrefix:@"https://"]) {
-            [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
+        if ([imageString hasPrefix:@"http://"] || [imageString hasPrefix:@"https://"]) {
+            urlResource = [[UMSocialUrlResource alloc] initWithSnsResourceType:UMSocialUrlResourceTypeImage url:imageString];
         } else {
             image = [UIImage imageNamed:getNSStringFromCString(imagePath)];
         }
     }
-    [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[getPlatformString(platform)] content:[NSString stringWithUTF8String:text] image:image location:nil urlResource:nil presentedController:getViewController() completion:^(UMSocialResponseEntity *response){
+    [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskAll];
+    [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[getPlatformString(platform)] content:[NSString stringWithUTF8String:text] image:image location:nil urlResource:urlResource presentedController:getViewController() completion:^(UMSocialResponseEntity *response){
         if (callback) {
-            callback(platform, (int)response.responseCode,string([response.message UTF8String]));
+            string message = string();
+            if (response.message) {
+                message = string([response.message UTF8String]);
+            }
+            callback(platform, (int)response.responseCode,message);
         }
     }];
 }

@@ -117,6 +117,10 @@ bool HelloWorld::init()
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
     CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
     
+    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+    // 设置友盟app key
+    sdk->setAppKey("507fcab25270157b37000010");
+    
     // 打开分享面板
     CCMenuItemFont *shareTextButton = CCMenuItemFont::create("打开分享面板",this , menu_selector(HelloWorld::menuShareCallback));
     shareTextButton->setPosition(ccp(150,480));
@@ -140,9 +144,9 @@ bool HelloWorld::init()
 
     // ********************  设置友盟的app key以及相关的信息  ***********************************
     // 获取CCUMSocialSDK对象, 如果使用的UMShareButton, 则通过UMShareButton对象的getSocialSDK()方法获取.
-    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
-    // 设置友盟app key
-    sdk->setAppKey("507fcab25270157b37000010");
+//    CCUMSocialSDK *sdk = CCUMSocialSDK::create();
+//    // 设置友盟app key
+//    sdk->setAppKey("507fcab25270157b37000010");
 //    sdk->setQQAppIdAndAppKey("设置QQ的app id", "appkey");
     // sdk->setWeiXinAppId("设置微信和朋友圈的app id");
     // sdk->setYiXinAppKey("设置易信和易信朋友圈的app id");
@@ -242,7 +246,7 @@ void HelloWorld::directShareCallback(CCObject* pSender)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     sdk->directShare(SINA, "COCOS2D-X HACKATHON -->  directShare   testing", "/sdcard/image.png", share_selector(shareCallback)) ;
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    sdk->directShare(SINA, "COCOS2D-X HACKATHON -->  directShare   testing", "share.png", share_selector(shareCallback)) ;
+    sdk->directShare(EMAIL, "COCOS2D-X HACKATHON -->  directShare   testing", "http://www.baidu.com/img/bdlogo.gif", share_selector(shareCallback)) ;
 #endif
 }
 
