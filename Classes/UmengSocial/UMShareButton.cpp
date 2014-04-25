@@ -16,7 +16,7 @@ using namespace std;
 USING_NS_UM_SOCIAL;
 
 
-/*
+/**
  * 构造函数
  */
 UMShareButton::UMShareButton()
@@ -51,7 +51,7 @@ UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage,
 }
 
 
-/*
+/**
  * 创建一个UMShareButton对象
  * @param  normalImage  按钮正常情况下显示的图片
  * @param  selectedImage 按钮选中情况下显示的图片
@@ -65,7 +65,7 @@ UMShareButton* UMShareButton::create(const char *normalImage, const char *select
     return shareButton ;
 }
 
-/*
+/**
  * 析构函数,释放内存
  */
 UMShareButton::~UMShareButton()
@@ -74,7 +74,7 @@ UMShareButton::~UMShareButton()
     delete mPlatforms;
 }
 
-/*
+/**
  * 获取CCUMSocialSDK对象
  */
 CCUMSocialSDK* UMShareButton::getSocialSDK() 
@@ -82,7 +82,7 @@ CCUMSocialSDK* UMShareButton::getSocialSDK()
     return mSocialSDK ;
 }
 
-/*
+/**
  * 设置文本内容
  * @param
  */
@@ -92,7 +92,7 @@ void UMShareButton::setShareContent(const char* text)
 }
 
 
-/*
+/**
  * 设置本地图片和url图片, url图片必须以http://或者https://开头
  * @param 图片的本地路径或者url地址.
  */
@@ -102,7 +102,7 @@ void UMShareButton::setShareImage(const char* imgName)
 }
 
 
-/*
+/**
  * 设置分享回调回调
  * @param callback 分享回调
  */
@@ -112,7 +112,7 @@ void UMShareButton::setShareCallback(ShareEventHandler callback)
 }
 
 
-/*
+/**
  * 设置友盟SDK支持的平台， 平台的申明参考CCUMTypeDef.h中的Platform枚举
  * @param platforms 友盟SDK支持的平台
  */
@@ -121,7 +121,7 @@ void UMShareButton::setPlatforms(vector<int>* platforms)
     mPlatforms = platforms ;
 }
 
-/*
+/**
  * 打开分享面板
  */
 void UMShareButton::openShareBoard()
@@ -136,19 +136,12 @@ void UMShareButton::openShareBoard()
         mPlatforms->push_back(TENCENT_WEIBO);
     }
     if ( mSocialSDK != NULL ) {
-    	if ( mShareText == NULL )
-    	{
-    		mShareText = "";
-    	}
-    	if ( mImageName == NULL) {
-    		mImageName = "";
-    	}
         mSocialSDK->openShare(mPlatforms, mShareText.c_str(), mImageName.c_str(), mCallback) ;
     }
 }
 
 #ifdef CC_CALLBACK_1
-/*
+/**
  * 点击该按钮时的回调, 这里实现为调用打开分享面板
  * @param pSender 
  */
@@ -158,7 +151,7 @@ void UMShareButton::shareCallback(Ref* pSender)
     this->openShareBoard() ;
 }
 #else 
-/*
+/**
  * 点击该按钮时的回调, 这里实现为调用打开分享面板
  * @param pSender 
  */
