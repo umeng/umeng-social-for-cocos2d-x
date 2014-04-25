@@ -28,7 +28,7 @@ USING_NS_UM_SOCIAL;
 
 CCUMSocialSDK* CCUMSocialSDK::_instance = NULL;
 
-/**
+/*
  * 构造函数, 必须传递友盟appKey
  * @param appKey 友盟appKey
  */
@@ -38,7 +38,7 @@ CCUMSocialSDK::CCUMSocialSDK(const char* appKey) :
 	setAppKey(appKey);
 }
 
-/**
+/*
  * 初始化sdk
  */
 void CCUMSocialSDK::initSDK() {
@@ -53,7 +53,7 @@ void CCUMSocialSDK::initSDK() {
 #endif
 }
 
-/**
+/*
  * 创建CCUMSocialSDK对象, 单例模式
  * @param appKey 友盟app key
  */
@@ -66,7 +66,7 @@ CCUMSocialSDK* CCUMSocialSDK::create(const char* appKey) {
 	return _instance;
 }
 
-/**
+/*
  * 设置友盟app key
  * @param appKey 友盟app key
  */
@@ -85,7 +85,7 @@ void CCUMSocialSDK::setAppKey(const char* appkey) {
 #endif
 }
 
-/**
+/*
  * 对某平台进行授权
  * @param platfrom 要授权的平台, 参考CCUMTypeDef.h中的Platform枚举定义
  * @param  callback 授权回调, 具体参考CCUMTypeDef.h中的定义
@@ -102,7 +102,7 @@ void CCUMSocialSDK::authorize(int platform, AuthEventHandler callback) {
 #endif
 }
 
-/**
+/*
  * 删除某平台的授权信息
  * @param platform 要删除授权的平台
  * @param   callback 删除授权的回调, 具体参考CCUMTypeDef.h中的定义
@@ -120,7 +120,7 @@ void CCUMSocialSDK::deleteAuthorization(int platform,
 #endif
 }
 
-/**
+/*
  * 判断某平台是否已经授权
  * @param platform 要判定的平台, 参考CCUMTypeDef.h中的Platform枚举定义
  */
@@ -135,7 +135,7 @@ bool CCUMSocialSDK::isAuthorized(int platform) {
 #endif
 }
 
-/**
+/*
  * 打开分享面板
  * @param platforms 显示在分享面板上的所有平台,平台的定义参考CCUMTypeDef.h中的Platform枚举
  * @param text 要分享的文字内容
@@ -160,7 +160,7 @@ void CCUMSocialSDK::openShare(vector<int>* platforms, const char* text,
 #endif
 }
 
-/**
+/*
  * 直接分享到某个平台，不打开分享面板和内容编辑页面
  * @param platform 要分享到的目标平台， 参考CCUMTypeDef.h中的Platform枚举定义
  * @param text 要分享的文字内容
@@ -181,7 +181,7 @@ void CCUMSocialSDK::directShare(int platform, const char* text,
 #endif
 }
 
-/**
+/*
  * 设置QQ的app id
  *
  * @param appid
@@ -198,7 +198,7 @@ void CCUMSocialSDK::setQQAppIdAndAppKey(const char* appid, const char* appKey) {
 #endif
 }
 
-/**
+/*
  * 设置微信和微信朋友圈的app id
  *
  * @param appid
@@ -215,7 +215,7 @@ void CCUMSocialSDK::setWeiXinAppId(const char* appid) {
 #endif
 }
 
-/**
+/*
  * 设置易信和易信朋友圈的app id
  *
  * @param appid
@@ -232,7 +232,7 @@ void CCUMSocialSDK::setYiXinAppKey(const char* appKey) {
 #endif
 }
 
-/**
+/*
  * 设置来往和来往动态的app id
  *
  * @param appid	来往的app id
@@ -253,7 +253,7 @@ void CCUMSocialSDK::setLaiwangAppInfo(const char* appid, const char* appKey,
 #endif
 }
 
-/**
+/*
  * 设置SDK的target url, 即用户点击某条分享时跳转到的目标页面
  * @param url 用户点击某条分享时跳转到的目标页面通常为app的主页或者下载链接等
  */
@@ -269,7 +269,7 @@ void CCUMSocialSDK::setTargetUrl(const char* targetUrl) {
 #endif
 }
 
-/**
+/*
  * 设置 facebook appId
  * @param appid facebook的app id
  */
@@ -287,7 +287,7 @@ void CCUMSocialSDK::setFacebookAppId(const char *appid) {
 
 }
 
-/**
+/*
  * 针对iOS平台打开分享到Twitter的开关
  *
  */
@@ -297,7 +297,7 @@ void CCUMSocialSDK::openTwitterForiOS() {
 #endif
 }
 
-/**
+/*
  * 针对iOS平台打开分享到Instagram的开关
  *
  */
@@ -307,7 +307,7 @@ void CCUMSocialSDK::openInstagramForiOS() {
 #endif
 }
 
-/**
+/*
  *  是否开启log
  * @param flag 如果为true则开启log, 否则关闭.
  */
