@@ -339,8 +339,10 @@ public class CCUMSocialController {
 			File imgFile = new File(imgName);
 			if (!imgFile.exists()) {
 				Log.e(TAG, "### 要分享的本地图片不存在");
+				mController.setShareMedia(null);
+			} else {
+				mController.setShareMedia(new UMImage(mActivity, imgFile));
 			}
-			mController.setShareMedia(new UMImage(mActivity, imgFile));
 		}
 	}
 
