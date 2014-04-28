@@ -82,10 +82,12 @@ void shareCallback(int platform, int stCode, string& errorMsg) {
 			(HelloWorld*) CCDirector::sharedDirector()->getRunningScene()->getChildByTag(
 					layerTag);
 	CCLabelTTF* item = (CCLabelTTF*) hwLayer->getChildByTag(labelTag);
-	string result = "分享成功";
+	string result = "";
 	if (stCode == 100) {
+		result = "开始分享";
 		CCLog("#### HelloWorld 开始分享");
 	} else if (stCode == 200) {
+		result = "分享成功";
 		CCLog("#### HelloWorld 分享成功 --> Cocos2d-x SDK ");
 	} else {
 		result = "分享失败";
@@ -96,7 +98,7 @@ void shareCallback(int platform, int stCode, string& errorMsg) {
 	is>>platform;
 	result.append(is.str());
 	item->setString(result.c_str());
-	CCLog("platform num is : %d", platform);
+	CCLog("platform num is : %d, %d", platform, stCode);
 
 }
 
@@ -171,7 +173,6 @@ bool HelloWorld::init() {
 			share_selector(shareCallback));
 	shareButton->setShareContent(NULL);
 
-//    shareButton->setShareImage("share.png") ;
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
 	shareButton->setShareImage(NULL);
@@ -294,12 +295,9 @@ void HelloWorld::menuShareCallback(CCObject* pSender) {
 
 	// 打开分享面板, 注册分享回调, android 和 IOS的图片地址格式不一致，因此分开设置
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-//	sdk->openShare(platforms, "Umeng Social Cocos2d-x SDK V1.0 -->  openShare",
-//			"http://www.umeng.com/images/pic/banner_module_social.png",
-//			share_selector(shareCallback));
-	sdk->directShare(DOUBAN, "COCOS2D-X HACKATHON --> directShare testing", "/sdcard/image.png", share_selector(shareCallback)) ;
-
-	sdk->directShare(SINA, "COCOS2D-X HACKATHON --> directShare testing", "/sdcard/big.jpg", share_selector(shareCallback)) ;
+	sdk->openShare(platforms, "Umeng Social Cocos2d-x SDK V1.0 -->  openShare",
+			"http://www.umeng.com/images/pic/banner_module_social.png",
+			share_selector(shareCallback));
 
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	printf("CC_PLATFORM_IOS !!!\n");

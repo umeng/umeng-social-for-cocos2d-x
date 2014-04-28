@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
-import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -135,7 +134,7 @@ public class CCUMSocialController {
 			throw new IllegalArgumentException(
 					"initSocialSDK函数的activity参数必须设置为Cocos2dxActivity类型, 且不为null. ");
 		}
-		mController.getConfig().closeToast();
+		// mController.getConfig().closeToast();
 	}
 
 	/**
@@ -392,88 +391,101 @@ public class CCUMSocialController {
 	 *            用户点击分享内容时跳转的页面, 一般为APP主页或者下载页
 	 */
 	public static void supportPlatfrom(int platform) {
-		SHARE_MEDIA target = getPlatform(platform);
+		final SHARE_MEDIA target = getPlatform(platform);
 		// 判断target
 		if (target == null || target == SHARE_MEDIA.GENERIC) {
 			return;
 		}
 		checkActivity();
-		if (target == SHARE_MEDIA.QQ) {
-			// TODO QQ和QQ空间需要设置app key
-			// 添加QQ平台支持
-			mSocializeConfig.supportQQPlatform(mActivity, QQ_QZONE_APP_ID,
-					QQ_QZONE_APP_KEY, TARGET_URL);
-		} else if (target == SHARE_MEDIA.QZONE) {
-			// Social Android sdk 3.3.6 及其以后的版本, 添加QQ空间的支持方式
-			mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity,
-					QQ_QZONE_APP_ID, QQ_QZONE_APP_KEY));
-			QZoneSsoHandler.setTargetUrl(TARGET_URL);
-			// Social Android sdk 3.3.6之前的版本添加QQ空间的支持方式
-			// mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity));
-		} else if (target == SHARE_MEDIA.WEIXIN) {
-			// 微信平台
-			mSocializeConfig.supportWXPlatform(mActivity, WEIXIN_APP_ID,
-					TARGET_URL);
-		} else if (target == SHARE_MEDIA.WEIXIN_CIRCLE) {
-			// 微信朋友圈平台
-			mSocializeConfig.supportWXCirclePlatform(mActivity, WEIXIN_APP_ID,
-					TARGET_URL);
-		} else if (target == SHARE_MEDIA.YIXIN) {
-			// 创建易信的handler, 参数2为你的app id, 参数3为是否是易信朋友圈平台, false为易信, true为易信朋友圈,
-			// UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
-			// false);
-			// yxHandler.setTargetUrl(TARGET_URL);
-			// // 添加易信平台到SDK
-			// yxHandler.addToSocialSDK();
+		runOnMainThread(new Runnable() {
 
-		} else if (target == SHARE_MEDIA.YIXIN_CIRCLE) {
-			// 创建易信的handler, 参数2为你的app id, 参数3为是否是易信朋友圈平台, false为易信, true为易信朋友圈,
-			// UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
-			// true);
-			// yxHandler.setTargetUrl(TARGET_URL);
-			// // 添加易信朋友圈平台到SDK
-			// yxHandler.addToSocialSDK();
-		} else if (target == SHARE_MEDIA.LAIWANG) {
-			// 添加来往平台的支持
-			// UMLWHandler umLWHandler =
-			// UMLWService.supportLWPlatform(mActivity,
-			// LAIWANG_APPID, LAIWANG_APPKEY, TARGET_URL);
-			// umLWHandler.setTitle("友盟社会化分享组件-来往动态");
-			// umLWHandler.setMessageFrom(LAIWANG_APP_NAME);
-			// umLWHandler.addToSocialSDK();
-		} else if (target == SHARE_MEDIA.LAIWANG_DYNAMIC) {
-			// 添加来往动态平台的支持
-			// UMLWHandler umlwDynamicHandler = UMLWService
-			// .supportLWDynamicPlatform(mActivity, LAIWANG_APPID,
-			// LAIWANG_APPKEY, TARGET_URL);
-			// umlwDynamicHandler.setTitle("友盟社会化分享组件-来往");
-			// // 设置消息来源
-			// umlwDynamicHandler.setMessageFrom(LAIWANG_APP_NAME);
-			// umlwDynamicHandler.addToSocialSDK();
-		} else if (target == SHARE_MEDIA.FACEBOOK) {
-			// facebook的支持
-			// UMFacebookHandler mFacebookHandler = new UMFacebookHandler(
-			// mActivity, FACEBOOK_APP_ID, PostType.FEED);
-			// mFacebookHandler.setTargetUrl(TARGET_URL);
-			// mFacebookHandler.addToSocialSDK();
-		} else if (target == SHARE_MEDIA.INSTAGRAM) {
-			// 构建Instagram的Handler
-			// UMInstagramHandler instagramHandler = new UMInstagramHandler(
-			// mActivity);
-			// instagramHandler.addToSocialSDK();
-		} else if (target == SHARE_MEDIA.TWITTER) {
-			mSocializeConfig.supportAppPlatform(mActivity, target, DESCRIPTOR,
-					true);
-		} else if (target == SHARE_MEDIA.GOOGLEPLUS) {
-			mSocializeConfig.supportAppPlatform(mActivity, target, DESCRIPTOR,
-					true);
-		} else {
-			Log.e(TAG,
-					target
-							+ "平台暂不支持该集成方式, 请参考 : http://dev.umeng.com/social/android /share/specific-integration");
-		}
+			@Override
+			public void run() {
+				if (target == SHARE_MEDIA.QQ) {
+					// 添加QQ平台支持
+					mSocializeConfig.supportQQPlatform(mActivity,
+							QQ_QZONE_APP_ID, QQ_QZONE_APP_KEY, TARGET_URL);
+				} else if (target == SHARE_MEDIA.QZONE) {
+					// Social Android sdk 3.3.6 及其以后的版本, 添加QQ空间的支持方式
+					mSocializeConfig.setSsoHandler(new QZoneSsoHandler(
+							mActivity, QQ_QZONE_APP_ID, QQ_QZONE_APP_KEY));
+					QZoneSsoHandler.setTargetUrl(TARGET_URL);
+					// Social Android sdk 3.3.6之前的版本添加QQ空间的支持方式
+					// mSocializeConfig.setSsoHandler(new
+					// QZoneSsoHandler(mActivity));
+				} else if (target == SHARE_MEDIA.WEIXIN) {
+					// 微信平台
+					mSocializeConfig.supportWXPlatform(mActivity,
+							WEIXIN_APP_ID, TARGET_URL);
+				} else if (target == SHARE_MEDIA.WEIXIN_CIRCLE) {
+					// 微信朋友圈平台
+					mSocializeConfig.supportWXCirclePlatform(mActivity,
+							WEIXIN_APP_ID, TARGET_URL);
+				} else if (target == SHARE_MEDIA.YIXIN) {
+					// 创建易信的handler, 参数2为你的app id, 参数3为是否是易信朋友圈平台, false为易信,
+					// true为易信朋友圈,
+					// UMYXHandler yxHandler = new UMYXHandler(mActivity,
+					// YIXIN_APPKEY,
+					// false);
+					// yxHandler.setTargetUrl(TARGET_URL);
+					// // 添加易信平台到SDK
+					// yxHandler.addToSocialSDK();
 
-		Log.d(TAG, "@@@@ supportPlatfrom");
+				} else if (target == SHARE_MEDIA.YIXIN_CIRCLE) {
+					// 创建易信的handler, 参数2为你的app id, 参数3为是否是易信朋友圈平台, false为易信,
+					// true为易信朋友圈,
+					// UMYXHandler yxHandler = new UMYXHandler(mActivity,
+					// YIXIN_APPKEY,
+					// true);
+					// yxHandler.setTargetUrl(TARGET_URL);
+					// // 添加易信朋友圈平台到SDK
+					// yxHandler.addToSocialSDK();
+				} else if (target == SHARE_MEDIA.LAIWANG) {
+					// 添加来往平台的支持
+					// UMLWHandler umLWHandler =
+					// UMLWService.supportLWPlatform(mActivity,
+					// LAIWANG_APPID, LAIWANG_APPKEY, TARGET_URL);
+					// umLWHandler.setTitle("友盟社会化分享组件-来往动态");
+					// umLWHandler.setMessageFrom(LAIWANG_APP_NAME);
+					// umLWHandler.addToSocialSDK();
+				} else if (target == SHARE_MEDIA.LAIWANG_DYNAMIC) {
+					// 添加来往动态平台的支持
+					// UMLWHandler umlwDynamicHandler = UMLWService
+					// .supportLWDynamicPlatform(mActivity, LAIWANG_APPID,
+					// LAIWANG_APPKEY, TARGET_URL);
+					// umlwDynamicHandler.setTitle("友盟社会化分享组件-来往");
+					// // 设置消息来源
+					// umlwDynamicHandler.setMessageFrom(LAIWANG_APP_NAME);
+					// umlwDynamicHandler.addToSocialSDK();
+				} else if (target == SHARE_MEDIA.FACEBOOK) {
+					// facebook的支持
+					// UMFacebookHandler mFacebookHandler = new
+					// UMFacebookHandler(
+					// mActivity, FACEBOOK_APP_ID, PostType.FEED);
+					// mFacebookHandler.setTargetUrl(TARGET_URL);
+					// mFacebookHandler.addToSocialSDK();
+				} else if (target == SHARE_MEDIA.INSTAGRAM) {
+					// 构建Instagram的Handler
+					// UMInstagramHandler instagramHandler = new
+					// UMInstagramHandler(
+					// mActivity);
+					// instagramHandler.addToSocialSDK();
+				} else if (target == SHARE_MEDIA.TWITTER) {
+					mSocializeConfig.supportAppPlatform(mActivity, target,
+							DESCRIPTOR, true);
+				} else if (target == SHARE_MEDIA.GOOGLEPLUS) {
+					mSocializeConfig.supportAppPlatform(mActivity, target,
+							DESCRIPTOR, true);
+				} else {
+					Log.e(TAG,
+							target
+									+ "平台暂不支持该集成方式, 请参考 : http://dev.umeng.com/social/android /share/specific-integration");
+				}
+
+				Log.d(TAG, "@@@@ supportPlatfrom");
+			}
+		});
+
 	}
 
 	/**
@@ -485,42 +497,35 @@ public class CCUMSocialController {
 	public static void setPlatforms(final int[] platforms) {
 
 		// 运行在主线程
-		runOnMainThread(new Runnable() {
-
-			@Override
-			public void run() {
-				if (platforms != null && platforms.length > 0) {
-					int length = platforms.length;
-					//
-					List<SHARE_MEDIA> cacheList = new ArrayList<SHARE_MEDIA>();
-					// 迭代
-					for (int i = 0; i < length; i++) {
-						int index = platforms[i];
-						SHARE_MEDIA target = getPlatform(index);
-						Log.d(TAG, "### 平台 " + target);
-						if (target != null && target != SHARE_MEDIA.GENERIC) {
-							// 如果没有添加到SDK则添加到里面, 支持的平台有QQ,微信,微信朋友圈
-							// QQ空间为内置平台, 但是它必须使用客户端进行授权.
-							if (!isPlatformConfiged(target)
-									|| target == SHARE_MEDIA.QZONE) {
-								supportPlatfrom(index);
-							}
-							// 先将有效的平台缓存到列表中, 最后再转换为数组
-							cacheList.add(target);
-						}
+		if (platforms != null && platforms.length > 0) {
+			int length = platforms.length;
+			//
+			List<SHARE_MEDIA> cacheList = new ArrayList<SHARE_MEDIA>();
+			// 迭代
+			for (int i = 0; i < length; i++) {
+				int index = platforms[i];
+				SHARE_MEDIA target = getPlatform(index);
+				Log.d(TAG, "### 平台 " + target);
+				if (target != null && target != SHARE_MEDIA.GENERIC) {
+					// 如果没有添加到SDK则添加到里面, 支持的平台有QQ,微信,微信朋友圈
+					// QQ空间为内置平台, 但是它必须使用客户端进行授权.
+					if (!isPlatformConfiged(target)
+							|| target == SHARE_MEDIA.QZONE) {
+						supportPlatfrom(index);
 					}
-
-					SHARE_MEDIA[] platformsMedias = new SHARE_MEDIA[cacheList
-							.size()];
-					cacheList.toArray(platformsMedias);
-
-					// 设置平台
-					mSocializeConfig.setPlatforms(platformsMedias);
-					// 设置显示顺序
-					mSocializeConfig.setPlatformOrder(platformsMedias);
+					// 先将有效的平台缓存到列表中, 最后再转换为数组
+					cacheList.add(target);
 				}
 			}
-		});
+
+			SHARE_MEDIA[] platformsMedias = new SHARE_MEDIA[cacheList.size()];
+			cacheList.toArray(platformsMedias);
+
+			// 设置平台
+			mSocializeConfig.setPlatforms(platformsMedias);
+			// 设置显示顺序
+			mSocializeConfig.setPlatformOrder(platformsMedias);
+		}
 
 	}
 
@@ -557,7 +562,7 @@ public class CCUMSocialController {
 	 */
 	private static void runOnOpenGLThread(Runnable runnable) {
 		if (mActivity != null) {
-//			Cocos2dxGLSurfaceView.getInstance().queueEvent(runnable);
+			// Cocos2dxGLSurfaceView.getInstance().queueEvent(runnable);
 			mActivity.runOnGLThread(runnable);
 		}
 	}

@@ -438,7 +438,16 @@ void shareCallback(int platform, int stCode, string& errorMsg)
 }
 ```     
           
-**微信精确回调使用说明**
+**微信精确回调使用说明**     
+    如果在您的项目中集成了微信或者微信朋友圈，并且您需要准确的分享回调，则需要在AndroidManifest.xml中下注册下面的回调Activity。
+```xml
+<activity
+   android:name=".wxapi.WXEntryActivity"
+   android:theme="@android:style/Theme.Translucent.NoTitleBar"
+   android:configChanges="keyboardHidden|orientation|screenSize"
+   android:exported="true"
+   android:screenOrientation="portrait" />
+```    
 > * 将SDK包中weixin目录下的wxapi文件夹拷贝到您的工程的包目录下，然后修改WXEntryActivity的完整路径即可。例如social_sdk_example的包名为com.umeng.soexample,
 因此将wxapi文件夹拷贝到com.umeng.soexample下即可。最终WXEntryActivity的完整路径为com.umeng.soexample.wxapi.WXEntryActivity。     
 * 其中分享回调接口SnsPostListener中的onComplete方法的第二个参数代表分享的状态码，当值为200时表示分享成功;其余的值则为分享失败。   
@@ -550,7 +559,16 @@ yxHandler.setTargetUrl(TARGET_URL);
 yxHandler.addToSocialSDK();
 ```   
 
-**易信精确回调使用说明**
+**易信精确回调使用说明**    
+如果在您的项目中集成了易信或者易信朋友圈，并且您需要准确的分享回调，则需要在AndroidManifest.xml中下注册下面的回调Activity。
+```xml
+<activity
+   android:name=".yxapi.YXEntryActivity"
+   android:theme="@android:style/Theme.Translucent.NoTitleBar"
+   android:configChanges="keyboardHidden|orientation|screenSize"
+   android:exported="true"
+   android:screenOrientation="portrait" />
+```    
 > * 将SDK包中yixin目录下的yxapi文件夹拷贝到您的工程的包目录下，然后修改YXEntryActivity的完整路径即可。例如social_sdk_example的包名为com.umeng.soexample,
 因此将yxapi文件夹拷贝到com.umeng.soexample下即可。最终YXEntryActivity的完整路径为com.umeng.soexample.yxapi.YXEntryActivity。     
 * 其中分享回调接口SnsPostListener中的onComplete方法的第二个参数代表分享的状态码，当值为200时表示分享成功;其余的值则为分享失败。

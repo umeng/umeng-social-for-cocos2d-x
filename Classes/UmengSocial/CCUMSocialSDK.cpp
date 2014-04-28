@@ -192,6 +192,8 @@ void CCUMSocialSDK::setQQAppIdAndAppKey(const char* appid, const char* appKey) {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 	setQQAndQzoneAppIdWithAppKey(appid, appKey);
+	supportPlatform(QQ);
+	supportPlatform(QZONE);
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
@@ -209,6 +211,8 @@ void CCUMSocialSDK::setWeiXinAppId(const char* appid) {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 	setWeiXinPlatformAppId(appid);
+	supportPlatform(WEIXIN);
+	supportPlatform(WEIXIN_CIRCLE);
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
@@ -226,7 +230,8 @@ void CCUMSocialSDK::setYiXinAppKey(const char* appKey) {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 	setYiXinPlatformAppKey(appKey);
-
+	supportPlatform(YIXIN);
+	supportPlatform(YIXIN_CIRCLE);
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
 	UmSocialControllerIOS::setYiXinAppKey(appKey);
@@ -248,6 +253,8 @@ void CCUMSocialSDK::setLaiwangAppInfo(const char* appid, const char* appKey,
 	setLaiwangPlatformAppId(appid);
 	setLaiwangPlatformAppKey(appKey);
 	setLaiwangPlatformAppName(appName);
+	supportPlatform(LAIWANG);
+	supportPlatform(LAIWANG_CIRCLE);
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
 	UmSocialControllerIOS::setLaiwangAppInfo(appid, appKey, appName);
@@ -280,7 +287,7 @@ void CCUMSocialSDK::setFacebookAppId(const char *appid) {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 	setFacebookPlatformAppId(appid);
-
+	supportPlatform(FACEBOOK);
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
 	UmSocialControllerIOS::setFacebookAppId(appid);

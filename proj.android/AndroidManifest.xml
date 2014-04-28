@@ -23,7 +23,7 @@
         android:label="@string/app_name" >
         <activity
             android:name=".UmengGame"
-            android:configChanges="orientation"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
@@ -66,8 +66,8 @@
             android:name="UMENG_APPKEY"
             android:value="4eaee02c527015373b000003" >
         </meta-data>
-        
-                <!-- facebook相关 -->
+
+        <!-- facebook相关 -->
         <activity android:name=".activity.FacebookActivity" >
         </activity>
         <activity
@@ -78,6 +78,13 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/fb_app_id" />
+
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 
     <supports-screens
