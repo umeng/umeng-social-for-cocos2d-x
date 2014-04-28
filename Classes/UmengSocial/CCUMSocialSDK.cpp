@@ -62,6 +62,8 @@ CCUMSocialSDK* CCUMSocialSDK::create(const char* appKey) {
 
 	if (_instance == NULL) {
 		_instance = new CCUMSocialSDK(appKey);
+	} else if (appKey != NULL ) {
+		_instance->setAppKey(appKey);
 	}
 	return _instance;
 }
@@ -144,7 +146,6 @@ bool CCUMSocialSDK::isAuthorized(int platform) {
  */
 void CCUMSocialSDK::openShare(vector<int>* platforms, const char* text,
 		const char* imgName, ShareEventHandler callback) {
-
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	// 设置分享内容
 	setShareTextContent(text);
@@ -180,6 +181,7 @@ void CCUMSocialSDK::directShare(int platform, const char* text,
 
 #endif
 }
+
 
 /*
  * 设置QQ的app id
@@ -318,8 +320,8 @@ void CCUMSocialSDK::setLogEnable(bool flag) {
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
-    UmSocialControllerIOS::openLog(flag);
-    
+	UmSocialControllerIOS::openLog(flag);
+
 #endif
 
 }

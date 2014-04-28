@@ -238,6 +238,10 @@ void doDirectShare(int platform, ShareEventHandler callback)
  */
 void setShareTextContent(const char* text)
 {
+	if ( text == NULL ) {
+	    CCLog("#### share text is null.");
+		return ;
+	}
     JniMethodInfo mi;
 	bool isHave = getMethod(mi, "setShareContent", "(Ljava/lang/String;)V");
     if ( isHave )
@@ -257,7 +261,10 @@ void setShareTextContent(const char* text)
  */
 void setShareImageName(const char* path)
 {
-
+	if ( path == NULL ) {
+	    CCLog("#### image path is null.");
+		return ;
+	}
     JniMethodInfo mi;
 	bool isHave = getMethod(mi, "setShareImageName", "(Ljava/lang/String;)V");
     if ( isHave )

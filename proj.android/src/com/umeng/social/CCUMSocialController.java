@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
+import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -134,7 +135,7 @@ public class CCUMSocialController {
 			throw new IllegalArgumentException(
 					"initSocialSDK函数的activity参数必须设置为Cocos2dxActivity类型, 且不为null. ");
 		}
-
+		mController.getConfig().closeToast();
 	}
 
 	/**
@@ -556,6 +557,7 @@ public class CCUMSocialController {
 	 */
 	private static void runOnOpenGLThread(Runnable runnable) {
 		if (mActivity != null) {
+//			Cocos2dxGLSurfaceView.getInstance().queueEvent(runnable);
 			mActivity.runOnGLThread(runnable);
 		}
 	}
