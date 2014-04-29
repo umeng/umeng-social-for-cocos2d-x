@@ -48,6 +48,9 @@ public:
     //打开分享面板
     static void openShareWithImagePath(vector<int>* platform, const char* text, const char* imagePath,ShareEventHandler callback);
     
+//    //设置分享的平台
+//    static void setSharePlatforms(vector<int>* platform);
+    
     //直接分享到各个社交平台
     static void directShare(const char* text, const char* imagePath, int platform, ShareEventHandler callback);
     

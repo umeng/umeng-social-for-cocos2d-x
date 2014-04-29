@@ -257,7 +257,7 @@ void HelloWorld::directShareCallback(CCObject* pSender) {
 void HelloWorld::authorizeCallback(CCObject* pSender) {
 	CCUMSocialSDK *sdk = CCUMSocialSDK::create("4eaee02c527015373b000003");
 	CCLog("授权");
-	sdk->authorize(SINA, auth_selector(authCallback));
+	sdk->authorize(TENCENT_WEIBO, auth_selector(authCallback));
 
 }
 
@@ -302,7 +302,7 @@ void HelloWorld::menuShareCallback(CCObject* pSender) {
 
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	printf("CC_PLATFORM_IOS !!!\n");
-	sdk->openShare(platforms, "Umeng Social Cocos2d-x SDK V1.0","share.png", share_selector(shareCallback));
+	sdk->openShare("Umeng Social Cocos2d-x SDK V1.0","share.png", share_selector(shareCallback));
 #endif
 }
 

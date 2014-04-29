@@ -212,6 +212,10 @@ bool UmSocialControllerIOS::isAuthorized(int platform){
     return isOauth == YES;
 }
 
+//void UmSocialControllerIOS::setSharePlatforms(vector<int>* platforms)
+//{
+//}
+
 void UmSocialControllerIOS::openShareWithImagePath(vector<int>* platforms, const char* text, const char* imagePath,ShareEventHandler callback){
     
     if (m_appKey.empty()) {
