@@ -175,7 +175,7 @@ void UmSocialControllerIOS::authorize(int platform, AuthEventHandler callback){
     
     
     auto ctrol = getViewController();
-    [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskLandscape];
+    [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskAll];
     snsPlatform.loginClickHandler(ctrol,[UMSocialControllerService defaultControllerService],YES,^(UMSocialResponseEntity *response)
                                   {
                                       if (callback) {
@@ -229,7 +229,6 @@ void UmSocialControllerIOS::openShareWithImagePath(vector<int>* platforms, const
     UIImage* image = nil;
     if(imagePath){
         NSString *imageString = getNSStringFromCString(imagePath);
-        NSLog(@"imageString is %@",imageString);
         if ([imageString hasPrefix:@"http://"] || [imageString hasPrefix:@"https://"]) {
             [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
         } else {
@@ -242,13 +241,22 @@ void UmSocialControllerIOS::openShareWithImagePath(vector<int>* platforms, const
         delegate = [[UMSocialUIObject alloc] initWithCallback:callback];
     }
     
+    NSString *appKey = nil;
+    NSString *shareText = nil;
+    if (m_appKey.c_str() != NULL) {
+        appKey = [NSString stringWithUTF8String:m_appKey.c_str()];
+    }
+    if (text) {
+        shareText = [NSString stringWithUTF8String:text];
+    }
+    
     [UMSocialSnsService presentSnsIconSheetView:getViewController()
-                                         appKey:[NSString stringWithUTF8String:m_appKey.c_str() ]
-                                      shareText:[NSString stringWithUTF8String:text ]
+                                         appKey:appKey
+                                      shareText:shareText
                                      shareImage:image
                                 shareToSnsNames:array
                                        delegate:delegate];
-    [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskLandscape];
+    [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskAll];
 
 }
 
@@ -258,6 +266,7 @@ void UmSocialControllerIOS::openLog(bool flag)
 }
 
 void UmSocialControllerIOS::directShare(const char* text, const char* imagePath,int platform, ShareEventHandler callback){
+    
     if (m_appKey.empty()) {
         NSLog(@"请设置友盟AppKey到UMShareButton对象.");
         return ;
@@ -273,7 +282,13 @@ void UmSocialControllerIOS::directShare(const char* text, const char* imagePath,
         }
     }
     [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskAll];
-    [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[getPlatformString(platform)] content:[NSString stringWithUTF8String:text] image:image location:nil urlResource:urlResource presentedController:getViewController() completion:^(UMSocialResponseEntity *response){
+   
+    NSString *shareText = nil;
+    if (text != NULL) {
+        shareText = [NSString stringWithUTF8String:text];
+    }
+    
+    [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[getPlatformString(platform)] content:shareText image:image location:nil urlResource:urlResource presentedController:getViewController() completion:^(UMSocialResponseEntity *response){
         if (callback) {
             string message = string();
             if (response.message) {
