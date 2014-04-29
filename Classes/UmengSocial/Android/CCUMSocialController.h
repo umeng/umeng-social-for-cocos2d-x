@@ -200,11 +200,11 @@ void setShareTargetUrl(const char* url) ;
  */
  void setAndroidLogEnable(bool flag);
 
- /**
-  * 添加平台支持
-  * @param platform 要添加的目标平台
-  */
- void supportPlatform(int platform) ;
+// /**
+//  * 添加平台支持
+//  * @param platform 要添加的目标平台
+//  */
+// void supportPlatform(int platform) ;
 
 
 void getData(JNIEnv *env, jobjectArray data, map<string, string>& outputMap) ;

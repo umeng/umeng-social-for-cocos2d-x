@@ -29,6 +29,7 @@ import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.umeng.social.CCUMSocialController;
 import com.umeng.socialize.sso.UMSsoHandler;
@@ -49,11 +50,26 @@ public class UmengGame extends Cocos2dxActivity {
 		super.onCreate(savedInstanceState);
 
 		mActivity = this;
-		
+
 		CCUMSocialController.initSocialSDK(mActivity, "com.umeng.social");
+
+		Log.d("", "####  UmengGame onCreate");
 
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		Log.d("", "####  UmengGame onResume");
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		Log.d("", "####  UmengGame onDestroy");
+	}
 
 	/*
 	 * * (non-Javadoc)

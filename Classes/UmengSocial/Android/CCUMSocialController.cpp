@@ -271,18 +271,18 @@ void setSocialPlatforms(vector<int>* platforms) {
 	}
 }
 
-/*
- * 添加平台支持
- * @param platform 要添加的目标平台
- */
-void supportPlatform(int platform) {
-	JniMethodInfo mi;
-	bool isHave = getMethod(mi, "supportPlatfrom", "(I)V");
-	if (isHave) {
-		mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platform);
-		releaseMethod(mi);
-	}
-}
+///*
+// * 添加平台支持
+// * @param platform 要添加的目标平台
+// */
+//void supportPlatform(int platform) {
+//	JniMethodInfo mi;
+//	bool isHave = getMethod(mi, "supportPlatfrom", "(I)V");
+//	if (isHave) {
+//		mi.env->CallStaticVoidMethod(mi.classID, mi.methodID, platform);
+//		releaseMethod(mi);
+//	}
+//}
 
 /*
  * 初始化Cocos2d-x sdk

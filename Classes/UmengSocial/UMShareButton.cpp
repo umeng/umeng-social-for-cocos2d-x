@@ -30,8 +30,8 @@ UMShareButton::UMShareButton() {
  */
 UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage,
 		const char* umAppKey) :
-		mPlatforms(NULL), mShareText(""), mImageName(""), mSocialSDK(NULL), mCallback(
-				NULL) {
+		mShareText(""), mImageName(""), mSocialSDK(NULL), mCallback(
+		NULL) {
 	CCLog("UMShareButton图片: normalImage = %s, selectedImage = %s.", normalImage,
 			selectedImage);
 #ifdef CC_CALLBACK_1
@@ -72,7 +72,6 @@ UMShareButton* UMShareButton::create(const char *normalImage,
  */
 UMShareButton::~UMShareButton() {
 	delete mSocialSDK;
-	delete mPlatforms;
 }
 
 /*
@@ -116,24 +115,18 @@ void UMShareButton::setShareCallback(ShareEventHandler callback) {
  * @param platforms 友盟SDK支持的平台
  */
 void UMShareButton::setPlatforms(vector<int>* platforms) {
-	mPlatforms = platforms;
+	if (mSocialSDK != NULL) {
+		mSocialSDK->setPlatforms(platforms);
+	}
 }
 
 /*
  * 打开分享面板
  */
 void UMShareButton::openShareBoard() {
-	if (mPlatforms == NULL) {
-		mPlatforms = new vector<int>();
-		mPlatforms->push_back(SINA);
-		mPlatforms->push_back(QZONE);
-		mPlatforms->push_back(RENREN);
-		mPlatforms->push_back(DOUBAN);
-		mPlatforms->push_back(TENCENT_WEIBO);
-	}
 	if (mSocialSDK != NULL) {
-		mSocialSDK->openShare(mPlatforms, mShareText.c_str(),
-				mImageName.c_str(), mCallback);
+		mSocialSDK->openShare(mShareText.c_str(), mImageName.c_str(),
+				mCallback);
 	}
 }
 

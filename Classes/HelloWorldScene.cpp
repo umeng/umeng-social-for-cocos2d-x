@@ -146,7 +146,7 @@ bool HelloWorld::init() {
 //    sdk->setAppKey("507fcab25270157b37000010");
 	sdk->setQQAppIdAndAppKey("100424468", "c7394704798a158208a74ab60104f0ba");
 	sdk->setWeiXinAppId("wx485ab7ca6a7e02d1");
-	// sdk->setYiXinAppKey("设置易信和易信朋友圈的app id");
+	 sdk->setYiXinAppKey("yx52dd5c14bbb3430b93e6f2dafcbcc68d");
 	sdk->setLaiwangAppInfo("设置来往和来往动态的app id", "设置来往和来往动态的app key", "我的应用名");
 	sdk->setFacebookAppId("1440390216179601");
 	// 设置用户点击一条图文分享时用户跳转到的目标页面, 一般为app主页或者下载页面
@@ -289,13 +289,14 @@ void HelloWorld::menuShareCallback(CCObject* pSender) {
 	platforms->push_back(DOUBAN);
 	platforms->push_back(QZONE);
 	platforms->push_back(QQ);
-	platforms->push_back(SMS);
-	platforms->push_back(EMAIL);
+	platforms->push_back(YIXIN_CIRCLE);
+	platforms->push_back(YIXIN);
 	platforms->push_back(WEIXIN);
-
+	// 设置平台
+	sdk->setPlatforms(platforms) ;
 	// 打开分享面板, 注册分享回调, android 和 IOS的图片地址格式不一致，因此分开设置
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-	sdk->openShare(platforms, "Umeng Social Cocos2d-x SDK V1.0 -->  openShare",
+	sdk->openShare("Umeng Social Cocos2d-x SDK V1.0 -->  openShare",
 			"http://www.umeng.com/images/pic/banner_module_social.png",
 			share_selector(shareCallback));
 

@@ -352,11 +352,13 @@ void HelloWorld::shareButtonClick()
     platforms->push_back(DOUBAN) ;
     platforms->push_back(QZONE) ;
     platforms->push_back(QQ) ;
+	// 设置平台, 在调用分享、授权相关的函数前必须设置SDK支持的平台
+	sdk->setPlatforms(platforms) ;
 
     // 打开分享面板, 注册分享回调, 参数1为分享面板上的平台, 参数2为要分享的文字内容，
     // 参数3为要分享的图片路径(android和IOS的图片地址格式不一致，因此分平台设置), 参数4为分享回调.
    #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    	sdk->openShare(platforms, "要分享的文字内容", "/sdcard/image.png", share_selector(shareCallback));
+    	sdk->openShare("要分享的文字内容", "/sdcard/image.png", share_selector(shareCallback));
 	#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     	sdk->openShare(platforms, "要分享的文字内容","share.png", share_selector(shareCallback));
 	#endif
@@ -412,6 +414,7 @@ void HelloWorld::shareButtonClick()
   <img src="http://dev.umeng.com/system/images/W1siZiIsIjIwMTQvMDQvMDkvMTVfNTdfNTVfMjk5X2NvY29zMmR4X29wZW5TaGFyZS5wbmciXV0/cocos2dx-openShare.png" width="450" height="300" style="border:1px solid black">      
          
 **分享回调的为如下形式 :**    
+   请不要在该回调中更新UI，友盟社会化组件Cocos2d-x SDK不保证在分享回调中更新UI一定会被顺利执行。      
 ```cpp
 /*
  * 分享回调, 该回调不是某个类的成员函数， 而是一个普通的函数, 具体使用参考HelloWorldScene的例子
@@ -470,8 +473,9 @@ sdk->authorize(RENREN, auth_selector(authCallback));
 ```     
 
 #### 3.2 授权回调说明
-   授权回调类型定义在CCUMTypeDef.h中，当授权成功时, 会将授权信息返回给开发者, 开发者可以通过遍历map来获取数据；   
-当授权失败, 会返回一个字段的数据, key为"msg", 值为错误的信息。如果是删除授权, 也是返回一个字段的数据, key为"msg", 值为"deleteOauth"。开发者可以通过判断返回码和map中的数据来进行相应的处理。
+   授权回调类型定义在CCUMTypeDef.h中，当授权成功时, 会将授权信息返回给开发者, 开发者可以通过遍历map来获取数据；    
+    当授权失败, 会返回一个字段的数据, key为"msg", 值为错误的信息。如果是删除授权, 也是返回一个字段的数据, key为"msg", 值为"deleteOauth"。开发者可以通过判断返回码和map中的数据来进行相应的处理。    
+   请不要在该回调中更新UI，友盟社会化组件Cocos2d-x SDK不保证在分享回调中更新UI一定会被顺利执行。    
    授权回调函数示例如下 :   
 ```cpp
 /*

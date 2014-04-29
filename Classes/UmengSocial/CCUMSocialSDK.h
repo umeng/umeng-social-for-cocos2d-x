@@ -66,13 +66,18 @@ public:
 	bool isAuthorized(int platform);
 
 	/**
-	 * 打开友盟分享面板
-	 * @param platforms 显示在分享面板上的所有平台,平台的定义参考CCUMTypeDef.h中的Platform枚举
+	 * 设置SDK中的所有平台
+	 *@param    platforms SDK中包含的所有平台
+	 */
+	void setPlatforms(vector<int>* platforms);
+
+	/**
+	 * 打开友盟分享面板, 在调用该方法前请先调用setPlatforms函数来设置分享SDK支持的所有平台.
 	 * @param text 要分享的文字内容
 	 * @param imgName 要分享的图片的本地路径或者url, 如果是url必须则必须以http://或者https://开头
 	 * @param callback 分享回调,具体参考CCUMTypeDef.h中的定义
 	 */
-	void openShare(vector<int>* platforms, const char* text,
+	void openShare(const char* text,
 			const char* imgName, ShareEventHandler callback);
 
 	/**
@@ -150,6 +155,7 @@ public:
 
 private:
 	static CCUMSocialSDK *_instance;
+	vector<int>* mPlatforms;
 	char* _wrapperType;
 	char* _wrapperVersion;
 

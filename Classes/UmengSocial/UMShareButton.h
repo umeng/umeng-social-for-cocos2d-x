@@ -94,7 +94,7 @@ private:
 	// 友盟分享组件SDK
 	CCUMSocialSDK* mSocialSDK;
 	// 要添加支持的平台
-	vector<int>* mPlatforms;
+//	vector<int>* mPlatforms;
 	// 要分享的文本内容
 	string mShareText;
 	// 要分享的图片本地路径或者url

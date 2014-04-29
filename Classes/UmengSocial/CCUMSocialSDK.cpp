@@ -33,7 +33,8 @@ CCUMSocialSDK* CCUMSocialSDK::_instance = NULL;
  * @param appKey 友盟appKey
  */
 CCUMSocialSDK::CCUMSocialSDK(const char* appKey) :
-		_wrapperType("Cocos2d-x"), _wrapperVersion("1.0") {
+		mPlatforms(new vector<int>()), _wrapperType("Cocos2d-x"), _wrapperVersion(
+				"1.0") {
 	initSDK();
 	setAppKey(appKey);
 }
@@ -62,7 +63,7 @@ CCUMSocialSDK* CCUMSocialSDK::create(const char* appKey) {
 
 	if (_instance == NULL) {
 		_instance = new CCUMSocialSDK(appKey);
-	} else if (appKey != NULL ) {
+	} else if (appKey != NULL) {
 		_instance->setAppKey(appKey);
 	}
 	return _instance;
@@ -85,6 +86,35 @@ void CCUMSocialSDK::setAppKey(const char* appkey) {
 	UmSocialControllerIOS::setAppKey(appkey);
 
 #endif
+}
+
+/*
+ * 设置SDK中的所有平台
+ *@param    platforms SDK中包含的所有平台
+ */
+void CCUMSocialSDK::setPlatforms(vector<int>* platforms) {
+	if (platforms != NULL && platforms->size() > 0) {
+		mPlatforms = platforms;
+	}
+	else
+	{
+		mPlatforms->push_back(SINA) ;
+		mPlatforms->push_back(TENCENT_WEIBO) ;
+		mPlatforms->push_back(RENREN) ;
+		mPlatforms->push_back(DOUBAN) ;
+		mPlatforms->push_back(SMS) ;
+		mPlatforms->push_back(EMAIL) ;
+	}
+
+#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+	// 设置平台
+	setSocialPlatforms(mPlatforms);
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+	// TODO
+
+#endif
+
+
 }
 
 /*
@@ -144,20 +174,18 @@ bool CCUMSocialSDK::isAuthorized(int platform) {
  * @param imgName 要分享的图片的本地路径或者url, 如果是url必须则必须以http://或者https://开头
  * @param callback 分享回调,具体参考CCUMTypeDef.h中的定义
  */
-void CCUMSocialSDK::openShare(vector<int>* platforms, const char* text,
+void CCUMSocialSDK::openShare(const char* text,
 		const char* imgName, ShareEventHandler callback) {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 	// 设置分享内容
 	setShareTextContent(text);
 	// 设置图片内容
 	setShareImageName(imgName);
-	// 设置平台
-	setSocialPlatforms(platforms);
 	// 打开分享面板
 	doOpenShare(callback);
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-	UmSocialControllerIOS::openShareWithImagePath(platforms, text, imgName, callback);
+	UmSocialControllerIOS::openShareWithImagePath(mPlatforms, text, imgName, callback);
 #endif
 }
 
@@ -182,7 +210,6 @@ void CCUMSocialSDK::directShare(int platform, const char* text,
 #endif
 }
 
-
 /*
  * 设置QQ的app id
  *
@@ -192,8 +219,6 @@ void CCUMSocialSDK::setQQAppIdAndAppKey(const char* appid, const char* appKey) {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 	setQQAndQzoneAppIdWithAppKey(appid, appKey);
-	supportPlatform(QQ);
-	supportPlatform(QZONE);
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
@@ -211,8 +236,6 @@ void CCUMSocialSDK::setWeiXinAppId(const char* appid) {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 	setWeiXinPlatformAppId(appid);
-	supportPlatform(WEIXIN);
-	supportPlatform(WEIXIN_CIRCLE);
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
@@ -230,8 +253,7 @@ void CCUMSocialSDK::setYiXinAppKey(const char* appKey) {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 	setYiXinPlatformAppKey(appKey);
-	supportPlatform(YIXIN);
-	supportPlatform(YIXIN_CIRCLE);
+
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
 	UmSocialControllerIOS::setYiXinAppKey(appKey);
@@ -253,8 +275,7 @@ void CCUMSocialSDK::setLaiwangAppInfo(const char* appid, const char* appKey,
 	setLaiwangPlatformAppId(appid);
 	setLaiwangPlatformAppKey(appKey);
 	setLaiwangPlatformAppName(appName);
-	supportPlatform(LAIWANG);
-	supportPlatform(LAIWANG_CIRCLE);
+
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
 	UmSocialControllerIOS::setLaiwangAppInfo(appid, appKey, appName);
@@ -287,7 +308,6 @@ void CCUMSocialSDK::setFacebookAppId(const char *appid) {
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
 	setFacebookPlatformAppId(appid);
-	supportPlatform(FACEBOOK);
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_IOS
 
 	UmSocialControllerIOS::setFacebookAppId(appid);
