@@ -34,7 +34,6 @@ public:
 private:
 	// void openUmengShare();
     void saveScreenshot();
-
 };
 
 #endif // __HELLOWORLD_SCENE_H__

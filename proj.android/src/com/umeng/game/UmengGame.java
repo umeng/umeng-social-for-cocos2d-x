@@ -49,9 +49,11 @@ public class UmengGame extends Cocos2dxActivity {
 		super.onCreate(savedInstanceState);
 
 		mActivity = this;
-
+		
 		CCUMSocialController.initSocialSDK(mActivity, "com.umeng.social");
+
 	}
+
 
 	/*
 	 * * (non-Javadoc)
@@ -79,17 +81,6 @@ public class UmengGame extends Cocos2dxActivity {
 		CCUMSocialController.onActivityResult(requestCode, resultCode, data);
 
 		super.onActivityResult(requestCode, resultCode, data);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.app.Activity#onDestroy()
-	 */
-	@Override
-	protected void onDestroy() {
-		CCUMSocialController.cleanup();
-		super.onDestroy();
 	}
 
 	/**
