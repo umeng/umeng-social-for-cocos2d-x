@@ -409,7 +409,7 @@ void HelloWorld::shareButtonClick()
 >2.如果集成了微信或者微信朋友圈平台,则必须通过CCUMSocialSDK类的setWeiXinAppId("")函数来设置微信或者朋友圈的App id;        
 >3.如果集成了易信或者易信朋友圈平台,则必须通过CCUMSocialSDK类的setYiXinAppKey("")函数来设置微信的App key;        
 >4.如果集成了来往或者来往动态平台,则必须通过CCUMSocialSDK类的setLaiwangAppInfo("app id ", "app key", "app Name")来设置来往和来往动态的App id、App key、App Name(应用名).
-
+   在设置完平台的app id或者app key之后，需要调用CCUMSocialSDK对象的setPlatforms函数将所需的平台添加到sdk中，这样该平台才会在sdk得到支持。    
    最后,点击对应的按钮则会弹出如下界面 :    
   <img src="http://dev.umeng.com/system/images/W1siZiIsIjIwMTQvMDQvMDkvMTVfNTdfNTVfMjk5X2NvY29zMmR4X29wZW5TaGFyZS5wbmciXV0/cocos2dx-openShare.png" width="450" height="300" style="border:1px solid black">      
          
