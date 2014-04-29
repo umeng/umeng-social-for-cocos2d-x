@@ -20,6 +20,7 @@ import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.bean.StatusCode;
 import com.umeng.socialize.common.SocializeConstants;
 import com.umeng.socialize.controller.RequestType;
+import com.umeng.socialize.controller.UMInstagramHandler;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.controller.UMYXHandler;
@@ -462,10 +463,9 @@ public class CCUMSocialController {
 			// mFacebookHandler.addToSocialSDK();
 		} else if (target == SHARE_MEDIA.INSTAGRAM) {
 			// 构建Instagram的Handler
-			// UMInstagramHandler instagramHandler = new
-			// UMInstagramHandler(
-			// mActivity);
-			// instagramHandler.addToSocialSDK();
+			UMInstagramHandler instagramHandler = new UMInstagramHandler(
+					mActivity);
+			instagramHandler.addToSocialSDK();
 		} else if (target == SHARE_MEDIA.TWITTER) {
 			mSocializeConfig.supportAppPlatform(mActivity, target, DESCRIPTOR,
 					true);

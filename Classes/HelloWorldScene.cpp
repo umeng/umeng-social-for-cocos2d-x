@@ -171,7 +171,17 @@ bool HelloWorld::init() {
 	UMShareButton *shareButton = UMShareButton::create("share.png",
 			"CloseSelected.png", "4eaee02c527015373b000003",
 			share_selector(shareCallback));
-	shareButton->setShareContent(NULL);
+	vector<int>* platforms = new vector<int>();
+	platforms->push_back(SINA);
+	platforms->push_back(RENREN);
+	platforms->push_back(INSTAGRAM);
+	platforms->push_back(QZONE);
+	platforms->push_back(QQ);
+	platforms->push_back(YIXIN_CIRCLE);
+	platforms->push_back(YIXIN);
+	platforms->push_back(WEIXIN);
+	shareButton->setPlatforms(platforms) ;
+	shareButton->setShareContent("这是很长的文字内容是个撒刚好是法国是大家给老师发给了对方两个");
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
@@ -245,9 +255,9 @@ void HelloWorld::directShareCallback(CCObject* pSender) {
 	CCUMSocialSDK *sdk = CCUMSocialSDK::create("4eaee02c527015373b000003");
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-	sdk->directShare(SINA,
+	sdk->directShare(YIXIN,
 			"Umeng Social Cocos2d-x SDK -->  directShare   testing",
-			"/sdcard/image.png", share_selector(shareCallback));
+			"http://img4.duitang.com/uploads/noexist.png", share_selector(shareCallback));
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	sdk->directShare(SINA, "Umeng Social Cocos2d-x SDK -->  directShare   testing", "http://www.baidu.com/img/bdlogo.gif", share_selector(shareCallback));
 #endif
@@ -286,7 +296,7 @@ void HelloWorld::menuShareCallback(CCObject* pSender) {
 	vector<int>* platforms = new vector<int>();
 	platforms->push_back(SINA);
 	platforms->push_back(RENREN);
-	platforms->push_back(DOUBAN);
+	platforms->push_back(INSTAGRAM);
 	platforms->push_back(QZONE);
 	platforms->push_back(QQ);
 	platforms->push_back(YIXIN_CIRCLE);
