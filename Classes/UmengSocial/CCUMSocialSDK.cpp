@@ -114,7 +114,14 @@ void CCUMSocialSDK::setPlatforms(vector<int>* platforms) {
 
 #endif
 
+}
 
+/*
+ * 返回SDK中设置的所有平台
+ */
+vector<int>* CCUMSocialSDK::getPlatforms()
+{
+	return mPlatforms;
 }
 
 /*

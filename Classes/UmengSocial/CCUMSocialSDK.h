@@ -72,6 +72,12 @@ public:
 	void setPlatforms(vector<int>* platforms);
 
 	/**
+	 * 返回SDK中设置的所有平台
+	 * @return SDK中设置的所有平台
+	 */
+	vector<int>* getPlatforms();
+
+	/**
 	 * 打开友盟分享面板, 在调用该方法前请先调用setPlatforms函数来设置分享SDK支持的所有平台.
 	 * @param text 要分享的文字内容
 	 * @param imgName 要分享的图片的本地路径或者url, 如果是url必须则必须以http://或者https://开头
