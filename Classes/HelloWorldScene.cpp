@@ -270,12 +270,6 @@ void HelloWorld::authorizeCallback(CCObject* pSender) {
 	CCUMSocialSDK *sdk = CCUMSocialSDK::create("4eaee02c527015373b000003");
 	CCLog("授权");
 	sdk->authorize(FACEBOOK, auth_selector(authCallback));
-//	if ( count == 3 || count == 0) {
-//		sdk->authorize(FACEBOOK, auth_selector(authCallback));
-//	} else if ( count == 2 ) {
-//		sdk->deleteAuthorization(FACEBOOK, auth_selector(authCallback));
-//	}
-//	count++;
 }
 
 // 删除某个平台的按钮回调
@@ -319,7 +313,7 @@ void HelloWorld::menuShareCallback(CCObject* pSender) {
 
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	printf("CC_PLATFORM_IOS !!!\n");
-	sdk->openShare(platforms, "Umeng Social Cocos2d-x SDK V1.0","share.png", share_selector(shareCallback));
+	sdk->openShare("Umeng Social Cocos2d-x SDK V1.0","share.png", share_selector(shareCallback));
 #endif
 }
 
