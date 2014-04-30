@@ -148,7 +148,7 @@ bool HelloWorld::init() {
 	sdk->setWeiXinAppId("wx485ab7ca6a7e02d1");
 	 sdk->setYiXinAppKey("yx52dd5c14bbb3430b93e6f2dafcbcc68d");
 	sdk->setLaiwangAppInfo("设置来往和来往动态的app id", "设置来往和来往动态的app key", "我的应用名");
-	sdk->setFacebookAppId("1440390216179601");
+	sdk->setFacebookAppId("567261760019884");
 	// 设置用户点击一条图文分享时用户跳转到的目标页面, 一般为app主页或者下载页面
 
 	// ********************************************************************************
@@ -173,8 +173,8 @@ bool HelloWorld::init() {
 			share_selector(shareCallback));
 	vector<int>* platforms = new vector<int>();
 	platforms->push_back(SINA);
-	platforms->push_back(RENREN);
-	platforms->push_back(INSTAGRAM);
+	platforms->push_back(FACEBOOK);
+//	platforms->push_back(INSTAGRAM);
 	platforms->push_back(QZONE);
 	platforms->push_back(QQ);
 	platforms->push_back(YIXIN_CIRCLE);
@@ -255,9 +255,9 @@ void HelloWorld::directShareCallback(CCObject* pSender) {
 	CCUMSocialSDK *sdk = CCUMSocialSDK::create("4eaee02c527015373b000003");
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-	sdk->directShare(YIXIN,
+	sdk->directShare(QQ,
 			"Umeng Social Cocos2d-x SDK -->  directShare   testing",
-			"http://img4.duitang.com/uploads/noexist.png", share_selector(shareCallback));
+			"sdfsd", share_selector(shareCallback));
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 	sdk->directShare(SINA, "Umeng Social Cocos2d-x SDK -->  directShare   testing", "http://www.baidu.com/img/bdlogo.gif", share_selector(shareCallback));
 #endif
@@ -265,10 +265,17 @@ void HelloWorld::directShareCallback(CCObject* pSender) {
 
 // 授权某个平台的按钮回调
 void HelloWorld::authorizeCallback(CCObject* pSender) {
+
+	static int count = 0;
 	CCUMSocialSDK *sdk = CCUMSocialSDK::create("4eaee02c527015373b000003");
 	CCLog("授权");
-	sdk->authorize(SINA, auth_selector(authCallback));
-
+	sdk->authorize(FACEBOOK, auth_selector(authCallback));
+//	if ( count == 3 || count == 0) {
+//		sdk->authorize(FACEBOOK, auth_selector(authCallback));
+//	} else if ( count == 2 ) {
+//		sdk->deleteAuthorization(FACEBOOK, auth_selector(authCallback));
+//	}
+//	count++;
 }
 
 // 删除某个平台的按钮回调
@@ -296,7 +303,7 @@ void HelloWorld::menuShareCallback(CCObject* pSender) {
 	vector<int>* platforms = new vector<int>();
 	platforms->push_back(SINA);
 	platforms->push_back(RENREN);
-	platforms->push_back(INSTAGRAM);
+//	platforms->push_back(INSTAGRAM);
 	platforms->push_back(QZONE);
 	platforms->push_back(QQ);
 	platforms->push_back(YIXIN_CIRCLE);

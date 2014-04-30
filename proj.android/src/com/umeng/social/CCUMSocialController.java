@@ -20,6 +20,8 @@ import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.bean.StatusCode;
 import com.umeng.socialize.common.SocializeConstants;
 import com.umeng.socialize.controller.RequestType;
+import com.umeng.socialize.controller.UMFacebookHandler;
+import com.umeng.socialize.controller.UMFacebookHandler.PostType;
 import com.umeng.socialize.controller.UMInstagramHandler;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -456,11 +458,10 @@ public class CCUMSocialController {
 			// umlwDynamicHandler.addToSocialSDK();
 		} else if (target == SHARE_MEDIA.FACEBOOK) {
 			// facebook的支持
-			// UMFacebookHandler mFacebookHandler = new
-			// UMFacebookHandler(
-			// mActivity, FACEBOOK_APP_ID, PostType.FEED);
-			// mFacebookHandler.setTargetUrl(TARGET_URL);
-			// mFacebookHandler.addToSocialSDK();
+			UMFacebookHandler mFacebookHandler = new UMFacebookHandler(
+					mActivity, FACEBOOK_APP_ID, PostType.FEED);
+			mFacebookHandler.setTargetUrl(TARGET_URL);
+			mFacebookHandler.addToSocialSDK();
 		} else if (target == SHARE_MEDIA.INSTAGRAM) {
 			// 构建Instagram的Handler
 			UMInstagramHandler instagramHandler = new UMInstagramHandler(
@@ -722,7 +723,6 @@ public class CCUMSocialController {
 
 				@Override
 				public void run() {
-					Log.d(TAG, value.toString());
 					OnAuthorizeComplete(getPlatformInt(platform),
 							StatusCode.ST_CODE_SUCCESSED, getAuthData(value));
 				}
