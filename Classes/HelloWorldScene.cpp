@@ -269,7 +269,7 @@ void HelloWorld::authorizeCallback(CCObject* pSender) {
 	static int count = 0;
 	CCUMSocialSDK *sdk = CCUMSocialSDK::create("4eaee02c527015373b000003");
 	CCLog("授权");
-	sdk->authorize(FACEBOOK, auth_selector(authCallback));
+	sdk->authorize(TENCENT_WEIBO, auth_selector(authCallback));
 }
 
 // 删除某个平台的按钮回调
