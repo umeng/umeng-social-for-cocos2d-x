@@ -297,6 +297,7 @@ void HelloWorld::menuShareCallback(CCObject* pSender) {
 	vector<int>* platforms = new vector<int>();
 	platforms->push_back(SINA);
 	platforms->push_back(RENREN);
+    platforms->push_back(TENCENT_WEIBO);
 //	platforms->push_back(INSTAGRAM);
 	platforms->push_back(QZONE);
 	platforms->push_back(QQ);
