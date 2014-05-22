@@ -330,8 +330,8 @@ void HelloWorld::shareButtonClick()
 {
 	// 获取一个CCUMSocialSDK实例
     CCUMSocialSDK *sdk = CCUMSocialSDK::create("你的友盟appkey");
-    // 设置友盟appkey
-    sdk->setAppKey("4eaee02c527015373b000003");
+    // 设置友盟appkey,如果create中设置了不用调用该函数
+    // sdk->setAppKey("4eaee02c527015373b000003");
     // **********************	设置平台信息	***************************
     // sdk->setQQAppIdAndAppKey("设置QQ的app id", "appkey");
     // sdk->setWeiXinAppId("设置微信和朋友圈的app id");
@@ -342,6 +342,7 @@ void HelloWorld::shareButtonClick()
     //     // 打开或者关闭log
     // sdk->setLogEnable(true) ;
     // **********************	END	***************************
+    
     // 设置用户点击一条图文分享时用户跳转到的目标页面, 一般为app主页或者下载页面
     sdk->setTargetUrl("http://www.umeng.com/social");
     // 设置友盟分享面板上显示的平台
@@ -359,7 +360,7 @@ void HelloWorld::shareButtonClick()
    #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
     	sdk->openShare("要分享的文字内容", "/sdcard/image.png", share_selector(shareCallback));
 	#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    	sdk->openShare(platforms, "要分享的文字内容","share.png", share_selector(shareCallback));
+    	sdk->openShare("要分享的文字内容","share.png", share_selector(shareCallback));
 	#endif
 }
 

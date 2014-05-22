@@ -11,3 +11,6 @@ proj.marmalade/
 proj.android/obj/*
 proj.android/gen/
 proj.android/bin/
+**/*.a
+**/*.o
+**/*.d

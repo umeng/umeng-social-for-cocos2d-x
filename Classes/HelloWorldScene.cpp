@@ -7,15 +7,15 @@
 #include <vector>
 #include <map>
 
-#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-
-#include "UmengSocial/IOS/UmSocialControllerIOS.h"
-
-#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-
-#include "UmengSocial/Android/CCUMSocialController.h"
-
-#endif
+//#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
+//
+//#include "UmengSocial/IOS/UmSocialControllerIOS.h"
+//
+//#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+//
+//#include "UmengSocial/Android/CCUMSocialController.h"
+//
+//#endif
 
 // 环境变量PATH在windows下和linux下的分割符定义
 #ifdef _WIN32
