@@ -156,7 +156,7 @@ super.onActivityResult(requestCode, resultCode, data);
 <b id=cocos2dx_integration_ios></b>  
 ### 2.2 iOS平台集成   
 #### 2.2.1 加入iOS SDK
-   解压SDK压缩包，将UmengGame/Classes目录下的形如umeng_ios_social_sdk_xxx的文件夹拖入工程目录：   
+   解压SDK压缩包，将Platforms目录下的iOS文件夹拖入工程目录：   
 
 
 ![alt text](http://dev.umeng.com/images/ios/social_drag_sdk.png "drag_sdk") 
