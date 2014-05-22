@@ -109,6 +109,21 @@ bool HelloWorld::init() {
 	if (!CCLayer::init()) {
 		return false;
 	}
+    
+    // ********************  设置友盟的app key以及相关的信息  ***********************************
+	// 获取CCUMSocialSDK对象, 如果使用的UMShareButton, 则通过UMShareButton对象的getSocialSDK()方法获取.
+	CCUMSocialSDK *sdk = CCUMSocialSDK::create("4eaee02c527015373b000003");
+	sdk->setTargetUrl("http://www.umeng.com/social");
+    //    // 设置友盟app key
+    //    sdk->setAppKey("507fcab25270157b37000010");
+	sdk->setQQAppIdAndAppKey("100424468", "c7394704798a158208a74ab60104f0ba");
+	sdk->setWeiXinAppId("wx485ab7ca6a7e02d1");
+    sdk->setYiXinAppKey("yx52dd5c14bbb3430b93e6f2dafcbcc68d");
+	sdk->setLaiwangAppInfo("设置来往和来往动态的app id", "设置来往和来往动态的app key", "我的应用名");
+	sdk->setFacebookAppId("567261760019884");
+    sdk->openTwitterForiOS();
+	// 设置用户点击一条图文分享时用户跳转到的目标页面, 一般为app主页或者下载页面
+
 
 	CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
 	CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
@@ -138,18 +153,6 @@ bool HelloWorld::init() {
 			menu_selector(HelloWorld::isAuthorizedShareCallback));
 	isAuthTextButton->setPosition(ccp(150, 160));
 
-	// ********************  设置友盟的app key以及相关的信息  ***********************************
-	// 获取CCUMSocialSDK对象, 如果使用的UMShareButton, 则通过UMShareButton对象的getSocialSDK()方法获取.
-	CCUMSocialSDK *sdk = CCUMSocialSDK::create("4eaee02c527015373b000003");
-	sdk->setTargetUrl("http://www.umeng.com/social");
-//    // 设置友盟app key
-//    sdk->setAppKey("507fcab25270157b37000010");
-	sdk->setQQAppIdAndAppKey("100424468", "c7394704798a158208a74ab60104f0ba");
-	sdk->setWeiXinAppId("wx485ab7ca6a7e02d1");
-	 sdk->setYiXinAppKey("yx52dd5c14bbb3430b93e6f2dafcbcc68d");
-	sdk->setLaiwangAppInfo("设置来往和来往动态的app id", "设置来往和来往动态的app key", "我的应用名");
-	sdk->setFacebookAppId("567261760019884");
-	// 设置用户点击一条图文分享时用户跳转到的目标页面, 一般为app主页或者下载页面
 
 	// ********************************************************************************
 
@@ -259,7 +262,7 @@ void HelloWorld::directShareCallback(CCObject* pSender) {
 			"Umeng Social Cocos2d-x SDK -->  directShare   testing",
 			"sdfsd", share_selector(shareCallback));
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	sdk->directShare(SINA, "Umeng Social Cocos2d-x SDK -->  directShare   testing", "http://www.baidu.com/img/bdlogo.gif", share_selector(shareCallback));
+	sdk->directShare(FACEBOOK, "Umeng Social Cocos2d-x SDK -->  directShare   testing", "http://www.baidu.com/img/bdlogo.gif", share_selector(shareCallback));
 #endif
 }
 
@@ -269,7 +272,7 @@ void HelloWorld::authorizeCallback(CCObject* pSender) {
 	static int count = 0;
 	CCUMSocialSDK *sdk = CCUMSocialSDK::create("4eaee02c527015373b000003");
 	CCLog("授权");
-	sdk->authorize(FACEBOOK, auth_selector(authCallback));
+	sdk->authorize(TENCENT_WEIBO, auth_selector(authCallback));
 }
 
 // 删除某个平台的按钮回调
@@ -297,12 +300,15 @@ void HelloWorld::menuShareCallback(CCObject* pSender) {
 	vector<int>* platforms = new vector<int>();
 	platforms->push_back(SINA);
 	platforms->push_back(RENREN);
+    platforms->push_back(TENCENT_WEIBO);
 //	platforms->push_back(INSTAGRAM);
 	platforms->push_back(QZONE);
 	platforms->push_back(QQ);
 	platforms->push_back(YIXIN_CIRCLE);
 	platforms->push_back(YIXIN);
 	platforms->push_back(WEIXIN);
+    platforms->push_back(TWITTER);
+    platforms->push_back(FACEBOOK);
 	// 设置平台
 	sdk->setPlatforms(platforms) ;
 	// 打开分享面板, 注册分享回调, android 和 IOS的图片地址格式不一致，因此分开设置

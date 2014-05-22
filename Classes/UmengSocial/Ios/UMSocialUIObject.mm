@@ -55,6 +55,10 @@ using namespace cocos2d;
             platform = SMS;
         } else if ([platformName isEqualToString:UMShareToEmail]){
             platform = EMAIL;
+        } else if ([platformName isEqualToString:UMShareToFacebook]){
+            platform = FACEBOOK;
+        } else if ([platformName isEqualToString:UMShareToTwitter]){
+            platform = TWITTER;
         }
     }
     if (handler) {

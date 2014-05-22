@@ -197,10 +197,6 @@ Security.framework,libiconv.dylib,SystemConfiguration.framework,CoreGraphics.fra
     <th> 平台 </th>
     <th>url scheme设置格式</th>
   </tr>
-  <tr>
-    <td>新浪微博</td>
-    <td>“sina.”+友盟appkey，例如“sina.507fcab25270157b37000010”</td>
-  </tr>
    <tr>
     <td>微信</td>
     <td>微信应用appId，例如“wxd9a39c7122aa6516”,微信详细集成步骤参考<a href="#social_wechat" style="text-decoration:none">微信集成方法</a></td>
