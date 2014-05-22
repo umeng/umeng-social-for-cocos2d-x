@@ -24,7 +24,7 @@
 
 <b id=social_cocos2dx></b>
 ## 1 下载和拷贝Cocos2d-x所需文件 
-   首先您需要下载友盟社会化组件 Cocos2d-x SDK,然后将该sdk压缩包解压。
+   首先您需要下载友盟社会化组件 Cocos2d-x SDK ([下载链接](http://www.umeng.com/)),然后将该sdk压缩包解压。
 >压缩包目录说明：  
 >**1. UmengSocial**    
 	实现cocos2d-x中跨平台分享功能,需拷贝到您项目的Classes文件夹中;    
@@ -107,16 +107,15 @@
             android:screenOrientation="portrait">
         </activity>
         
-        <!-- facebook相关,如果没有使用facebook可删除此项与下面的facebook_app_id -->
+        <!-- 如果使用，则必须添加以下activity和facebook_app_id
         <activity
             android:name="com.facebook.LoginActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <!-- 填写你的facebook app id,可以在代码中设置,也可以声明在string.xml中-->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
+            android:value="@string/facebook_app_id" />  -->
 
 <!-- ###################添加UmengAppkey###################### -->
         <meta-data
@@ -362,6 +361,7 @@ void HelloWorld::shareButtonClick()
 	#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     	sdk->openShare(platforms, "要分享的文字内容","share.png", share_selector(shareCallback));
 	#endif
+}
 
 ```      
 
@@ -580,7 +580,7 @@ yxHandler.addToSocialSDK();
  <b id=facebook_platforms></b>
 ### 4.1.3 集成Facebook
 
-   添加所需jar和资源，将sdk包中facebook文件夹下的libs、res目录下的文件拷贝到工程中对应的文件夹中。         
+   添加所需jar和资源，将sdk包中facebook文件夹下的libs、res目录下的文件拷贝到工程中对应的文件夹中。并且在AndroidManifest.xml中添加facebook相关支持，见上文AndroidManifest.xml。        
    在com.umeng.social.CCUMSocialController中的supportPlatfrom函数中找到添加facebook平台的代码段，将相应的注释去掉，并且导入(import)所需的类, 示例如下 :     
    ***添加Facebook平台***   
 ```java
