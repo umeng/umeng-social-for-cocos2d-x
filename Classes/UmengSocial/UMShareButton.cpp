@@ -36,12 +36,12 @@ UMShareButton::UMShareButton(const char *normalImage, const char *selectedImage,
 			selectedImage);
 #ifdef CC_CALLBACK_1
 	// 初始化图片按钮
-	// initWithNormalImage(normalImage, selectedImage, "", CC_CALLBACK_1(UMShareButton::shareCallback, this)) ;
-	initWithNormalImage(normalImage, selectedImage, "", [&](Ref* pSender) ->
-			{
-				CCLog("Cocos2d-x V3.X ShareButton.    in lambda.");
-				this->openShareBoard();
-			}, this));
+	 initWithNormalImage(normalImage, selectedImage, "", CC_CALLBACK_1(UMShareButton::shareCallback, this)) ;
+//	initWithNormalImage(normalImage, selectedImage, "", [&](Ref* pSender) ->
+//			{
+//				CCLog("Cocos2d-x V3.X ShareButton.    in lambda.");
+//				this->openShareBoard();
+//			}, this));
 #else
 	// 初始化图片按钮
 	initWithNormalImage(normalImage, selectedImage, "", this,
