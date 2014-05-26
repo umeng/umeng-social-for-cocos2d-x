@@ -155,8 +155,18 @@ super.onActivityResult(requestCode, resultCode, data);
 
 <b id=cocos2dx_integration_ios></b>  
 ### 2.2 iOS平台集成   
-#### 2.2.1 加入iOS SDK
-   解压SDK压缩包，将Platforms目录下的iOS文件夹拖入工程目录：   
+
+#### 2.2.1 修改 Xcode 编译选项
+
+由于Xcode默认配置编译的是arm64位应用，而微信和QQ互联不支持arm64位，友盟社会化分享iOS SDK默认只支持32位架构。
+
+需要修改应用编译架构，修改方法为：将Xcode中Build Settings的Architectures修改为`$(ARCHS_STANDARD_32_BIT)`，Valid Architectures删除arm64。另外你使用的cocos2d-x的SDK，应该使用带有32位版本的库文件。   
+
+若要编译64位版本应用，可以到[SDK下载页面](http://dev.umeng.com/social/ios/sdk-download)，选择64位包下载。并替换Platforms目录下的iOS文件夹的内容。
+
+#### 2.2.2 加入iOS SDK
+
+解压SDK压缩包，将Platforms/iOS文件夹和UmengSocial文件夹拖入工程目录，并删除UmengSocial/Android文件夹.   
 
 
 ![alt text](http://dev.umeng.com/images/ios/social_drag_sdk.png "drag_sdk") 
@@ -188,10 +198,10 @@ Facebook|Facebook SDK
 LaiWang|来往 SDK
 YiXin|易信 SDK
 
-#### 2.2.2 添加下面的系统framework
+#### 2.2.3 添加下面的系统framework
 Security.framework,libiconv.dylib,SystemConfiguration.framework,CoreGraphics.framework，libsqlite3.dylib，CoreTelephony.framework,libstdc++.dylib,libz.dylib,Social.framework,Accounts.framework。
 
-#### 2.2.3 按需设置各个平台的URL Scheme
+#### 2.2.4 按需设置各个平台的URL Scheme
 <table border="1">
   <tr>
     <th> 平台 </th>
@@ -223,7 +233,7 @@ Security.framework,libiconv.dylib,SystemConfiguration.framework,CoreGraphics.fra
   </tr>
 </table> 
 
-#### 2.2.4 在AppDelegate实现系统回调方法
+#### 2.2.5 在AppDelegate实现系统回调方法
 在Xcode工程中的ios文件夹下的AppController.mm文件，实现下面的系统回调
 
 ```
