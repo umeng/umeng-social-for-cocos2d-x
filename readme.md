@@ -156,13 +156,13 @@ super.onActivityResult(requestCode, resultCode, data);
 <b id=cocos2dx_integration_ios></b>  
 ### 2.2 iOS平台集成   
 
-#### 2.2.1 修改 Xcode 编译选项
+#### 2.2.1 修改 Xcode 编译选项(cocos2d-x 3.x版本)
 
-由于Xcode默认配置编译的是arm64位应用，而微信和QQ互联不支持arm64位，友盟社会化分享iOS SDK默认只支持32位架构。
-
-需要修改应用编译架构，修改方法为：将Xcode中Build Settings的Architectures修改为`$(ARCHS_STANDARD_32_BIT)`，Valid Architectures删除arm64。另外你使用的cocos2d-x的SDK，应该使用带有32位版本的库文件。   
+使用cocos2d-x 3.x版本新建的工程，需要修改应用编译架构，修改方法为：将Xcode中Build Settings的Architectures修改为`$(ARCHS_STANDARD_32_BIT)`，Valid Architectures删除arm64。另外你使用的cocos2d-x的SDK，应该使用带有32位版本的库文件。   
 
 若要编译64位版本应用，可以到[SDK下载页面](http://dev.umeng.com/social/ios/sdk-download)，选择64位包下载。并替换Platforms目录下的iOS文件夹的内容。
+
+使用cocos2d-x 2.x和1.x版本新建的工程，默认编译成32位架构，忽略此步骤。
 
 #### 2.2.2 加入iOS SDK
 
