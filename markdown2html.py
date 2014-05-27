@@ -49,8 +49,9 @@ def save2html(md_name, md_html):
     path, md_name = os.path.split(md_name)
     html_name = os.path.join(path, md_name.replace('md', 'html'))
     html_file = open(html_name, 'w')
-    html_file.write(htmlHead + os.linesep + htmlEnd)
+    html_file.write(htmlHead + os.linesep)
     html_file.write(md_html)
+    html_file.write(htmlEnd)
     html_file.close()
 
 if __name__ == '__main__':
