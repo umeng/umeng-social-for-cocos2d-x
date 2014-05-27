@@ -26,7 +26,7 @@
 ## 1 下载和拷贝Cocos2d-x所需文件 
    首先您需要下载友盟社会化组件 Cocos2d-x SDK ([下载链接](http://dev.umeng.com/social/cocos2d-x/sdk-download)),然后将该sdk压缩包解压。
 >压缩包目录说明：  
->**1. UmengSocial**    
+>**1. Cocos2d-x**    
 	实现cocos2d-x中跨平台分享功能,需拷贝到您项目的Classes文件夹中;    
 >**2. Platforms**    
 	原生的Android和iOS社会化组件SDK,需要您将库和资源拷贝到对应平台的项目中;    
@@ -48,9 +48,9 @@
      <img src="http://dev.umeng.com/system/images/W1siZiIsIjIwMTQvMDQvMDkvMTVfNTdfMTVfODc2X2NvY29zMmR4X2NvbnRyb2xsZXIucG5nIl1d/cocos2dx-controller.png" width="400" height="160" style="border:1px solid black">        
    在jni/Android.mk中的LOCAL_SRC_FILES下添加如下配置 (注意格式,否则会编译出错) :    
 ```xml
-../../Classes/UmengSocial/Android/CCUMSocialController.cpp  \
-../../Classes/UmengSocial/UMShareButton.cpp \
-../../Classes/UmengSocial/CCUMSocialSDK.cpp
+../../Classes/Cocos2dx/Android/CCUMSocialController.cpp  \
+../../Classes/Cocos2dx/ShareButton/UMShareButton.cpp \
+../../Classes/Cocos2dx/Common/CCUMSocialSDK.cpp
 ```   
    
 #### 2.1.3 配置AndroidManifest.xml
@@ -166,7 +166,7 @@ super.onActivityResult(requestCode, resultCode, data);
 
 #### 2.2.2 加入iOS SDK
 
-解压SDK压缩包，将Platforms/iOS文件夹和UmengSocial文件夹拖入工程目录，并删除UmengSocial/Android文件夹.   
+解压SDK压缩包，将Platforms/iOS文件夹和Cocos2dx文件夹拖入工程目录，并删除Cocos2dx/Android文件夹.   
 
 
 ![alt text](http://dev.umeng.com/images/ios/social_drag_sdk.png "drag_sdk") 
@@ -249,12 +249,11 @@ Security.framework,libiconv.dylib,SystemConfiguration.framework,CoreGraphics.fra
 <b id=cocos2dx_integration_cocos2dx></b>
 #### 2.3 在Cocos2d-x游戏中添加分享功能
    将所需的资源添加到对应的工程以后, 您就可以在cocos2d-x中使用该友盟社会化组件的分享、登录功能了。   
-  首先将sdk压缩包下的根目录下的UmengSocial文件夹拷贝到您的工程的Classes目录下，UmengSocial包括：   
-> * Android平台的调用实现 ( Android文件夹 )；   
-> * iOS平台的调用实现 ( iOS文件夹 )；  
-> * 针对Cocos2d-x的统一接口 ( CCUMSocialSDK )；     
-> * 针对Cocos2d-x封装的分享按钮,点击按钮即可打开分享面板  ( UMShareButton )；    
-> * 平台以及分享、授权回调函数的定义   ( CCUMTypeDef.h ) 。
+  首先将sdk压缩包下的根目录下的Cocos2dx文件夹拷贝到您的工程的Classes目录下，Cocos2dx包括：   
+> * Android文件夹，Android平台的调用实现；   
+> * iOS文件夹，iOS平台的调用实现；  
+> * Common文件夹，针对Cocos2d-x的统一接口和类型定义 ；     
+> * ShareButton文件夹，针对Cocos2d-x封装的分享按钮,点击按钮即可打开分享面板；    
 
    针对Android平台， 如果开发者需要使用facebook、易信、易信朋友圈、来往、来往动态、twitter、instagram平台则需要到[添加更多平台  ( 按需集成 )](#cocos2dx_integration_more_platforms)章节添加相应的平台。    
    友盟提供了三种方式来方便开发者使用分享功能，示例如下 :    
@@ -263,8 +262,8 @@ Security.framework,libiconv.dylib,SystemConfiguration.framework,CoreGraphics.fra
    集成代码如下 :
 ```cpp
 // 引入相关的头文件
-#include "UmengSocial/CCUMTypeDef.h"
-#include "UmengSocial/UMShareButton.h"
+#include "Cocos2dx/Common/CCUMSocialSDK.h"
+#include "Cocos2dx/ShareButton/UMShareButton.h"
 // 使用友盟命令空间
 USING_NS_UM_SOCIAL;
 // ...... 代码省略
@@ -324,8 +323,7 @@ bool HelloWorld::init()
     开发者可以自行定义某个按钮，然后在该按钮的点击事件中通过CCUMSocialSDK来进行相应的操作，示例代码如下 :   
 ```cpp
 // 引入相关的头文件
-#include "UmengSocial/CCUMTypeDef.h"
-#include "UmengSocial/CCUMSocialSDK.h"
+#include "Cocos2dx/Common/CCUMSocialSDK.h"
 // 使用友盟命令空间
 USING_NS_UM_SOCIAL;
 // ...... 代码省略
@@ -376,8 +374,7 @@ void HelloWorld::shareButtonClick()
     开发者也可以自行定义某个按钮，然后在该按钮的点击事件中通过CCUMSocialSDK的directShare函数来进行直接分享到某个平台的操作，该接口为api分享接口，不会弹出分享面板和内容编辑界面，用户授权之后直接分享。示例代码如下 :   
 ```cpp
 // 引入相关的头文件
-#include "UmengSocial/CCUMTypeDef.h"
-#include "UmengSocial/CCUMSocialSDK.h"
+#include "Cocos2dx/Common/CCUMSocialSDK.h"
 // 使用友盟命令空间
 USING_NS_UM_SOCIAL;
 // ...... 代码省略

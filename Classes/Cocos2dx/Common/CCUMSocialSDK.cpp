@@ -17,7 +17,7 @@
 
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-#include "Android/CCUMSocialController.h"
+#include "Cocos2dx/Android/CCUMSocialController.h"
 
 #endif
 

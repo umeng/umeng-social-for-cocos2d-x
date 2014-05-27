@@ -9,9 +9,9 @@ LOCAL_MODULE_FILENAME := libcocos2dcpp
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
                    ../../Classes/HelloWorldScene.cpp \
-                   ../../Classes/UmengSocial/Android/CCUMSocialController.cpp  \
-                   ../../Classes/UmengSocial/UMShareButton.cpp \
-                   ../../Classes/UmengSocial/CCUMSocialSDK.cpp 
+                   ../../Classes/Cocos2dx/Android/CCUMSocialController.cpp  \
+                   ../../Classes/Cocos2dx/ShareButton/UMShareButton.cpp \
+                   ../../Classes/Cocos2dx/Common/CCUMSocialSDK.cpp 
                    
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes

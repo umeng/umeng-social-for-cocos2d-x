@@ -1,21 +1,11 @@
 #include "HelloWorldScene.h"
 #include <string>
-#include "UmengSocial/CCUMTypeDef.h"
-#include "UmengSocial/CCUMSocialSDK.h"
-#include "UmengSocial/UMShareButton.h"
+#include "Cocos2dx/Common/CCUMSocialSDK.h"
+#include "Cocos2dx/ShareButton/UMShareButton.h"
 #include <iostream>
 #include <vector>
 #include <map>
 
-//#if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-//
-//#include "UmengSocial/IOS/UmSocialControllerIOS.h"
-//
-//#elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-//
-//#include "UmengSocial/Android/CCUMSocialController.h"
-//
-//#endif
 
 // 环境变量PATH在windows下和linux下的分割符定义
 #ifdef _WIN32

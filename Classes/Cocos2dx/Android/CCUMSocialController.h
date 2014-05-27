@@ -3,7 +3,7 @@
 #include "platform/android/jni/JniHelper.h"
 #include <android/log.h>
 #include "cocos2d.h"
-#include "UmengSocial/CCUMTypeDef.h"
+#include "Cocos2dx/Common/CCUMTypeDef.h"
 #include <string>
 #include <vector>
 #include <map>

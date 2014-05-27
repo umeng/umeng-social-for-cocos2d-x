@@ -5,7 +5,6 @@
 #include "cocos2d.h"
 #include <string>
 #include <stdio.h>
-#include "UmengSocial/CCUMTypeDef.h"
 #include "CCUMSocialController.h"
 
 using namespace std;
