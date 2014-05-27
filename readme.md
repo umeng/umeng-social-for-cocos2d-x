@@ -24,7 +24,7 @@
 
 <b id=social_cocos2dx></b>
 ## 1 下载和拷贝Cocos2d-x所需文件 
-   首先您需要下载友盟社会化组件 Cocos2d-x SDK ([下载链接](http://www.umeng.com/)),然后将该sdk压缩包解压。
+   首先您需要下载友盟社会化组件 Cocos2d-x SDK ([下载链接](http://dev.umeng.com/social/cocos2d-x/sdk-download)),然后将该sdk压缩包解压。
 >压缩包目录说明：  
 >**1. UmengSocial**    
 	实现cocos2d-x中跨平台分享功能,需拷贝到您项目的Classes文件夹中;    

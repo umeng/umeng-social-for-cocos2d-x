@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">UmengGame</string>
+    <string name="app_name">social_cc_v3_test</string>
     <string name="fb_app_id">567261760019884</string>
-
 </resources>
