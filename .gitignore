@@ -1,4 +1,3 @@
-*.a
 *.lib
 *.class
 .DS_Store
@@ -10,5 +9,8 @@ proj.winrt/
 proj.linux/
 proj.marmalade/
 proj.android/obj/*
-proj.android/gen/*
-proj.android/bin/*
+proj.android/gen/
+proj.android/bin/
+**/*.a
+**/*.o
+**/*.d

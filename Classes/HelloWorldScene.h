@@ -3,6 +3,9 @@
 
 #include "cocos2d.h"
 
+USING_NS_CC;
+using namespace std;
+
 class HelloWorld : public cocos2d::CCLayer
 {
 public:
@@ -27,11 +30,10 @@ public:
     
     // implement the "static node()" method manually
     CREATE_FUNC(HelloWorld);
-
+    
 private:
 	// void openUmengShare();
     void saveScreenshot();
-
 };
 
 #endif // __HELLOWORLD_SCENE_H__

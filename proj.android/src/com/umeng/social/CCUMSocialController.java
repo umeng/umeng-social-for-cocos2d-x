@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.umeng.socialize.bean.CustomPlatform;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -21,16 +20,22 @@ import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.bean.StatusCode;
 import com.umeng.socialize.common.SocializeConstants;
 import com.umeng.socialize.controller.RequestType;
+import com.umeng.socialize.controller.UMFacebookHandler;
+import com.umeng.socialize.controller.UMFacebookHandler.PostType;
+import com.umeng.socialize.controller.UMInstagramHandler;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.controller.UMYXHandler;
 import com.umeng.socialize.controller.listener.SocializeListeners.SnsPostListener;
 import com.umeng.socialize.controller.listener.SocializeListeners.SocializeClientListener;
 import com.umeng.socialize.controller.listener.SocializeListeners.UMAuthListener;
 import com.umeng.socialize.db.OauthHelper;
 import com.umeng.socialize.exception.SocializeException;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.net.utils.SocializeNetUtils;
 import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.UMSsoHandler;
+import com.umeng.socom.Log;
 
 /**
  * 友盟Social Android SDK的控制器, cocos2d-x sdk 通过jni代码调用相关的静态函数实现对应的功能.
@@ -68,29 +73,43 @@ public class CCUMSocialController {
 
 	// ******* 以下字段的调用都在supportPlatfrom函数中 *********
 	/**
-	 * QQ 和QQ空间共用一个app id
+	 * QQ和QQ空间app id
 	 */
-	private static final String QQ_QZONE_APPKEY = "";
+	private static String QQ_QZONE_APP_ID = "";
+	/**
+	 * QQ和QQ空间app key
+	 */
+	private static String QQ_QZONE_APP_KEY = "";
+
 	/**
 	 * 微信或者微信朋友圈 app id
 	 */
-	private static final String WEIXIN_APPKEY = "";
+	private static String WEIXIN_APP_ID = "";
+
+	/**
+	 * facebook app id
+	 */
+	private static String FACEBOOK_APP_ID = "";
 	/**
 	 * 易信或者易信朋友圈app id, 需要添加易信或者易信朋友圈平台的支持, 请参考线上文档
 	 */
-	private static final String YIXIN_APPKEY = "";
+	private static String YIXIN_APPKEY = "";
 	/**
 	 * 来往和来往动态的app id, 需要添加来往或者来往动态平台的支持, 请参考线上文档
 	 */
-	private static final String LAIWANG_APPID = "";
+	private static String LAIWANG_APPID = "";
 	/**
 	 * 来往和来往动态的app key, 需要添加来往或者来往动态平台的支持, 请参考线上文档
 	 */
-	private static final String LAIWANG_APPKEY = "";
+	private static String LAIWANG_APPKEY = "";
+	/**
+	 * 当前应用名称,用于显示在来往分享来源上
+	 */
+	private static String LAIWANG_APP_NAME = "";
 	/**
 	 * 在某些平台的分享中， 希望用户点击该分享内容跳转到的目标平台, 一般为app的官网或者下载地址
 	 */
-	private static final String TARGET_URL = "http://www.umeng.com/social";
+	private static String TARGET_URL = "http://www.umeng.com/social";
 
 	/**
 	 * 初始化SDK
@@ -119,7 +138,7 @@ public class CCUMSocialController {
 			throw new IllegalArgumentException(
 					"initSocialSDK函数的activity参数必须设置为Cocos2dxActivity类型, 且不为null. ");
 		}
-
+		// mController.getConfig().closeToast();
 	}
 
 	/**
@@ -316,22 +335,52 @@ public class CCUMSocialController {
 	 */
 	public static void setShareImageName(String imgName) {
 		Log.d(TAG, "#### 设置图片路径 :" + imgName);
-		if (TextUtils.isEmpty(imgName)) {
-			return;
-		}
-
 		// 网络图片
 		if (imgName.startsWith("http://") || imgName.startsWith("https://")) {
 			mController.setShareMedia(new UMImage(mActivity, imgName));
 		} else {
 			// 本地图片
 			File imgFile = new File(imgName);
-			if (imgFile.exists()) {
-				mController.setShareMedia(new UMImage(mActivity, imgFile));
-			} else {
+			if (!imgFile.exists()) {
 				Log.e(TAG, "### 要分享的本地图片不存在");
+				mController.setShareMedia(null);
+			} else {
+				mController.setShareMedia(new UMImage(mActivity, imgFile));
 			}
 		}
+	}
+
+	/**
+	 * 设置是否开启log
+	 * 
+	 * @param flag
+	 */
+	protected static void setAndroidLogEnable(boolean flag) {
+		Log.LOG = flag;
+		Log.e(TAG, "### 是否开启log : " + Log.LOG);
+	}
+
+	/**
+	 * 初始化Cocos2d-x SDK版本信息
+	 */
+	protected static void initCocos2dxSDKInfo(String type, String sdkVersion) {
+		Log.d(TAG, "### initCocos2dxSDKInfo, type = " + type + ", version = "
+				+ sdkVersion);
+		// 设置cocos2dx sdk版本号
+		mController.getEntity().setAdapterSDKInfo(type, sdkVersion);
+	}
+
+	/**
+	 * 设置用户点击某条分享时跳转到的目标页面
+	 * 
+	 * @param targetUrl
+	 */
+	public static void setTargetUrl(String targetUrl) {
+		if (TextUtils.isEmpty(targetUrl)
+				&& SocializeNetUtils.startWithHttp(targetUrl)) {
+			TARGET_URL = targetUrl;
+		}
+		Log.d(TAG, "### target url : " + TARGET_URL);
 	}
 
 	/**
@@ -346,68 +395,78 @@ public class CCUMSocialController {
 	 *            用户点击分享内容时跳转的页面, 一般为APP主页或者下载页
 	 */
 	public static void supportPlatfrom(int platform) {
-		SHARE_MEDIA target = getPlatform(platform);
+		final SHARE_MEDIA target = getPlatform(platform);
 		// 判断target
 		if (target == null || target == SHARE_MEDIA.GENERIC) {
 			return;
 		}
 		checkActivity();
+
 		if (target == SHARE_MEDIA.QQ) {
 			// 添加QQ平台支持
-			mSocializeConfig.supportQQPlatform(mActivity, QQ_QZONE_APPKEY,
-					TARGET_URL);
+			mSocializeConfig.supportQQPlatform(mActivity, QQ_QZONE_APP_ID,
+					QQ_QZONE_APP_KEY, TARGET_URL);
 		} else if (target == SHARE_MEDIA.QZONE) {
 			// Social Android sdk 3.3.6 及其以后的版本, 添加QQ空间的支持方式
 			mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity,
-					QQ_QZONE_APPKEY));
+					QQ_QZONE_APP_ID, QQ_QZONE_APP_KEY));
+			QZoneSsoHandler.setTargetUrl(TARGET_URL);
 			// Social Android sdk 3.3.6之前的版本添加QQ空间的支持方式
-//			mSocializeConfig.setSsoHandler(new QZoneSsoHandler(mActivity));
+			// mSocializeConfig.setSsoHandler(new
+			// QZoneSsoHandler(mActivity));
 		} else if (target == SHARE_MEDIA.WEIXIN) {
 			// 微信平台
-			mSocializeConfig.supportWXPlatform(mActivity, WEIXIN_APPKEY,
+			mSocializeConfig.supportWXPlatform(mActivity, WEIXIN_APP_ID,
 					TARGET_URL);
 		} else if (target == SHARE_MEDIA.WEIXIN_CIRCLE) {
 			// 微信朋友圈平台
-			mSocializeConfig.supportWXCirclePlatform(mActivity, WEIXIN_APPKEY,
+			mSocializeConfig.supportWXCirclePlatform(mActivity, WEIXIN_APP_ID,
 					TARGET_URL);
 		} else if (target == SHARE_MEDIA.YIXIN) {
-			// 创建易信的handler, 参数2为你的app id, 参数3为是否是易信朋友圈平台, false为易信, true为易信朋友圈,
-			// UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
-			// false);
-			// 添加易信到SDK
-			// yxHandler.addToSicalSDK();
-		} else if (target == SHARE_MEDIA.YIXIN_CIRCLE) {
-			// 创建易信的handler, 参数2为你的app id, 参数3为是否是易信朋友圈平台, false为易信, true为易信朋友圈,
-			// UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
-			// true);
-			// 添加易信朋友圈到SDK
-			// yxHandler.addToSicalSDK();
-		} else if (target == SHARE_MEDIA.LAIWANG) {
-			// 添加来往的支持
-			// UMLWHandler umlwDynamicHandler = UMLWService.supportLWPlatform(
-			// mActivity, LAIWANG_APPID,
-			// LAIWANG_APPKEY, TARGET_URL);
-			// umlwDynamicHandler.setTitle("友盟社会化分享组件-来往动态");
-			// umlwDynamicHandler.setMessageFrom("友盟分享组件");
+			// 创建易信的handler, 参数2为你的app id, 参数3为是否是易信朋友圈平台, false为易信,
+			// true为易信朋友圈,
+//			UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
+//					false);
+//			yxHandler.setTargetUrl(TARGET_URL);
+//			// 添加易信平台到SDK
+//			yxHandler.addToSocialSDK();
 
+		} else if (target == SHARE_MEDIA.YIXIN_CIRCLE) {
+			// 创建易信的handler, 参数2为你的app id, 参数3为是否是易信朋友圈平台, false为易信,
+			// true为易信朋友圈,
+//			UMYXHandler yxHandler = new UMYXHandler(mActivity, YIXIN_APPKEY,
+//					true);
+//			yxHandler.setTargetUrl(TARGET_URL);
+//			// 添加易信朋友圈平台到SDK
+//			yxHandler.addToSocialSDK();
+		} else if (target == SHARE_MEDIA.LAIWANG) {
+			// 添加来往平台的支持
+			// UMLWHandler umLWHandler =
+			// UMLWService.supportLWPlatform(mActivity,
+			// LAIWANG_APPID, LAIWANG_APPKEY, TARGET_URL);
+			// umLWHandler.setTitle("友盟社会化分享组件-来往动态");
+			// umLWHandler.setMessageFrom(LAIWANG_APP_NAME);
+			// umLWHandler.addToSocialSDK();
 		} else if (target == SHARE_MEDIA.LAIWANG_DYNAMIC) {
-			// 添加来往动态的支持
-			// UMLWHandler umlwHandler = UMLWService.supportLWDynamicPlatform(
-			// mActivity, LAIWANG_APPID,
+			// 添加来往动态平台的支持
+			// UMLWHandler umlwDynamicHandler = UMLWService
+			// .supportLWDynamicPlatform(mActivity, LAIWANG_APPID,
 			// LAIWANG_APPKEY, TARGET_URL);
-			// umlwHandler.setTitle("友盟社会化分享组件-来往");
+			// umlwDynamicHandler.setTitle("友盟社会化分享组件-来往");
 			// // 设置消息来源
-			// umlwHandler.setMessageFrom("友盟分享组件");
+			// umlwDynamicHandler.setMessageFrom(LAIWANG_APP_NAME);
+			// umlwDynamicHandler.addToSocialSDK();
 		} else if (target == SHARE_MEDIA.FACEBOOK) {
 			// facebook的支持
-			// UMFacebookHandler mFacebookHandler = new UMFacebookHandler(
-			// mActivity, PostType.FEED);
-			// mFacebookHandler.addToSocialSDK();
+//			UMFacebookHandler mFacebookHandler = new UMFacebookHandler(
+//					mActivity, FACEBOOK_APP_ID, PostType.FEED);
+//			mFacebookHandler.setTargetUrl(TARGET_URL);
+//			mFacebookHandler.addToSocialSDK();
 		} else if (target == SHARE_MEDIA.INSTAGRAM) {
 			// 构建Instagram的Handler
-			// UMInstagramHandler instagramHandler = new UMInstagramHandler(
-			// mActivity);
-			// instagramHandler.addToSocialSDK();
+//			UMInstagramHandler instagramHandler = new UMInstagramHandler(
+//					mActivity);
+//			instagramHandler.addToSocialSDK();
 		} else if (target == SHARE_MEDIA.TWITTER) {
 			mSocializeConfig.supportAppPlatform(mActivity, target, DESCRIPTOR,
 					true);
@@ -421,6 +480,7 @@ public class CCUMSocialController {
 		}
 
 		Log.d(TAG, "@@@@ supportPlatfrom");
+
 	}
 
 	/**
@@ -504,6 +564,7 @@ public class CCUMSocialController {
 	 */
 	private static void runOnOpenGLThread(Runnable runnable) {
 		if (mActivity != null) {
+			// Cocos2dxGLSurfaceView.getInstance().queueEvent(runnable);
 			mActivity.runOnGLThread(runnable);
 		}
 	}
@@ -530,6 +591,78 @@ public class CCUMSocialController {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * 设置QQ和QQ空间的app id
+	 * 
+	 * @param appid
+	 */
+	public static void setQQAndQzoneAppIdWithAppKey(String appid, String appKey) {
+		QQ_QZONE_APP_ID = appid;
+		QQ_QZONE_APP_KEY = appKey;
+		Log.d(TAG, "### QQ or qzone app id = " + appid + ", app key = "
+				+ appKey);
+	}
+
+	/**
+	 * 设置微信和微信朋友圈的app id
+	 * 
+	 * @param appid
+	 */
+	public static void setWeiXinAppId(String appid) {
+		WEIXIN_APP_ID = appid;
+		Log.d(TAG, "### 微信 app id = " + appid);
+	}
+
+	/**
+	 * 设置facebook app id
+	 * 
+	 * @param appid
+	 */
+	public static void setFacebookAppId(String appid) {
+		FACEBOOK_APP_ID = appid;
+		Log.d(TAG, "### facebook appid = " + appid);
+	}
+
+	/**
+	 * 设置易信和易信朋友圈的app id
+	 * 
+	 * @param appid
+	 */
+	public static void setYiXinAppKey(String appid) {
+		YIXIN_APPKEY = appid;
+		Log.d(TAG, "### 易信 app id = " + appid);
+	}
+
+	/**
+	 * 设置来往和来往动态的app id
+	 * 
+	 * @param appid
+	 */
+	public static void setLaiwangAppId(String appid) {
+		LAIWANG_APPID = appid;
+		Log.d(TAG, "### 来往 app id = " + appid);
+	}
+
+	/**
+	 * 设置来往和来往动态的app key
+	 * 
+	 * @param appid
+	 */
+	public static void setLaiwangAppKey(String appkey) {
+		LAIWANG_APPKEY = appkey;
+		Log.d(TAG, "### 来往 app key = " + appkey);
+	}
+
+	/**
+	 * 设置来往和来往动态的app name
+	 * 
+	 * @param appName
+	 */
+	public static void setLaiwangAppName(String appName) {
+		LAIWANG_APP_NAME = appName;
+		Log.d(TAG, "### 来往 app name = " + appName);
 	}
 
 	/**
@@ -590,7 +723,6 @@ public class CCUMSocialController {
 
 				@Override
 				public void run() {
-					Log.d(TAG, value.toString());
 					OnAuthorizeComplete(getPlatformInt(platform),
 							StatusCode.ST_CODE_SUCCESSED, getAuthData(value));
 				}
@@ -628,15 +760,10 @@ public class CCUMSocialController {
 				} else {
 					authData[0] = data.getString("access_token");
 				}
-				if (data.containsKey("expires_in")) {
-					authData[1] = data.getString("expires_in");
-				} else {
-					authData[1] = "没有过期时间";
-				}
 				if (data.containsKey("uid")) {
-					authData[2] = data.getString("uid");
+					authData[1] = data.getString("uid");
 				} else {
-					authData[2] = "";
+					authData[1] = "";
 				}
 
 				return authData;
