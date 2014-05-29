@@ -376,7 +376,7 @@ public class CCUMSocialController {
 	 * @param targetUrl
 	 */
 	public static void setTargetUrl(String targetUrl) {
-		if (TextUtils.isEmpty(targetUrl)
+		if (!TextUtils.isEmpty(targetUrl)
 				&& SocializeNetUtils.startWithHttp(targetUrl)) {
 			TARGET_URL = targetUrl;
 		}
