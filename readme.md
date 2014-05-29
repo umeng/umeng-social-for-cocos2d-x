@@ -41,7 +41,7 @@
 ### 2.1 Android平台集成 
 #### 2.1.1 拷贝所需的jar包和资源文件          
   解压Cocos2d-x SDK压缩包，进入到Platforms/Android文件夹下，将'libs'文件夹中的所有jar文件拷贝到工程中的libs目录中，并且将所有jar文件添加到build path中；将Platforms/Android/res目录下的所有文件夹拷贝到你的项目工程res目录下对应的文件夹中, 如图所示 :    
-  <img src="http://dev.umeng.com/system/images/W1siZiIsIjIwMTQvMDQvMDkvMTVfNTZfNDdfOTk4X2NvY29zMmR4X2FuZHJvaWRfcmVzLnBuZyJdXQ/cocos2dx-android-res.png" width="450" height="400" style="border:1px solid black">   
+  <img src="http://dev.umeng.com/system/resources/W1siZiIsIjIwMTQvMDUvMjkvMTZfMTZfNDJfMjg1X2NvY29zMmRfeF9kaXIucG5nIl1d/cocos2d-x-dir.png" width="500" height="400" style="border:1px solid black">   
   
 #### 2.1.2 拷贝类文件
    将Platforms/Android/controller目录下的com文件夹拷贝到您的Cocos2d-x项目Android平台的src目录下(<font color="red">所有文件的编码为utf-8，如有乱码，请开发者自行进行转码。</font>), 如图所示 :    
